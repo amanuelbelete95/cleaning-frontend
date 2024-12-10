@@ -19,12 +19,13 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://amanuelbelete95.github.io/repo_p1_react-firebase",
+  "homepage": "https://amanuelbelete95.github.io/cleaning",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -48,6 +49,7 @@
     "@types/node": "^22.1.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "gh-pages": "^6.2.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.5.4"
   }
