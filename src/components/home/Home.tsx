@@ -65,7 +65,7 @@ const Home = () => {
               </Box>
 
               {(selected === item.id || multiple.includes(item.id)) && (
-                <Box className='accordion-content'>{item.answer}</Box>
+                <Box className='accordion-content' >{item.answer}</Box>
               )}
             </Box>
           ))}
