@@ -1,5 +1,5 @@
 {
-  "name": "repo_p1_react-firebase",
+  "name": "cleaning_office_frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,6 +17,7 @@
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
+    "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "homepage": "https://amanuelbelete95.github.io/cleaning",
@@ -50,7 +51,6 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "gh-pages": "^6.2.0",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.5.4"
+    "tailwindcss": "^3.4.1"
   }
 }
