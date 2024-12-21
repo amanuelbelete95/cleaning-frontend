@@ -1,7 +1,7 @@
 
-import disposalImage from '../../../assets/disposal.jpeg';
-import recycleImage from '../../../assets/recyle1.jpeg';
-import disposal2Image from '../../../assets/disposal2.jpeg';
+import disposalImage from "../../teams/images/assets/disposal.jpeg";
+import recycleImage from "../../teams/images/assets/disposal.jpeg";
+import disposal2Image from "../../teams/images/assets/disposal2.jpeg";
 export const TeamMembers = [
     {id: '1', name: 'Awareness', description: 'Awareness Team is repsonsible for awareness', imgUrl: disposalImage},
 
