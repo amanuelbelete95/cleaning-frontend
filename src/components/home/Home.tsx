@@ -26,14 +26,14 @@ const Home = () => {
 
   return (
     <Box className='home-container'>
-      <Header className='hero-section'>
+      <header className='hero-section'>
         <Text as="h1">Solid Waste Management Services</Text>
         <Text>
           Explore frequently asked questions to learn more about solid waste
           management and how we maintain cleanliness and safety in the
           environment.
         </Text>
-      </Header>
+      </header>
 
       <Box className='content-section'>
         <Button
