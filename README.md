@@ -60,11 +60,11 @@ After you're finished please remove all the comments and instructions!
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 [your_project_name] <a name="about-project"></a>
+# 📖 Cleaning frontend <a name="about-project"></a>
 
 > Describe your project in 1 or 2 sentences.
 
-**[your_project__name]** is a...
+**[Cleaning]** is a project for Arada cleaning management office!
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -82,7 +82,7 @@ After you're finished please remove all the comments and instructions!
 <details>
   <summary>Server</summary>
   <ul>
-    <li><a href="https://expressjs.com/">Express.js</a></li>
+    <li><a href="https://expressjs.com/">JavaScript</a></li>
   </ul>
 </details>
 
@@ -99,9 +99,9 @@ After you're finished please remove all the comments and instructions!
 
 > Describe between 1-3 key features of the application.
 
-- **[key_feature_1]**
-- **[key_feature_2]**
-- **[key_feature_3]**
+- **Cleaning management service**
+- **Cleaning Management Events and management **
+- **Employees Management**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
