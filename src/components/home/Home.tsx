@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './styles.css';
 import { accordionData } from './data';
+import { Box } from '@chakra-ui/react';
 
 const Home = () => {
   const [selected, setSelected] = useState<number | null>(null);
@@ -23,17 +24,17 @@ const Home = () => {
   };
 
   return (
-    <div className='home-container'>
-      <header className='hero-section'>
+    <Box className='home-container'>
+      <Box className='hero-section'>
         <h1>Solid Waste Management Services</h1>
         <p>
           Explore frequently asked questions to learn more about solid waste
           management and how we maintain cleanliness and safety in the
           environment.
         </p>
-      </header>
+      </Box>
 
-      <div className='content-section'>
+      <Box className='content-section'>
         <button
           className='toggle-button'
           onClick={toggleEnableMultiple}>
@@ -42,12 +43,12 @@ const Home = () => {
             : 'Enable Multiple Selection'}
         </button>
 
-        <div className='accordion'>
+        <Box className='accordion'>
           {accordionData.map((item) => (
-            <div
+            <Box
               className='accordion-item'
               key={item.id}>
-              <div
+              <Box
                 className='accordion-title'
                 onClick={() =>
                   enableMultiple
@@ -60,23 +61,16 @@ const Home = () => {
                     ? '-'
                     : '+'}
                 </span>
-              </div>
+              </Box>
 
               {(selected === item.id || multiple.includes(item.id)) && (
-                <div className='accordion-content'>{item.answer}</div>
+                <Box className='accordion-content'>{item.answer}</Box>
               )}
-            </div>
+            </Box>
           ))}
-        </div>
-      </div>
-
-      <footer className='footer-section'>
-        <p>
-          Amanuel Belete © {new Date().getFullYear()} Solid Waste Management
-          Services. All rights reserved.
-        </p>
-      </footer>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

@@ -98,3 +98,7 @@ body {
   font-size: 0.9rem;
   border-radius: 5px;
 }
+
+.header-section {
+  background-color: #006666;
+}

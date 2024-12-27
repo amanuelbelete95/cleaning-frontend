@@ -1,30 +1,35 @@
-import { Box, Flex, Text} from '@chakra-ui/react'
-import React from 'react'
-
+import { Box, Flex, Text } from '@chakra-ui/react';
+import React from 'react';
 import { TeamMembers } from './helper_functions';
-
 import { useParams } from 'react-router-dom';
 
-const TeamDetail = () =>  {
+const TeamDetail = () => {
+  const { teamId } = useParams();
+  console.log("teamId", teamId)
+  const displayedTeam = TeamMembers.find((teamMember) => teamMember.id === teamId);
 
-  const params = useParams();
+  if (!displayedTeam) {
+    return (
+      <Flex>
+        <Box>
+          <Text as="h1" fontSize="25px" fontWeight="500">
+            Team not found
+          </Text>
+        </Box>
+      </Flex>
+    );
+  }
 
-  const displayedTeam = TeamMembers.find((teamMember) => teamMember.id === params.teamId)
   return (
-    <Flex> 
-    {
-      displayedTeam ? 
+    <Flex>
       <Box>
-      <Text as='h1' fontSize={'25px'} fontWeight={'500'}>{displayedTeam.name} Team:</Text>
-      <Text >{displayedTeam.description}</Text> 
-      </Box> : 
-      <Box>
-       <h2>Loading ....</h2>
+        <Text as="h1" fontSize="25px" fontWeight="500">
+          {displayedTeam.name} Team:
+        </Text>
+        <Text>{displayedTeam.description}</Text>
       </Box>
-    }
-
     </Flex>
-  )
-}
+  );
+};
 
-export default TeamDetail
+export default TeamDetail;
