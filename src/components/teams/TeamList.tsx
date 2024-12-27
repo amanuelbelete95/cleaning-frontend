@@ -7,7 +7,7 @@ const TeamList = () => {
     <Box >
       {TeamMembers.map((teamMember) => (
         <Box key={teamMember.id}>
-          <Link to={`/team/${teamMember.id}`} color={"green"} >
+          <Link to={`${teamMember.id}`} color={"green"} >
             {teamMember.name}
           </Link>
         </Box>

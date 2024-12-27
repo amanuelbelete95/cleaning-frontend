@@ -2,11 +2,16 @@ import { Box } from "@chakra-ui/react"
 import { Outlet } from "react-router-dom";
 
 
- const TeamsLayout = () => {
+const TeamsLayout = () => {
     return (
         <Box>
-            TeamIndex
+            <Box>
+                Arada Cleaning Management Teams
+            </Box>
+            <>
             <Outlet />
+            </>
+            
         </Box>
     )
 }

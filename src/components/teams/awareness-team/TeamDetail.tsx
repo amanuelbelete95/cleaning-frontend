@@ -4,9 +4,8 @@ import { TeamMembers } from './helper_functions';
 import { useParams } from 'react-router-dom';
 
 const TeamDetail = () => {
-  const { teamId } = useParams();
-  console.log("teamId", teamId)
-  const displayedTeam = TeamMembers.find((teamMember) => teamMember.id === teamId);
+  const {teamName} = useParams();
+   const displayedTeam = TeamMembers.find((teamMember) => teamMember.id === teamName);
 
   if (!displayedTeam) {
     return (

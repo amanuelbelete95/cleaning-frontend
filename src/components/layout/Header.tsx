@@ -4,7 +4,7 @@ import { BsRecycle } from 'react-icons/bs';
 
 function Header() {
   return (
-    <Flex direction={"row"} justifyContent={"space-around"} background='green'>
+    <Flex direction={"row"} justifyContent={"space-around"} className='header-section'>
       <Box
         display='flex'
         justifyContent='space-between'
@@ -42,22 +42,22 @@ function Header() {
           fontSize='lg' color='#fff'>
           <Link
             to='/'
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: 'none' }} className='link'>
             Home
           </Link>
           <Link
             to='/work'
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: 'none' }} className='link'>
             Work
           </Link>
           <Link
             to='/team'
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: 'none' }} className='link'>
             Team
           </Link>
           <Link
             to='/contact'
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: 'none' }} className='link'>
             Contacts
           </Link>
         </Flex>

@@ -7,6 +7,9 @@ import TeamDetail from './components/teams/awareness-team/TeamDetail';
 import TeamList from './components/teams/TeamList';
 import NoMatch from './components/nomatch/NoMatch';
 import Layout from './components/layout/Layout';
+import './components/home/styles.css'
+import "./App.css"
+
 
 
 function App() {
