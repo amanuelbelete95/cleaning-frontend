@@ -4,17 +4,14 @@ import { BsRecycle } from 'react-icons/bs';
 
 function Header() {
   return (
-    <header>
-      {/* Header Top Section */}
+    <Flex direction={"row"} justifyContent={"space-around"} className='header-section'>
       <Box
         display='flex'
         justifyContent='space-between'
         alignItems='center'
-        padding='0 40px'
+        padding='0 20px'
         height='100px'
-        background='green'
         color='white'>
-        {/* Logo and Title */}
         <Flex
           alignItems='center'
           gap='15px'>
@@ -27,49 +24,45 @@ function Header() {
           />
           <Text
             as='h1'
-            fontSize='xl'
+            fontSize='lg'
             fontWeight='bold'>
-            Cleaning Management Agency - Sanitation
+            Arada Cleaning <br />Management Office
           </Text>
         </Flex>
       </Box>
-
-      {/* Navigation Section */}
       <Box
         display='flex'
         justifyContent='center'
         alignItems='center'
-        background='white'
         padding='10px 0'
         boxShadow='sm'
         fontWeight='bold'>
         <Flex
           gap='30px'
-          fontSize='lg'
-          color='green'>
+          fontSize='lg' color='#fff'>
           <Link
             to='/'
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: 'none' }} className='link'>
             Home
           </Link>
           <Link
             to='/work'
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: 'none' }} className='link'>
             Work
           </Link>
           <Link
             to='/team'
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: 'none' }} className='link'>
             Team
           </Link>
           <Link
             to='/contact'
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: 'none' }} className='link'>
             Contacts
           </Link>
         </Flex>
       </Box>
-    </header>
+    </Flex>
   );
 }
 

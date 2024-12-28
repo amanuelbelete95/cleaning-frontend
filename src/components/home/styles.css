@@ -15,7 +15,7 @@ body {
 
 /* Hero Section */
 .hero-section {
-  background-color: #008080;
+  background-color: #499494;
   color: white;
   text-align: center;
   padding: 50px 20px;
@@ -93,8 +93,23 @@ body {
   text-align: center;
   margin-top: 30px;
   padding: 10px 0;
-  background-color: #008080;
+  background-color: #389999;
   color: white;
   font-size: 0.9rem;
   border-radius: 5px;
+  height: 100px;
+}
+
+.header-section {
+  color: #fff;
+  background-color: #008080;
+}
+
+.link {
+  color: #FFF;
+  font-size: xx-large;
+}
+
+.link:hover {
+  color: green;
 }
