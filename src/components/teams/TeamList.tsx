@@ -1,18 +1,28 @@
 import { Link } from 'react-router-dom';
 import { TeamMembers } from './awareness-team/helper_functions';
-import { Box } from '@chakra-ui/react';
+import { Box, VStack, Text } from '@chakra-ui/react';
 
 const TeamList = () => {
   return (
-    <Box >
+    <VStack align="start" spacing={4} p={4}>
       {TeamMembers.map((teamMember) => (
-        <Box key={teamMember.id}>
-          <Link to={`${teamMember.id}`} color={"green"} >
-            {teamMember.name}
-          </Link>
-        </Box>
+        <Link key={teamMember.id} to={`${teamMember.id}`} style={{ textDecoration: 'none', width: '100%' }}>
+          <Box
+            p={4}
+            bg="gray.50"
+            borderRadius="md"
+            borderWidth="1px"
+            _hover={{ bg: 'teal.100' }}
+            transition="background-color 0.2s"
+            cursor="pointer"
+          >
+            <Text fontSize="lg" fontWeight="semibold" color="#389999"  _hover={{ color: '#444' }}>
+              {teamMember.name}
+            </Text>
+          </Box>
+        </Link>
       ))}
-    </Box>
+    </VStack>
   );
 };
 
