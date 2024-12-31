@@ -1,67 +1,48 @@
-import { Link } from 'react-router-dom';
-import { Box, IconButton, Text, Flex } from '@chakra-ui/react';
-import { BsRecycle } from 'react-icons/bs';
+import { Box, Flex, Text, Link as ChakraLink } from '@chakra-ui/react';
+import { Link, useLocation } from 'react-router-dom';
 
 function Header() {
+  const location = useLocation();
+
   return (
-    <Flex direction={"row"} justifyContent={"space-around"} className='header-section'>
-      <Box
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        padding='0 20px'
-        height='100px'
-        color='white'>
-        <Flex
-          alignItems='center'
-          gap='15px'>
-          <IconButton
-            aria-label='logo'
-            icon={<BsRecycle />}
-            size='lg'
-            colorScheme='teal'
-            variant='ghost'
-          />
-          <Text
-            as='h1'
-            fontSize='lg'
-            fontWeight='bold'>
-            Arada Cleaning <br />Management Office
-          </Text>
-        </Flex>
+    <Flex
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+      padding="20px"
+      background="#389999"
+      border="1px solid"
+      borderRadius="16px"
+      height="70px"
+    >
+      <Box>
+        <Text as="h1" fontSize="xl" color="#ffffff" fontWeight="bold">
+          AA_SubCity Cleansing Management Office
+        </Text>
       </Box>
-      <Box
-        display='flex'
-        justifyContent='center'
-        alignItems='center'
-        padding='10px 0'
-        boxShadow='sm'
-        fontWeight='bold'>
-        <Flex
-          gap='30px'
-          fontSize='lg' color='#fff'>
-          <Link
-            to='/'
-            style={{ textDecoration: 'none' }} className='link'>
-            Home
-          </Link>
-          <Link
-            to='/work'
-            style={{ textDecoration: 'none' }} className='link'>
-            Work
-          </Link>
-          <Link
-            to='/team'
-            style={{ textDecoration: 'none' }} className='link'>
-            Team
-          </Link>
-          <Link
-            to='/contact'
-            style={{ textDecoration: 'none' }} className='link'>
-            Contacts
-          </Link>
-        </Flex>
-      </Box>
+
+      <Flex gap="30px" alignItems="center">
+        {[
+          { path: '/', label: 'Home' },
+          { path: '/work', label: 'Work' },
+          { path: '/team', label: 'Team' },
+          { path: '/contact', label: 'Contacts' },
+        ].map(({ path, label }) => (
+          <ChakraLink
+            as={Link}
+            to={path}
+            key={path}
+            textDecoration="none"
+            fontSize="xlg"
+            fontWeight="bold"
+            color={location.pathname === path ? '#fff' : '#444'}
+            _hover={{ color: '#fff' }}
+            _activeLink={{ textDecoration: 'underline' }}
+          >
+            {label}
+          </ChakraLink>
+        ))}
+      </Flex>
     </Flex>
   );
 }
