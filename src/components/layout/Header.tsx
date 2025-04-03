@@ -24,7 +24,7 @@ function Header() {
       <Flex gap="30px" alignItems="center">
         {[
           { path: '/', label: 'Home' },
-          { path: '/work', label: 'Work' },
+          { path: '/events', label: 'events' },
           { path: '/team', label: 'Team' },
           { path: '/contact', label: 'Contacts' },
         ].map(({ path, label }) => (
