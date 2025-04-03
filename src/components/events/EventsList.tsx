@@ -9,7 +9,7 @@ import { Event } from './events.type';
 
 export const loader: LoaderFunction = async () => {
   const events = await getAllEvents();
-  return events; 
+  return events;
 };
 
 
@@ -18,7 +18,7 @@ const EventList = () => {
   const events = useLoaderData() as Event[];
 
   return (
-    <Box>
+    <Box px={4}>
       <BasicTable data={events} column={columns} />
     </Box>
   )

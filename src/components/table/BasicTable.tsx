@@ -2,16 +2,17 @@ import React from 'react'
 import { useTable } from "react-table"
 import './table.css'
 import { Event } from '../events/events.type'
-
-
-
+import { Box, Text, Flex, Heading, HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
 interface BasicTableProps {
   data: Event[];
   column: any;
+  tableCaption?: string;
+  TableActions?: React.ReactNode;
+  TableLeftActions?: React.ReactNode;
 }
 const BasicTable = (props: BasicTableProps) => {
-  const { data, column } = props
+  const { data, column, tableCaption, TableActions, TableLeftActions } = props
   const tableInstance = useTable({
     columns: column,
     data: data,
@@ -19,37 +20,86 @@ const BasicTable = (props: BasicTableProps) => {
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance
   return (
-    <table {...getTableProps}>
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {
-              headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-              ))
-            }
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps}>
-        {
-          rows.map(row => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
+    <Box display={"flex"} flexDir={"column"} width={"100%"}>
+       {(tableCaption || TableActions || TableLeftActions) && (
+          <Flex
+            p={2}
+            px={1}
+            alignItems={"center"}
+            flexDir={{ sm: "row", base: "column", md: "row", lg: "row" }}
+            gap={6}
+            py={6}
+            width={"98%"}
+            flex-wrap="wrap"
+          >
+            <Heading
+              as="h5"
+              size="sm"
+              w="100%"
+              fontWeight={"normal"}
+              textAlign={"left"}
+              flex={1}
+            >
+              <HStack
+                width={"100%"}
+                display={"flex"}
+                justifyContent={"space-between"}
+              >
+              </HStack>
+
+              <Flex flexDir={"column"} gap={2}>
+                {TableLeftActions}
+                {TableActions}
+              </Flex>
+            </Heading>
+          </Flex>
+        )}
+      <TableContainer
+        width={"100%"}
+        justifyContent={"center"}
+        overflow="scroll">
+        <Table {...getTableProps} className='events-table' size="sm"
+          variant="simple"
+          width={"100%"}
+          border="none"
+          overflow="scroll"
+          borderRadius={"20px"}
+          background={"#ffffff"}
+          style={{ overflow: "hidden" }}>
+          <Thead className='table-head' background={"#ffffff"} height={"70px"}>
+            {headerGroups.map(headerGroup => (
+              <Tr {...headerGroup.getHeaderGroupProps()}>
                 {
-                  row.cells.map(cell => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    )
-                  })
+                  headerGroup.headers.map(column => (
+                    <Th {...column.getHeaderProps()}>{column.render('header')}</Th>
+                  ))
                 }
-              </tr>
-            )
-          })
-        }
-      </tbody>
-    </table>
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody {...getTableBodyProps} height={"inherit"} overflowY="scroll" background={"#ffffff"}>
+            {
+              rows.map(row => {
+                prepareRow(row)
+                return (
+                  <Tr {...row.getRowProps()}>
+                    {
+                      row.cells.map(cell => {
+                        return (
+                          <Td  {...cell.getCellProps()} py={0}
+                            fontSize={"small"}
+                            boxSize={4}>{cell.render('Cell')}</Td>
+                        )
+                      })
+                    }
+                  </Tr>
+                )
+              })
+            }
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Box>
   )
 }
 
