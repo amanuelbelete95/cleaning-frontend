@@ -10,10 +10,11 @@ import {
   import TeamList from "./components/teams/TeamList";
   import TeamDetail from "./components/teams/awareness-team/TeamDetail";
   import NoMatch from "./components/nomatch/NoMatch";
+  import EventNew from "./components/events/EventNew";
   
   export const router = createBrowserRouter([
     {
-      path: "/",
+      path: "cleaning",
       element: <Layout />,
       children: [
         { index: true, element: <Home /> },
@@ -21,6 +22,7 @@ import {
           path: "events",
           children: [
             { index: true, element: <EventsList />, loader: eventLoader },
+            {path: "new", element: <EventNew/>},
             { path: "detail/:id", element: <EventDetail /> },
           ],
         },

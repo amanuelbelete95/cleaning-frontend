@@ -1,5 +1,6 @@
-import { Box, Flex, Text, Link as ChakraLink } from '@chakra-ui/react';
+import { Box, Flex, Text, Link as ChakraLink, Img } from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router-dom';
+import logoImg from '../assets/logo.jpeg'
 
 function Header() {
   const location = useLocation();
@@ -15,18 +16,19 @@ function Header() {
       borderRadius="16px"
       height="70px"
     >
-      <Box>
-        <Text as="h1" fontSize="xl" color="#ffffff" fontWeight="bold">
-          AA_SubCity Cleansing Management Office
+      <Box display={'flex'} gap={'10px'} alignItems={'center'}>
+        <Text as="h1" fontSize="xl" color="#ffffff" fontWeight="bold" border={"3px solid gray"} borderRadius={'50px'} p={8}>
+         CleanRR
         </Text>
+        <Img src={logoImg} alt='image-logo' width={'50px'} height={'50px'} borderRadius={'25px'} backgroundColor={'none'}/>
       </Box>
 
       <Flex gap="30px" alignItems="center">
         {[
-          { path: '/', label: 'Home' },
-          { path: '/events', label: 'events' },
-          { path: '/team', label: 'Team' },
-          { path: '/contact', label: 'Contacts' },
+          { path: '', label: 'Home' },
+          { path: 'events', label: 'events' },
+          { path: 'team', label: 'Team' },
+          { path: 'contact', label: 'Contacts' },
         ].map(({ path, label }) => (
           <ChakraLink
             as={Link}
