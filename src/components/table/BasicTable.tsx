@@ -20,7 +20,7 @@ const BasicTable = (props: BasicTableProps) => {
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance
   return (
-    <Box display={"flex"} flexDir={"column"} width={"100%"}>
+    <Box display={"flex"} flexDir={"column"} width={"100%"} background={"gray.300"}>
        {(tableCaption || TableActions || TableLeftActions) && (
           <Flex
             p={2}
@@ -38,6 +38,7 @@ const BasicTable = (props: BasicTableProps) => {
               w="100%"
               fontWeight={"normal"}
               textAlign={"left"}
+              display={'flex'}
               flex={1}
             >
               <HStack
@@ -47,7 +48,7 @@ const BasicTable = (props: BasicTableProps) => {
               >
               </HStack>
 
-              <Flex flexDir={"column"} gap={2}>
+              <Flex flexDir={"column"} gap={2} display={'inline-block'} alignSelf={"flex-end"}>
                 {TableLeftActions}
                 {TableActions}
               </Flex>
@@ -58,15 +59,17 @@ const BasicTable = (props: BasicTableProps) => {
         width={"100%"}
         justifyContent={"center"}
         overflow="scroll">
+        
+        
         <Table {...getTableProps} className='events-table' size="sm"
           variant="simple"
-          width={"100%"}
+          width={"70%"}
           border="none"
           overflow="scroll"
           borderRadius={"20px"}
           background={"#ffffff"}
           style={{ overflow: "hidden" }}>
-          <Thead className='table-head' background={"#ffffff"} height={"70px"}>
+          <Thead className='table-head' background={"gray.200"} height={"70px"}>
             {headerGroups.map(headerGroup => (
               <Tr {...headerGroup.getHeaderGroupProps()}>
                 {
@@ -82,11 +85,11 @@ const BasicTable = (props: BasicTableProps) => {
               rows.map(row => {
                 prepareRow(row)
                 return (
-                  <Tr {...row.getRowProps()}>
+                  <Tr {...row.getRowProps()} p={8}>
                     {
                       row.cells.map(cell => {
                         return (
-                          <Td  {...cell.getCellProps()} py={0}
+                          <Td  {...cell.getCellProps()} py={8}
                             fontSize={"small"}
                             boxSize={4}>{cell.render('Cell')}</Td>
                         )

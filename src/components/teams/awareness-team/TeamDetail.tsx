@@ -27,7 +27,7 @@ const TeamDetail = () => {
       <Text fontSize="md" color="gray.600" mb={6}>
         {displayedTeam.description}
       </Text>
-      <Link to="/team">
+      <Link to="/cleaning/team">
         <Button colorScheme="teal">Back to Teams</Button>
       </Link>
     </Box>
