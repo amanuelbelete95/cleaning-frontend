@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './styles.css';
 import { accordionData } from './data';
+import { Box, Button, Text, chakra } from '@chakra-ui/react';
+import Header from '../Header';
 
 const Home = () => {
   const [selected, setSelected] = useState<number | null>(null);
@@ -23,60 +25,60 @@ const Home = () => {
   };
 
   return (
-    <div className='home-container'>
+    <Box className='home-container'>
       <header className='hero-section'>
-        <h1>Solid Waste Management Services</h1>
-        <p>
+        <Text as="h1">Solid Waste Management Services</Text>
+        <Text>
           Explore frequently asked questions to learn more about solid waste
           management and how we maintain cleanliness and safety in the
           environment.
-        </p>
+        </Text>
       </header>
 
-      <div className='content-section'>
-        <button
+      <Box className='content-section'>
+        <Button
           className='toggle-button'
           onClick={toggleEnableMultiple}>
           {enableMultiple
             ? 'Disable Multiple Selection'
             : 'Enable Multiple Selection'}
-        </button>
+        </Button>
 
-        <div className='accordion'>
+        <Box className='accordion'>
           {accordionData.map((item) => (
-            <div
+            <Box
               className='accordion-item'
               key={item.id}>
-              <div
+              <Box
                 className='accordion-title'
                 onClick={() =>
                   enableMultiple
                     ? handleMultipleSelection(item.id)
                     : handleSingleSelection(item.id)
                 }>
-                <h2>{item.question}</h2>
-                <span>
+                <Text>{item.question}</Text>
+                <chakra.span>
                   {selected === item.id || multiple.includes(item.id)
                     ? '-'
                     : '+'}
-                </span>
-              </div>
+                </chakra.span>
+              </Box>
 
               {(selected === item.id || multiple.includes(item.id)) && (
-                <div className='accordion-content'>{item.answer}</div>
+                <Box className='accordion-content' >{item.answer}</Box>
               )}
-            </div>
+            </Box>
           ))}
-        </div>
-      </div>
+        </Box>
+      </Box>
 
-      <footer className='footer-section'>
-        <p>
+      <Box className='footer-section'>
+        <Text>
           Amanuel Belete © {new Date().getFullYear()} Solid Waste Management
           Services. All rights reserved.
-        </p>
-      </footer>
-    </div>
+        </Text>
+      </Box>
+    </Box>
   );
 };
 
