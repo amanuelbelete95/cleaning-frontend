@@ -17,8 +17,8 @@ function Header() {
       height="70px"
     >
       <Box display={'flex'} gap={'10px'} alignItems={'center'}>
-        <Text as="h1" fontSize="xl" color="#ffffff" fontWeight="bold" border={"3px solid gray"} borderRadius={'50px'} p={8}>
-         CleanRR
+        <Text as="h1" fontSize="xl" color="#ffffff" fontWeight="bold" borderRadius={'50px'} p={8}>
+         cleanRR
         </Text>
         <Img src={logoImg} alt='image-logo' width={'50px'} height={'50px'} borderRadius={'25px'} backgroundColor={'none'}/>
       </Box>
@@ -26,8 +26,8 @@ function Header() {
       <Flex gap="30px" alignItems="center">
         {[
           { path: '', label: 'Home' },
-          { path: 'events', label: 'events' },
-          { path: 'team', label: 'Team' },
+          { path: 'events', label: 'Events' },
+          { path: 'teams', label: 'Team' },
           { path: 'contact', label: 'Contacts' },
         ].map(({ path, label }) => (
           <ChakraLink

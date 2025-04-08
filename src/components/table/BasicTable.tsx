@@ -1,20 +1,19 @@
-import React from 'react'
-import { useTable } from "react-table"
-import './table.css'
-import { Event } from '../events/events.type'
-import { Box, Text, Flex, Heading, HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Flex, Heading, HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import React from 'react';
+import { useTable } from "react-table";
+import './table.css';
 
-interface BasicTableProps {
-  data: Event[];
-  column: any;
+interface BasicTableProps <Data extends object>{
+  data: Data[];
+  columns: any;
   tableCaption?: string;
   TableActions?: React.ReactNode;
   TableLeftActions?: React.ReactNode;
 }
-const BasicTable = (props: BasicTableProps) => {
-  const { data, column, tableCaption, TableActions, TableLeftActions } = props
+const BasicTable =  <Data extends object>(props: BasicTableProps<Data>) => {
+  const { data, columns, tableCaption, TableActions, TableLeftActions } = props
   const tableInstance = useTable({
-    columns: column,
+    columns: columns,
     data: data,
   })
 

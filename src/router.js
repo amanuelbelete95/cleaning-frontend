@@ -14,7 +14,7 @@ import {
   
   export const router = createBrowserRouter([
     {
-      path: "cleaning",
+      path: "",
       element: <Layout />,
       children: [
         { index: true, element: <Home /> },
@@ -27,7 +27,7 @@ import {
           ],
         },
         {
-          path: "team",
+          path: "teams",
           element: <TeamsLayout />,
           children: [
             { index: true, element: <TeamList /> },

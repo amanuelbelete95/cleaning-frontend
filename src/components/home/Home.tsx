@@ -26,7 +26,7 @@ const Home = () => {
   return (
     <Box className='home-container'>
       <Box className='hero-section'>
-        <h1>Arada SubCity Cleansing Management Office Service</h1>
+        <h1>Clean, Reuse and Recycle</h1>
         <p>
           Explore frequently asked questions to learn more about solid waste
           management and how we maintain cleanliness and safety in the

@@ -6,7 +6,9 @@ const TeamsLayout = () => {
     <VStack align="stretch" spacing={4} p={6} bg="gray.800" minH="100vh" >
       <Box textAlign="center" p={4} bg="teal.500" color="#444" borderRadius="md">
         <Text as="h1" fontSize="2xl" fontWeight="bold">
-          Arada Cleansing Management Teams
+         Teams
+        </Text>
+        <Text>
         </Text>
       </Box>
       <Divider />
