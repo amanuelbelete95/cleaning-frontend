@@ -4,7 +4,7 @@ import {
   import Layout from "./components/layout/Layout";
   import Home from "./components/home/Home";
   import EventsList, { loader as eventLoader } from "./components/events/EventsList";
-  import EventDetail from "./components/events/EventDetail";
+  import EventDetail, {loader as eventDetailLoader} from "./components/events/EventDetail";
   import Contacts from "./components/contacts/Contacts";
   import TeamsLayout from "./components/teams/index";
   import TeamList from "./components/teams/TeamList";
@@ -23,7 +23,7 @@ import {
           children: [
             { index: true, element: <EventsList />, loader: eventLoader },
             {path: "new", element: <EventNew/>},
-            { path: "detail/:id", element: <EventDetail /> },
+            { path: "detail/:id", element: <EventDetail />,loader:eventDetailLoader},
           ],
         },
         {
