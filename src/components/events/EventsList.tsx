@@ -1,11 +1,12 @@
+
 import { Box, Button, HStack } from '@chakra-ui/react';
+import { ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { LoaderFunction, useLoaderData, useNavigate } from 'react-router-dom';
 import BasicTable from '../table/BasicTable';
 import getAllEvents from './api/getAllEvents';
 import { Event } from './events.type';
 import { EVENTS_ROUTES } from './routes';
-import { ColumnDef } from '@tanstack/react-table';
 
 export const loader: LoaderFunction = async () => {
   const events = await getAllEvents();
@@ -15,30 +16,31 @@ export const loader: LoaderFunction = async () => {
 const EventList = () => {
   const navigate = useNavigate();
   const addisEvent = useLoaderData() as Event[];
-
   const columns = useMemo<ColumnDef<Event>[]>(
     () => [
       {
         header: 'ID',
-        accessor: '_id',
+        accessorKey: '_id',
       },
       {
         header: 'Event Name',
-        accessor: 'name',
+        accessorKey: 'name',
       },
       {
         header: 'Event Location',
-        accessor: 'location',
+        accessorKey: 'location',
       },
       {
         header: 'Event Action',
         id: 'actions',
         cell: (info: any) => {
-
           return (
-            <HStack spacing={2} border={"5px solid red"}>
+            <HStack spacing={4} width={'100%'}  >
               <Button
                 size="sm"
+                p={4}
+                display={'inline-block'}
+                borderRadius={'8px'}
                 colorScheme="blue"
                 onClick={() =>
                   navigate(
@@ -52,19 +54,23 @@ const EventList = () => {
               </Button>
               <Button
                 size="sm"
+                p={4}
+                borderRadius={'8px'}
                 colorScheme="yellow"
                 onClick={() =>
                   navigate(EVENTS_ROUTES.EVENTS_EDIT.getAbsoluteLink(
-                    info.row?.original?._id ?? ''
+                    info.row?.original?.id ?? ''
                   ))}>
                 Edit
               </Button>
               <Button
                 size="sm"
+                p={4}
+                borderRadius={'8px'}
                 colorScheme="red"
                 onClick={() =>
                   navigate(EVENTS_ROUTES.EVENTS_REMOVE.getAbsoluteLink(
-                    info.row.original._id ?? ''
+                    info.row.original?._id ?? ''
                   ))}
               >
                 Delete
@@ -74,11 +80,11 @@ const EventList = () => {
         }
       },
     ],
-    []
+    [navigate]
   );
 
   return (
-    <Box px={4} display={'flex'} flexDirection={'column'}>
+    <Box px={4} display={'flex'} flexDirection={'column'} alignItems={'center'} width={'100%'} justifyContent={'center'}>
       <Button cursor={'pointer'} border={'2px solid gray'} p={8} size={'lg'} onClick={() => navigate('/events/new')} alignSelf={'flex-end'}>Add Events</Button>
       <BasicTable data={addisEvent} columns={columns} />
     </Box>

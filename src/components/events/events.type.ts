@@ -5,5 +5,4 @@ export interface Event {
   location: string;
   createdAt?: string;
   updatedAt?: string;
-  __v?: string;
 }

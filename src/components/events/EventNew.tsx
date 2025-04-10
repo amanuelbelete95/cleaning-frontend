@@ -4,14 +4,12 @@ import { Form, useNavigate } from 'react-router-dom';
 import { addEvents } from './api/addEvents';
 
 function EventNew() {
+    const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const [addisEvent, setAddisEvent] = useState({
         name: "",
         location: ""
     });
-
-    const navigate = useNavigate();
-
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -31,7 +29,6 @@ function EventNew() {
         } catch (error) {
             console.error('Submission failed:', error);
         }
-        return ('/events')
     }
 
     return (
