@@ -33,6 +33,10 @@ function EventDetail() {
         <Text> Event Location</Text>
         <Text>{event.location}</Text>
     </Box>
+    <Box display={"flex"} gap={'20px'}>
+        <Text> Participant Number</Text>
+        <Text>{event.participant}</Text>
+    </Box>
     </Flex>
 
 

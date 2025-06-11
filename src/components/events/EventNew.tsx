@@ -8,7 +8,8 @@ function EventNew() {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const [addisEvent, setAddisEvent] = useState({
         name: "",
-        location: ""
+        location: "",
+        participant: 0
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +25,7 @@ function EventNew() {
             setIsSubmitting(true)
             await addEvents(addisEvent)
             setIsSubmitting(false);
-            navigate('/events'); // One line redirect
+            navigate('/events');
 
         } catch (error) {
             console.error('Submission failed:', error);
@@ -46,7 +47,7 @@ function EventNew() {
                             value={addisEvent.name}
                             onChange={handleInputChange}
                             placeholder='Enter event name'
-                            required
+                            
                         />
                     </FormControl>
                 </Box>
@@ -67,7 +68,24 @@ function EventNew() {
                     </FormControl>
                 </Box>
 
-                <Button type="submit" isDisabled={isSubmitting}>submit</Button>
+                <Box className='form-control' display={"flex"} >
+                    <FormControl>
+                        <FormLabel htmlFor='participant'>
+                            Event Participants:
+                        </FormLabel>
+                        <Input
+                            type='text'
+                            name='participant'
+                            id='participant'
+                            value={addisEvent.participant}
+                            placeholder='Please provide a participant'
+                            required
+                            onChange={handleInputChange}
+                        />
+                    </FormControl>
+                </Box>
+
+                <Button type="submit" isDisabled={isSubmitting} color={'white'} fontSize={'20px'} p={10} backgroundColor={'green'} colorScheme='black' variant={'solid'} border={'2px'} borderRadius={'10px'}>submit</Button>
 
             </Form>
         </Box>
