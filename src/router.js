@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/admin/AdminDashBoard";
 import AdminRoute from "./pages/admin/AdminRoute";
 import CreateEventsPage from "./pages/admin/CreateEventsPage";
 import LoginPage from "./pages/admin/LoginPage";
+import ImportSettings from "./components/settings/ImportSettings";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,9 @@ export const router = createBrowserRouter([
           { path: "detail/:id", element: <EventDetail />, loader: eventDetailLoader },
         ],
       },
+       {
+        path: "settings", element:<ImportSettings/>
+       },
       { path: "contact", element: <Contacts /> },
       { path: "*", element: <NoMatch /> },
     ],

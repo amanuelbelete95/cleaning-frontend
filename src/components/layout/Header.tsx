@@ -27,7 +27,8 @@ function Header() {
         {[
           { path: '', label: 'Home' },
           { path: 'events', label: 'Events' },
-          { path: 'teams', label: 'Team' },
+          // { path: 'teams', label: 'Team' },
+          { path: 'settings', label: 'Settings' },
           { path: 'contact', label: 'Contacts' },
         ].map(({ path, label }) => (
           <ChakraLink
