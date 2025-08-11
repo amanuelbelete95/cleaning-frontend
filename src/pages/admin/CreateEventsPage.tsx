@@ -1,9 +1,9 @@
 import { Box, Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
-import { addEvents } from './api/addEvents';
+import { addEvents } from '../../components/events/api/addEvents';
 
-function EventNew() {
+function CreateEventsPage() {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const [addisEvent, setAddisEvent] = useState({
@@ -91,4 +91,4 @@ function EventNew() {
         </Box>
     )
 }
-export default EventNew
+export default CreateEventsPage

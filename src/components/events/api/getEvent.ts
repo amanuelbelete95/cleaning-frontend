@@ -10,7 +10,7 @@ import { Event } from "../events.type";
     return data;
   } catch (error) {
     console.error("Error fetching events:", error);
-    return {name: '', location: ""};
+    return {name: '', location: "", participant: 0};
   }
 };
 
