@@ -1,57 +1,92 @@
+import { CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
   FormControl,
-  HStack,
+  IconButton,
   Input,
-  useToast,
+  Tooltip
 } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
-import BasicTable from "../table/BasicTable";
-import * as XLSX from "xlsx";
 import { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
+import { Form } from "react-router-dom";
+import * as XLSX from "xlsx";
+import BasicTable from "../table/BasicTable";
+
+
+
 
 function ImportSettings() {
   const [excelFile, setExcelFile] = useState<null | ArrayBuffer>(null);
   const [excelData, setExcelData] = useState<any[]>([]);
   const [columns, setColumns] = useState<ColumnDef<any>[]>([]);
-  const [typeError, setTypeError] = useState<string | null>(null);
+  const [typeError, setTypeError] = useState<string | null>(null)
 
-  const toast = useToast();
+  const Errors = [
+    {
+      Header: "VendorRef",
+      Row: 1,
+      Message: "VendorRef is not Found"
+    },
+    {
+      Header: "FiscalBudgetID",
+      Row: 2,
+      Message: "FiscalBudgetID is not found"
+    }
+  ]
 
-  console.log("excel", excelFile)
-  
+
+  const getErrorMessage = (row: any, column: any) => {
+    const err = Errors.find(
+      (e) =>
+        e.Header === column.id &&
+        e.Row === row.index + 1
+    );
+    return err ? err.Message : null;
+  };
+
 
   // --- Dynamic column generator with editable cells ---
- const generateColumns = (data: any[], setData: React.Dispatch<React.SetStateAction<any[]>>) => {
-  if (!data.length) return [];
-  return Object.keys(data[0]).map((key) => ({
-    header: key,
-    accessorKey: key,
-    cell: ({ getValue, row, column }) => {
-      const initialValue = getValue();
-      const [value, setValue] = useState(initialValue ?? "");
+  const generateColumns = (data: any[], setData: React.Dispatch<React.SetStateAction<any[]>>) => {
+    if (!data?.length) return [];
+    return Object.keys(data[0]).map((key) => ({
+      header: key,
+      accessorKey: key,
+      cell: ({ getValue, row, column }) => {
+        const initialValue = getValue();
+        console.log("row", row);
+        const [value, setValue] = useState(initialValue ?? "");
 
+        const onBlur = () => {
+          setData((old) => {
+            const newData = [...old];
+            newData[row.index] = { ...newData[row.index], [column.id]: value };
+            return newData;
+          });
+        };
 
-      const onBlur = () => {
-        setData((old) => {
-          const newData = [...old];
-          newData[row.index] = { ...newData[row.index], [column.id]: value };
-          return newData;
-        });
-      };
-      return (
-        <Input
-          size="sm"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onBlur={onBlur}
-        />
-      );
-    },
-  }));
-};
+        const errorMessage = getErrorMessage(row, column);
+        return (
+          <Tooltip
+            label={errorMessage}
+            isDisabled={!errorMessage}
+            hasArrow
+            placement="top"
+            color={"red"}
+          >
+            <Input
+              size="sm"
+              value={value}
+              border={errorMessage ? "2px solid red" : "2px solid gray"}
+              onChange={(e) => setValue(e.target.value)}
+              onBlur={onBlur}
+              
+            />
+          </Tooltip>
+        );
+      },
+    }));
+  };
 
 
 
@@ -103,30 +138,6 @@ function ImportSettings() {
     return errors;
   };
 
-  const handleSend = () => {
-    const errors = validateData(excelData);
-    if (errors.length) {
-      toast({
-        title: "Validation Error",
-        description: errors.join("\n"),
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    // ✅ Send to backend
-    console.log("Sending to backend:", excelData);
-    toast({
-      title: "Data Sent",
-      description: "Excel data successfully sent to the backend.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-  };
-
   return (
     <Box>
       <Form onSubmit={handleFileSubmit}>
@@ -134,10 +145,17 @@ function ImportSettings() {
           <Input
             type="file"
             id="file"
+            value=""
             name="file"
             onChange={handleFileChange}
           />
+          {excelFile && <IconButton icon={<CloseIcon />} onClick={() => {
+            setExcelFile(null);
+            setExcelData([]);
+          }} aria-label={"close"} size={'xsm'} cursor={"pointer"} />}
+
         </FormControl>
+
         {typeError && <Box color="red.500">{typeError}</Box>}
         <Button
           variant="outline"
@@ -151,13 +169,13 @@ function ImportSettings() {
         </Button>
       </Form>
 
-      {excelData.length > 0 ? (
+      {excelData?.length > 0 ? (
         <Box mt={6}>
           <BasicTable data={excelData} columns={columns} />
           <Button
             mt={4}
             colorScheme="green"
-            onClick={handleSend}
+            // onClick={handleSend}
           >
             Send to Backend
           </Button>
