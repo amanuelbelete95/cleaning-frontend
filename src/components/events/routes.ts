@@ -1,5 +1,8 @@
 export const EVENTS_ROUTES = {
-    BASE: '/events',
+    BASE: {
+        RELATIVE: "events",
+        ABSOLUTE: "/events"
+    },
     EVENTS_NEW: {
         ABSOLUTE: '/events/new',
         RELATIVE: 'new'

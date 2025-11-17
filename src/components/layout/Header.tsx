@@ -10,24 +10,24 @@ function Header() {
       direction="row"
       justifyContent="space-between"
       alignItems="center"
-      padding="20px"
       background="#389999"
       border="1px solid"
       borderRadius="16px"
-      height="70px"
+      height="auto"
     >
-      <Box display={'flex'} gap={'10px'} alignItems={'center'}>
-        <Text as="h1" fontSize="xl" color="#ffffff" fontWeight="bold" borderRadius={'50px'} p={8}>
-         cleanRR
+      <Box display={'flex'} alignItems={'center'} flexDirection={"column"}>
+        <Text as="h1" fontSize="xl" color="#ffffff" fontWeight="bold" borderRadius={'md'}>
+          Event Tracking System
         </Text>
-        <Img src={logoImg} alt='image-logo' width={'50px'} height={'50px'} borderRadius={'25px'} backgroundColor={'none'}/>
+        <Text as="p" fontSize="xxs" color="gray.300" fontWeight="bold">Manage your organization event to managing your schedule !</Text>
       </Box>
 
       <Flex gap="30px" alignItems="center">
         {[
           { path: '', label: 'Home' },
           { path: 'events', label: 'Events' },
-          { path: 'teams', label: 'Team' },
+          // { path: 'teams', label: 'Team' },
+          { path: 'settings', label: 'Settings' },
           { path: 'contact', label: 'Contacts' },
         ].map(({ path, label }) => (
           <ChakraLink

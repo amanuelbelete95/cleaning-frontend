@@ -1,9 +1,8 @@
 
 export interface Event {
-  _id?: string;
+  event_id?: string;
   name: string;
-  participant: number;
+  event_date: string;
+  event_status: string;
   location: string;
-  createdAt?: string;
-  updatedAt?: string;
 }
