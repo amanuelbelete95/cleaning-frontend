@@ -11,8 +11,14 @@ import { onDelete } from './api/deleteEvents';
 import { DeleteIcon, EditIcon, ViewIcon } from '@chakra-ui/icons';
 
 export const loader: LoaderFunction = async () => {
-  const events = await getAllEvents();
-  return events;
+  try {
+    const events = await getAllEvents();
+    return events;
+  } catch (error) {
+    Promise.reject(error)
+    return [];
+  }
+
 };
 
 
@@ -60,7 +66,7 @@ const EventList = () => {
     () => [
       {
         header: 'ID',
-        accessorKey: '_id',
+        accessorKey: 'event_id',
       },
       {
         header: 'Event Name',
@@ -70,9 +76,13 @@ const EventList = () => {
         header: 'Event Location',
         accessorKey: 'location',
       },
+      // {
+      //   header: 'Participant',
+      //   accessorKey: 'participant',
+      // },
       {
-        header: 'Participant',
-        accessorKey: 'participant',
+        header: "Event Status",
+        accessorKey: "event_status"
       },
       {
         header: 'Event Action',
@@ -90,11 +100,11 @@ const EventList = () => {
                 _hover={{
                   background: "#4444"
                 }}
-                leftIcon={<ViewIcon/>}
+                leftIcon={<ViewIcon />}
                 onClick={() =>
                   navigate(
                     EVENTS_ROUTES.EVENTS_DETAIL.getAbsoluteLink(
-                      info.row?.original?._id ?? ''
+                      info.row?.original?.event_id ?? ''
                     )
                   )
                 }
@@ -110,10 +120,10 @@ const EventList = () => {
                 _hover={{
                   background: "#4444"
                 }}
-                leftIcon={<EditIcon/>}
+                leftIcon={<EditIcon />}
                 onClick={() =>
                   navigate(EVENTS_ROUTES.EVENTS_EDIT.getAbsoluteLink(
-                    info.row?.original?.id ?? ''
+                    info.row?.original?.event_id ?? ''
                   ))}>
                 Edit
               </Button>
@@ -126,8 +136,8 @@ const EventList = () => {
                 }}
                 borderRadius={'8px'}
                 colorScheme="red"
-                leftIcon={<DeleteIcon/>}
-                onClick={() => handleDelete(info.row.original?._id ?? '')}>
+                leftIcon={<DeleteIcon />}
+                onClick={() => handleDelete(info.row.original?.event_id ?? '')}>
                 Delete
               </Button>
             </HStack>

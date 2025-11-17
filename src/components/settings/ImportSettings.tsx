@@ -43,7 +43,7 @@ function ImportSettings() {
         e.Row === row.index + 1
     );
     return err ? err.Message : null;
-  };
+  };  
 
 
   // --- Dynamic column generator with editable cells ---
@@ -66,6 +66,7 @@ function ImportSettings() {
         };
 
         const errorMessage = getErrorMessage(row, column);
+        console.log("errorMessage", errorMessage)
         return (
           <Tooltip
             label={errorMessage}
@@ -126,17 +127,6 @@ function ImportSettings() {
     }
   };
 
-  const validateData = (data: any[]) => {
-    const errors: string[] = [];
-    data.forEach((row, i) => {
-      for (const key in row) {
-        if (!row[key] || row[key].toString().trim() === "") {
-          errors.push(`Row ${i + 1} - "${key}" is empty`);
-        }
-      }
-    });
-    return errors;
-  };
 
   return (
     <Box>

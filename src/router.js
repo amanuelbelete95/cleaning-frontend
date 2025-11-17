@@ -21,18 +21,6 @@ export const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "/login", element: <LoginPage /> },
-
-  // Admin pages,
-      {
-        path: "/admin",
-        element: <AdminRoute />,
-        children: [
-          { path: "dashboard", element: <AdminDashboard />, },
-          { path: "events/create", element: <CreateEventsPage /> },
-          // { path: "events/edit/:id", element: <EditEventPage /> },
-        ],
-      },
       {
         path: "events",
         children: [
@@ -41,9 +29,9 @@ export const router = createBrowserRouter([
           { path: "detail/:id", element: <EventDetail />, loader: eventDetailLoader },
         ],
       },
-       {
-        path: "settings", element:<ImportSettings/>
-       },
+      {
+        path: "settings", element: <ImportSettings />
+      },
       { path: "contact", element: <Contacts /> },
       { path: "*", element: <NoMatch /> },
     ],
