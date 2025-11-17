@@ -73,13 +73,17 @@ const EventList = () => {
         accessorKey: 'name',
       },
       {
+        header: 'Date',
+        accessorKey: 'event_date',
+      },
+      {
         header: 'Event Location',
         accessorKey: 'location',
       },
-      // {
-      //   header: 'Participant',
-      //   accessorKey: 'participant',
-      // },
+      {
+        header: 'Event Description',
+        accessorKey: 'description',
+      },
       {
         header: "Event Status",
         accessorKey: "event_status"
