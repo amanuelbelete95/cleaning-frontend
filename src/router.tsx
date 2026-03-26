@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import LogInPage from "./components/LogInPage";
 import RegisterPage from "./components/users/RegisterPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Contacts from "./components/contacts/Contacts";
@@ -14,6 +13,7 @@ import RegisterEvents from "./components/register-events/RegeisterEvents";
 import UserList from "./components/users/components/UserList";
 import { loader as userListLoader } from "./components/users/components/UserList";
 import UserLogInRegisterLayout from "./components/users/components/UserLoginLayout";
+import LogInPage from "./components/users/LogInPage";
 
 
 const ROUTE_PATHS = {
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
   {
     path: ROUTE_PATHS.HOME,
     element:
-      < ProtectedRoute redirectPath="/login">
+      <ProtectedRoute redirectPath="/login">
         <Layout />,
       </ProtectedRoute >,
     children: [
