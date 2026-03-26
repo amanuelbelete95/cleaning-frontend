@@ -11,7 +11,6 @@ function RegisterPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <SignUpForm
-        isNew={true}
         title={"Register"}
         formKey='register'
         schema={registerSchema}
@@ -24,7 +23,6 @@ function RegisterPage() {
             isClosable: true,
 
           });
-
           navigate("/login")
         }}
         onError={(error: { message: string }) => toast({

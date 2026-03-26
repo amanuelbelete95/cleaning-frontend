@@ -20,7 +20,6 @@ export interface UserFormProps {
   onSuccess?: (data: Partial<UserLogInResponse>) => void;
   onError?: (error: any) => void;
   title: string;
-  isNew: boolean;
   name: boolean;
   formKey: FormKey;
 }
@@ -32,7 +31,6 @@ export default function UserForm(props: UserFormProps) {
     onSuccess,
     onError,
     title,
-    isNew = false,
     name,
     schema,
     formKey,

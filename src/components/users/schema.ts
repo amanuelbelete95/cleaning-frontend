@@ -18,7 +18,7 @@ export const registerSchema = yup.object({
   role: yup.mixed().oneOf(["admin", "employee", "user"]).required("Role is required"),    
 });
 
-const userSchema = yup.object({
+export const userSchema = yup.object({
   id: yup.string().optional(),
   username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),

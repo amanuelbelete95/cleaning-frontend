@@ -1,6 +1,7 @@
 import { Box, useToast } from '@chakra-ui/react';
 import { registerUser } from '../../components/auth/api/registerUser';
 import CreateUserAccountForm from '../../components/users/components/UserForm';
+import { userSchema } from './schema';
 
 const CreateUserAccount = () => {
     const toast = useToast();
@@ -31,11 +32,11 @@ const CreateUserAccount = () => {
                     password: '',
                     role: '',
                 }}
+                schema={userSchema}
                 onConfirm={registerUser}
                 onSuccess={handleSuccess}
                 onError={handleError}
                 title="Create New User"
-                isNew={true}
             />
         </Box>
     );
