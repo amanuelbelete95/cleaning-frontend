@@ -2,7 +2,7 @@ import { Box, useToast } from '@chakra-ui/react';
 import { registerUser } from '../../components/auth/api/registerUser';
 import CreateUserAccountForm from '../../components/users/components/UserForm';
 
-function CreateUserAccount() {
+const CreateUserAccount = () => {
     const toast = useToast();
     const handleSuccess = () => {
         toast({
@@ -23,7 +23,6 @@ function CreateUserAccount() {
             isClosable: true,
         });
     };
-
     return (
         <Box>
             <CreateUserAccountForm
