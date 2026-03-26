@@ -1,5 +1,5 @@
-import { BASE_URL } from "../constants";
-import { CreateUpdateUser } from "../schema";
+import { BASE_URL } from "../../events/constants";
+import { CreateUpdateUser } from "../../users/schema";
 
 export const logInUser = async (user: Partial<CreateUpdateUser>) => {
   const {username, password } = user
@@ -15,4 +15,3 @@ export const logInUser = async (user: Partial<CreateUpdateUser>) => {
     return data;
   
 };
-

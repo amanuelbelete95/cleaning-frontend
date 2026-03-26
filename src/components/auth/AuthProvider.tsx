@@ -2,15 +2,13 @@ import {
   createContext,
   ReactNode,
   useContext,
-  useEffect,
-  useState,
   useMemo,
+  useState
 } from "react";
-import { BASE_URL } from "../events/constants";
-import { logInUser } from "../users/api/logInUser";
+import { logInUser } from "../auth/api/loginUser";
+import { UserRole } from "../events/events.type";
 import { CreateUpdateUser } from "../users/schema";
 import { UserAPIResponse } from "../users/users.type";
-import { UserRole } from "../events/events.type";
 
 export interface User {
   id: string;
