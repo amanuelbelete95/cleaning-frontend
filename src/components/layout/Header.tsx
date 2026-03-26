@@ -119,18 +119,18 @@ function Header() {
             <HStack spacing={2}>
               <Avatar
                 size="sm"
-                name={user?.username}
+                name={user?.firstname}
                 bg="white"
                 color={EventDesignSystem.primaryColor}
               />
               <Text fontSize="sm" fontWeight="medium">
-                {user?.username}
+                {user?.firstname}
               </Text>
             </HStack>
           </MenuButton>
           <MenuList bg={cardBg} borderColor="gray.200">
             <Box px={3} py={2}>
-              <Text fontWeight="semibold">{user?.username}</Text>
+              <Text fontWeight="semibold">{user?.firstname} {user?.lastname}</Text>
               <Text fontSize="sm" color="gray.500" textTransform="capitalize">
                 {user?.role}
               </Text>

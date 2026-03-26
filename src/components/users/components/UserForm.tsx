@@ -145,22 +145,8 @@ export default function UserForm(props: UserFormProps) {
           {
             ["create", "register", "edit"].includes(formKey) && (
               <>
-                <FormControl isInvalid={!!errors.role}>
-                  <FormLabel
-                    fontWeight="semibold"
-                    color={EventDesignSystem.form.label.color}
-                    fontSize="md"
-                  >
-                    Role
-                  </FormLabel>
-                  <Select {...register("role")} placeholder="Select role">
-                    <option value="admin">Admin</option>
-                    <option value="employee">Employee</option>
-                    <option value="user">User</option>
-                  </Select>
-                  <FormErrorMessage>{errors.role?.message as string}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!!errors}>
+                <FormControl isInvalid={!!errors.confirmPassword
+                }>
                   <FormLabel
                     fontWeight="semibold"
                     color={EventDesignSystem.form.label.color}
@@ -174,6 +160,21 @@ export default function UserForm(props: UserFormProps) {
                     placeholder="confirm password"
                   />
                   <FormErrorMessage>{errors.confirmPassword?.message as string}</FormErrorMessage>
+                </FormControl>
+                 <FormControl isInvalid={!!errors.role}>
+                  <FormLabel
+                    fontWeight="semibold"
+                    color={EventDesignSystem.form.label.color}
+                    fontSize="md"
+                  >
+                    Role
+                  </FormLabel>
+                  <Select {...register("role")} placeholder="Select role">
+                    <option value="admin">Admin</option>
+                    <option value="employee">Employee</option>
+                    <option value="user">User</option>
+                  </Select>
+                  <FormErrorMessage>{errors.role?.message as string}</FormErrorMessage>
                 </FormControl>
               </>
             )

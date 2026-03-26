@@ -186,7 +186,7 @@ const AdminHome = () => {
                 />
                 <Box>
                   <Heading size="lg" color="gray.700">
-                    Welcome back, {user?.username}!
+                    Welcome back, {user?.firstname}!
                   </Heading>
                   <Text color="gray.500">
                     Here's what's happening with your events today.

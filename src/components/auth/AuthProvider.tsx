@@ -12,6 +12,8 @@ import { UserAPIResponse } from "../users/users.type";
 
 export interface User {
   id: string;
+  firstname: string;
+  lastname: string;
   username: string;
   role: UserRole;
   password?: string,

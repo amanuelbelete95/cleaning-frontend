@@ -301,7 +301,7 @@ const UserHome = () => {
                 />
                 <Box>
                   <Heading size="lg" color="gray.700">
-                    Welcome, {user?.username}!
+                    Welcome, {user?.firstname}!
                   </Heading>
                   <Text color="gray.500">
                     Discover and register for amazing events.

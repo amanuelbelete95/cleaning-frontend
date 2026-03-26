@@ -5,7 +5,7 @@ export const logInSchema = yup.object({
   password: yup
     .string()
     .required("Password is required")
-    .min(6, "Password must be at least 6 characters"),
+    .min(3, "Password must be at least 3 characters"),
 });
 
 export const registerSchema = yup.object({
