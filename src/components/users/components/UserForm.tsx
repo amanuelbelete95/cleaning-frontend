@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EventDesignSystem } from "../../events/designSystem";
-import { CreateUpdateUserWithRole, logInSchema, registerWithRoleSchema } from "../schema";
+import { CreateUpdateUser } from "../schema";
 import { UserAPIResponse } from "../users.type";
 
 interface UserLogInResponse {
@@ -12,14 +12,17 @@ interface UserLogInResponse {
   token?: string
 }
 
+type FormKey = "login" | "register" | "edit" | "create";
 export interface UserFormProps {
-  initialValues?: any;
+  initialValues?: Partial<CreateUpdateUser>;
+  schema: Partial<CreateUpdateUser>;
   onConfirm?: (data: any) => Promise<any>
   onSuccess?: (data: Partial<UserLogInResponse>) => void;
   onError?: (error: any) => void;
   title: string;
   isNew: boolean;
-  name?: boolean;
+  name: boolean;
+  formKey: FormKey;
 }
 
 export default function UserForm(props: UserFormProps) {
@@ -30,11 +33,10 @@ export default function UserForm(props: UserFormProps) {
     onError,
     title,
     isNew = false,
-    name
-
+    name,
+    schema,
+    formKey,
   } = props;
-
-  const schema = isNew ? registerWithRoleSchema : logInSchema;
 
   const {
     register,
@@ -53,7 +55,7 @@ export default function UserForm(props: UserFormProps) {
 
   });
 
-  const onSubmit: SubmitHandler<any> = (data) => {
+  const onSubmit: SubmitHandler<Partial<CreateUpdateUser>> = (data) => {
     mutate(data);
   };
 
@@ -78,7 +80,40 @@ export default function UserForm(props: UserFormProps) {
         {name}
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
+
         <VStack spacing={4} align="stretch">
+          {["create", "register", "edit", ""].includes(formKey) && (
+            <>
+              <FormControl isInvalid={!!errors.firstname}>
+                <FormLabel
+                  fontWeight="semibold"
+                  fontSize="md"
+                >
+                  First Name
+                </FormLabel>
+                <Input
+                  {...register("firstname")}
+                  type="text"
+                  placeholder="Please enter your name"
+                />
+                <FormErrorMessage>{errors.firstname?.message as string}</FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.lastname}>
+                <FormLabel
+                  fontWeight="semibold"
+                  fontSize="md"
+                >
+                  Last Name
+                </FormLabel>
+                <Input
+                  {...register("lastname")}
+                  type="text"
+                  placeholder="Please enter your last name"
+                />
+                <FormErrorMessage>{errors.lastname?.message as string}</FormErrorMessage>
+              </FormControl>
+            </>
+          )}
           <FormControl isInvalid={!!errors.username}>
             <FormLabel
               fontWeight="semibold"
@@ -110,7 +145,7 @@ export default function UserForm(props: UserFormProps) {
             <FormErrorMessage>{errors.password?.message as string}</FormErrorMessage>
           </FormControl>
           {
-            isNew && (
+            ["create", "register", "edit"].includes(formKey) && (
               <>
                 <FormControl isInvalid={!!errors.role}>
                   <FormLabel

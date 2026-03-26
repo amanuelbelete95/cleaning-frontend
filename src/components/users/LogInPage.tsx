@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import  LogInForm from './components/UserForm';
+import { logInSchema } from './schema';
 const { toast } = createStandaloneToast();
 
 
@@ -20,6 +21,8 @@ function LogInPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted/50 px-4">
       <LogInForm
         isNew={false}
+        formKey='login'
+        schema={logInSchema}
         onConfirm={login}
         onSuccess={(data) => {
           console.log(data)
@@ -32,6 +35,7 @@ function LogInPage() {
 
           });
           navigate("/");
+          
         }}
         onError={(error) => {
           console.log(error)

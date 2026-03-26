@@ -1,7 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import SignUpForm from './components/UserForm';
 import { createStandaloneToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../auth/api/registerUser';
+import SignUpForm from './components/UserForm';
+import { registerSchema } from './schema';
 
 const { toast } = createStandaloneToast();
 
@@ -9,7 +10,11 @@ function RegisterPage() {
   const navigate = useNavigate();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <SignUpForm isNew={true} title={"Register"}
+      <SignUpForm
+        isNew={true}
+        title={"Register"}
+        formKey='register'
+        schema={registerSchema}
         onConfirm={registerUser}
         onSuccess={() => {
           toast({
