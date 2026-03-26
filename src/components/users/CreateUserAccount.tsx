@@ -28,9 +28,12 @@ const CreateUserAccount = () => {
         <Box>
             <CreateUserAccountForm
                 initialValues={{
-                    username: '',
-                    password: '',
-                    role: '',
+                    firstname: "",
+                    lastname: "",
+                    username: "",
+                    password: "",
+                    confirmPassword: "",
+                    role: ""
                 }}
                 schema={userSchema}
                 onConfirm={registerUser}
