@@ -20,7 +20,6 @@ function LogInPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/50 px-4">
       <LogInForm
-        isNew={false}
         formKey='login'
         schema={logInSchema}
         onConfirm={login}
@@ -48,7 +47,9 @@ function LogInPage() {
             position: "top-right"
           });
         }}
-        title='SignIn' />
+        title='LogIn' 
+        name='Access your account'
+        />
     </div>
   )
 }

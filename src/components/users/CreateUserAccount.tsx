@@ -27,19 +27,13 @@ const CreateUserAccount = () => {
     return (
         <Box>
             <CreateUserAccountForm
-                initialValues={{
-                    firstname: "",
-                    lastname: "",
-                    username: "",
-                    password: "",
-                    confirmPassword: "",
-                    role: ""
-                }}
                 schema={userSchema}
                 onConfirm={registerUser}
                 onSuccess={handleSuccess}
                 onError={handleError}
-                title="Create New User"
+                formKey='create'
+                name='Create A User'
+                title='Create Account'
             />
         </Box>
     );

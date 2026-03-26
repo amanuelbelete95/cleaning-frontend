@@ -34,6 +34,7 @@ function RegisterPage() {
           position: "top-right"
 
         })}
+        name='Create your account'
       />
     </div>
   )

@@ -1,9 +1,9 @@
 import { Box, Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, VStack, useColorModeValue } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, FieldValues } from "react-hook-form";
+import * as yup from "yup";
 import { EventDesignSystem } from "../../events/designSystem";
-import { CreateUpdateUser } from "../schema";
 import { UserAPIResponse } from "../users.type";
 
 interface UserLogInResponse {
@@ -13,15 +13,15 @@ interface UserLogInResponse {
 }
 
 type FormKey = "login" | "register" | "edit" | "create";
-export interface UserFormProps {
-  initialValues?: Partial<CreateUpdateUser>;
-  schema: Partial<CreateUpdateUser>;
-  onConfirm?: (data: any) => Promise<any>
+export interface UserFormProps<T extends FieldValues = FieldValues> {
+  initialValues?: Partial<T>;
+  schema: yup.ObjectSchema<T>;
+  onConfirm?: (data: T) => Promise<any>
   onSuccess?: (data: Partial<UserLogInResponse>) => void;
   onError?: (error: any) => void;
   title: string;
-  name: boolean;
   formKey: FormKey;
+  name?: string;
 }
 
 export default function UserForm(props: UserFormProps) {
@@ -43,7 +43,7 @@ export default function UserForm(props: UserFormProps) {
   } = useForm({
     defaultValues: initialValues,
     mode: "onTouched",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
   });
 
   const { mutate } = useMutation({
@@ -53,7 +53,7 @@ export default function UserForm(props: UserFormProps) {
 
   });
 
-  const onSubmit: SubmitHandler<Partial<CreateUpdateUser>> = (data) => {
+  const onSubmit: SubmitHandler<Record<string, unknown>> = (data) => {
     mutate(data);
   };
 
