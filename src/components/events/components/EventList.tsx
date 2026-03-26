@@ -161,17 +161,6 @@ const EventList = () => {
                 ? "Try adjusting your search keywords."
                 : "Start by creating your first event."}
             </Text>
-            <PermissionGuard allowedRoles={["admin"]}>
-              <Button
-                leftIcon={<AddIcon />}
-                bg={EventDesignSystem.primaryColor}
-                color="white"
-                variant="outline"
-                onClick={() => navigate("new")}
-              >
-                Create Event
-              </Button>
-            </PermissionGuard>
           </Box>
         )}
       </VStack>

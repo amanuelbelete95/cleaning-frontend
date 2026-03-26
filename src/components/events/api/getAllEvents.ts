@@ -5,9 +5,10 @@ import { EventAPIResponse } from "../events.type";
 const getAllEvents = async (): Promise<EventAPIResponse[]> => {
   try {
     const response = await fetch(`${BASE_URL}/api/events`);
-    return await response.json();
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
   } catch (error) {
-    return Promise.reject(error)
+    return [];
   }
 };
 
