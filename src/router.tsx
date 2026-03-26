@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import LogInPage from "./components/LogInPage";
-import RegisterPage from "./components/RegisterPage";
+import RegisterPage from "./components/users/RegisterPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Contacts from "./components/contacts/Contacts";
 import EventDetail, { loader as eventDetailLoader } from "./components/events/EventDetail";

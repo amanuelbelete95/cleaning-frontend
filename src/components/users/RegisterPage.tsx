@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import SignUpForm from './users/components/UserForm';
+import SignUpForm from './components/UserForm';
 import { createStandaloneToast } from '@chakra-ui/react';
-import { registerUser } from './auth/api/registerUser';
+import { registerUser } from '../auth/api/registerUser';
 
 const { toast } = createStandaloneToast();
 
