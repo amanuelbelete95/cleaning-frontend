@@ -1,8 +1,8 @@
-import { CalendarIcon, TimeIcon } from "@chakra-ui/icons";
+import { CalendarIcon, EditIcon, ExternalLinkIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
 import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Stack, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { memo, useCallback } from "react";
-import { FiMapPin } from "react-icons/fi";
+import { FiMapPin, FiTrash } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/dateUtility";
 import { useAuth } from "../../auth/AuthProvider";
@@ -213,6 +213,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                     _hover={{ opacity: 0.9 }}
                                     onClick={handleUpdateEvent}
                                     disabled={isEventExpired}
+                                    leftIcon={<EditIcon />}
                                 >
                                     Update Event
                                 </Button>
@@ -223,6 +224,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                     type="button"
                                     _hover={{ bg: "red.600" }}
                                     onClick={handleDeleteEvent}
+                                    leftIcon={<FiTrash />}
                                 >
                                     Delete
                                 </Button>
@@ -233,23 +235,21 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                 color="white"
                                 _hover={{ opacity: 0.9 }}
                                 onClick={handleViewEvent}
+                                leftIcon={<ViewIcon />}
                             >
                                 View
                             </Button>
-                            <>
-                                <Button
-                                    size="sm"
-                                    bg={EventDesignSystem.primaryColor}
-                                    color="white"
-                                    disabled={canRegister ? false : true}
-                                    _hover={{ opacity: 0.9 }}
-                                    onClick={(e) => { e.stopPropagation(); onOpen(); }}
-                                >
-                                    {user?.role === "admin" ? "Manage Registration" : "Register"}
-                                </Button>
-                            </>
-
-
+                            <Button
+                                size="sm"
+                                bg={EventDesignSystem.primaryColor}
+                                color="white"
+                                disabled={canRegister ? false : true}
+                                _hover={{ opacity: 0.9 }}
+                                onClick={(e) => { e.stopPropagation(); onOpen(); }}
+                                leftIcon={<ExternalLinkIcon />}
+                            >
+                                {user?.role === "admin" ? "Manage Registration" : "Register"}
+                            </Button>
                         </HStack>
                     </CardBody>
                 </Card>
