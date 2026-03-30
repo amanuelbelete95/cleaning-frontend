@@ -86,7 +86,6 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                 _hover={{
                     transform: 'translateY(-4px)',
                     boxShadow: 'xl',
-                    // bg: "gray.50"
                 }}
                 h="380px"
                 display="flex"
@@ -94,15 +93,18 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                 position="relative"
                 cursor={"pointer"}
                 onClick={handleViewEvent}
-                p={4}
+                // p={4}
                 w={"500px"}
+
             >
                 <Card
                     overflow="hidden"
                     flex={1}
                     display="flex"
                     flexDirection="column"
-                    p={4}>
+                    p={4} _hover={
+                        { bg: "gray.200" }
+                    }>
                     <Box
                         position="absolute"
                         top="-20"
@@ -135,15 +137,15 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                 </Badge>
                             </PermissionGuard>
                             <Flex justifyContent={"stretch"} gap={4} >
-                            {
-                                isEventExpired ? <Badge colorScheme="red" variant="subtle" p={1} borderRadius={"md"}>Event Expired</Badge>
-                                    : isEventFull ? <Badge colorScheme="orange" variant="subtle" p={1} borderRadius={"md"}>Event Full</Badge>
-                                        : <Badge colorScheme="green" variant="subtle" p={1} borderRadius={"md"}>Open for Registration</Badge>
-                            }
+                                {
+                                    isEventExpired ? <Badge colorScheme="red" variant="subtle" p={1} borderRadius={"md"}>Event Expired</Badge>
+                                        : isEventFull ? <Badge colorScheme="orange" variant="subtle" p={1} borderRadius={"md"}>Event Full</Badge>
+                                            : <Badge colorScheme="green" variant="subtle" p={1} borderRadius={"md"}>Open for Registration</Badge>
+                                }
 
-                            {
-                                isRegistered ? <Badge colorScheme="green" variant="outline" p={1} borderRadius={"md"}>Registered</Badge> : null
-                            }
+                                {
+                                    isRegistered ? <Badge colorScheme="green" variant="outline" p={1} borderRadius={"md"}>Registered</Badge> : null
+                                }
                             </Flex>
                         </Box>
                     </Stack>
@@ -201,7 +203,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
 
                         <Divider mt={4} mb={0} />
 
-                        <HStack spacing={2} w="full" position={"absolute"} bottom={2} left={1} >
+                        <HStack spacing={2} w="full" position={"absolute"} bottom={5} left={5} >
                             <PermissionGuard allowedRoles={["admin"]}>
                                 <Button
                                     size="sm"
