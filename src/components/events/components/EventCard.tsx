@@ -87,14 +87,15 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                     transform: 'translateY(-4px)',
                     boxShadow: 'xl',
                 }}
-                h="380px"
+                h={{ base: "auto", md: "380px" }}
+                minH={{ base: "320px", md: "380px" }}
                 display="flex"
                 flexDirection="column"
                 position="relative"
                 cursor={"pointer"}
                 onClick={handleViewEvent}
-                // p={4}
-                w={"500px"}
+                w="100%"
+                maxW={{ base: "100%", md: "500px" }}
 
             >
                 <Card
@@ -118,7 +119,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                     <Stack direction="row" justify="space-between" align="flex-start">
                         <Box flex={1}>
                             <Heading
-                                size="md"
+                                size={{ base: "sm", md: "md" }}
                                 color="gray"
                                 fontWeight="bold"
                                 noOfLines={2}
@@ -149,7 +150,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                             </Flex>
                         </Box>
                     </Stack>
-                    <CardBody p={6} flex={1} display="flex" flexDirection="column">
+                    <CardBody p={{ base: 4, md: 6 }} flex={1} display="flex" flexDirection="column">
                         {event.description && (
                             <Text
                                 fontSize="sm"
@@ -203,7 +204,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
 
                         <Divider mt={4} mb={0} />
 
-                        <HStack spacing={2} w="full" position={"absolute"} bottom={5} left={5} >
+                        <HStack spacing={2} w="full" position={{ base: "relative", md: "absolute" }} bottom={{ base: 0, md: 5 }} left={{ base: 0, md: 5 }} mt={4} pt={2}>
                             <PermissionGuard allowedRoles={["admin"]}>
                                 <Button
                                     size="sm"
