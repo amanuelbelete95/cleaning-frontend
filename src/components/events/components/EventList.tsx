@@ -132,7 +132,7 @@ const EventList = () => {
         {filteredEvents.length > 0 ? (
           <Grid
             gridTemplateColumns={"1fr 1fr 1fr 1fr"}
-            gap={5}
+            gap={2}
           >
             {user?.role === "admin" ? 
             adminEvents.map((event) => (
