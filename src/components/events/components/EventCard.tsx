@@ -88,6 +88,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                     transform: 'translateY(-4px)',
                     boxShadow: 'xl',
                     borderColor: EventDesignSystem.primaryColor,
+                    bg: "gray.100"
                 }}
                 borderWidth="2px"
                 borderColor="gray.100"
@@ -135,7 +136,6 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                         >
                             {event.description || "No description"}
                         </Text>
-                        {/* Event Details */}
                         <VStack spacing={3} align="stretch" mb={2}>
                             <HStack spacing={3}>
                                 <Icon
@@ -182,7 +182,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                 colorScheme="green"
                                 leftIcon={<Icon as={ViewIcon} boxSize={4} />}
                                 onClick={handleViewEvent}
-                                _hover={{ opacity: 0.9 }}
+                                _hover={{ opacity: 0.9, bg: "gray.300"}}
                             >
                                 View
                             </Button>
@@ -193,7 +193,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                     colorScheme="yellow"
                                     leftIcon={<Icon as={EditIcon} boxSize={4} />}
                                     onClick={handleUpdateEvent}
-                                    
+                                    _hover={{ opacity: 0.9, bg: "gray.300"}}
                                 >
                                     Update
                                 </Button>
@@ -203,20 +203,18 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                     colorScheme="red"
                                     leftIcon={<Icon as={FiTrash2} boxSize={4} />}
                                     onClick={handleDeleteEvent}
-
+                                    _hover={{ opacity: 0.9, bg: "gray.300" }}
                                 >
                                     Remove
                                 </Button>
                             </PermissionGuard>
                             <Button
                                 size="sm"
-                                variant="ghost"
-                                colorScheme="blue"
+                                variant="outline"
+                                colorScheme="green"
                                 leftIcon={<Icon as={ExternalLinkIcon} boxSize={4} />}
                                 onClick={(e) => { e.stopPropagation(); onOpen(); }}
-                                bg={EventDesignSystem.primaryLight}
-                                color={"#fff"}
-                                _hover={{ opacity: 0.9 }}
+                                _hover={{ opacity: 0.9, bg: "gray.300" }}
                             >
                                 {user?.role === "admin" ? "Manage" : "Register"}
                             </Button>
