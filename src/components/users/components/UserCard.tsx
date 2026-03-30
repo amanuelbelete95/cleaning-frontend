@@ -105,7 +105,6 @@ const UserCard = memo(({ user, onDelete }: UserCardProps) => {
               </Badge>
             </VStack>
           </Flex>
-
           <Divider />
 
           <VStack spacing={2} align="stretch">

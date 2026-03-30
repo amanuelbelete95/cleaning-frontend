@@ -131,8 +131,13 @@ const EventList = () => {
 
         {filteredEvents.length > 0 ? (
           <Grid
-            templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)", xl: "repeat(4, 1fr)" }}
-            gap={{ base: 4, md: 4 }}
+            templateColumns={{
+            base: '1fr',
+            sm: 'repeat(2, 1fr)',
+            lg: 'repeat(3, 1fr)',
+            xl: 'repeat(4, 1fr)'
+          }}
+          gap={6}
           >
             {user?.role === "admin" ? 
             adminEvents.map((event) => (

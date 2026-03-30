@@ -2,7 +2,7 @@ import { CalendarIcon, EditIcon, ExternalLinkIcon, TimeIcon, ViewIcon } from "@c
 import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, SimpleGrid, Stack, Text, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { memo, useCallback } from "react";
-import { FiMapPin, FiTrash } from "react-icons/fi";
+import { FiMapPin, FiTrash, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/dateUtility";
 import { useAuth } from "../../auth/AuthProvider";
@@ -78,91 +78,63 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                 onConfirm={registerEventFn}
                 event={event} onClose={onClose}
             />
-            <Box
+
+            <Card
                 borderRadius="xl"
                 overflow="hidden"
-                boxShadow="lg"
+                boxShadow="md"
                 transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                 _hover={{
                     transform: 'translateY(-4px)',
                     boxShadow: 'xl',
+                    borderColor: EventDesignSystem.primaryColor,
                 }}
-                h={{ base: "auto", md: "380px" }}
-                minH={{ base: "320px", md: "380px" }}
-                display="flex"
-                flexDirection="column"
-                position="relative"
-                cursor={"pointer"}
+                borderWidth="2px"
+                borderColor="gray.100"
+                cursor="pointer"
+                h="100%"
                 onClick={handleViewEvent}
-                w="100%"
-                maxW={{ base: "100%", md: "500px" }}
-
             >
-                <Card
-                    overflow="hidden"
-                    flex={1}
-                    display="flex"
-                    flexDirection="column"
-                    p={4} _hover={
-                        { bg: "gray.200" }
-                    }>
-                    <Box
-                        position="absolute"
-                        top="-20"
-                        right="-20"
-                        w="40"
-                        h="40"
-                        bg="white"
-                        opacity="10"
-                        borderRadius="full"
-                    />
-                    <Stack direction="row" justify="space-between" align="flex-start">
-                        <Box flex={1}>
-                            <Heading
-                                size={{ base: "sm", md: "md" }}
-                                color="gray"
-                                fontWeight="bold"
-                                noOfLines={2}
-                                mb={2}
-                            >
-                                {event.name}
-                            </Heading>
-                            <PermissionGuard allowedRoles={["admin"]}>
-                                <Badge
-                                    variant="outline"
-                                    fontSize="xs"
-                                    colorScheme="#389999"
-                                    textTransform="uppercase"
-                                >
-                                    {event.event_status || "todo"}
-                                </Badge>
-                            </PermissionGuard>
-                            <Flex justifyContent={"stretch"} gap={4} >
-                                {
-                                    isEventExpired ? <Badge colorScheme="red" variant="subtle" p={1} borderRadius={"md"}>Event Expired</Badge>
-                                        : isEventFull ? <Badge colorScheme="orange" variant="subtle" p={1} borderRadius={"md"}>Event Full</Badge>
-                                            : <Badge colorScheme="green" variant="subtle" p={1} borderRadius={"md"}>Open for Registration</Badge>
-                                }
 
-                                {
-                                    isRegistered ? <Badge colorScheme="green" variant="outline" p={1} borderRadius={"md"}>Registered</Badge> : null
-                                }
-                            </Flex>
-                        </Box>
-                    </Stack>
-                    <CardBody p={{ base: 4, md: 6 }} flex={1} display="flex" flexDirection="column">
-                        {event.description && (
-                            <Text
-                                fontSize="sm"
-                                color="gray.600"
-                                noOfLines={3}
-                                mb={2}
-                                lineHeight="1.5"
+                <CardBody p={6}>
+                    <VStack spacing={4} align="stretch">
+                        <Heading
+                            size="md" color="gray.600" noOfLines={1}
+                        >
+                            {event.name}
+                        </Heading>
+                        <PermissionGuard allowedRoles={["admin"]}>
+                            <Badge
+                                variant="outline"
+                                fontSize="xs"
+                                colorScheme="#389999"
+                                textTransform="uppercase"
                             >
-                                {event.description}
-                            </Text>
-                        )}
+                                {event.event_status || "todo"}
+                            </Badge>
+                        </PermissionGuard>
+                        <Flex justifyContent={"stretch"} gap={4}>
+                            {
+                                isEventExpired ? <Badge colorScheme="red" variant="subtle" p={1} borderRadius={"md"}>Event Expired</Badge>
+                                    : isEventFull ? <Badge colorScheme="orange" variant="subtle" p={1} borderRadius={"md"}>Event Full</Badge>
+                                        : <Badge colorScheme="green" variant="subtle" p={1} borderRadius={"md"}>Open for Registration</Badge>
+                            }
 
+                            {
+                                isRegistered ? <Badge colorScheme="green" variant="outline" p={1} borderRadius={"md"}>Registered</Badge> : null
+                            }
+
+                        </Flex>
+                        <Divider />
+                        <Text
+                            fontSize="sm"
+                            color="gray.600"
+                            noOfLines={2}
+                            mb={2}
+                            lineHeight="1.5"
+                        >
+                            {event.description || "No description"}
+                        </Text>
                         {/* Event Details */}
                         <VStack spacing={3} align="stretch" mb={2}>
                             <HStack spacing={3}>
@@ -202,72 +174,59 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                             </HStack>
                         </VStack>
 
-                        <Divider mt={4} mb={0} />
-
-                        <Wrap spacing={2} w="full" position={{ base: "relative", md: "absolute" }} bottom={{ base: 0, md: 5 }} left={{ base: 0, md: 5 }} mt={4} pt={2} justify={{ base: "space-between", md: "flex-start" }}>
+                        <Divider />
+                        <HStack spacing={2} justify="center">
+                            <Button
+                                size="sm"
+                                variant="ghost"
+                                leftIcon={<Icon as={ViewIcon} boxSize={4} />}
+                                onClick={handleViewEvent}
+                                bg={EventDesignSystem.primaryColor}
+                                color={"#fff"}
+                                _hover={{ opacity: 0.9 }}
+                            >
+                                View
+                            </Button>
                             <PermissionGuard allowedRoles={["admin"]}>
-                                <WrapItem>
-                                    <Button
-                                        size="sm"
-                                        bg={EventDesignSystem.primaryColor}
-                                        color="white"
-                                        _hover={{ opacity: 0.9 }}
-                                        onClick={handleUpdateEvent}
-                                        disabled={isEventExpired}
-                                        leftIcon={<EditIcon />}
-                                        fontSize={{ base: "xs", md: "sm" }}
-                                    >
-                                        Update
-                                    </Button>
-                                </WrapItem>
-                                <WrapItem>
-                                    <Button
-                                        size="sm"
-                                        bg="red.500"
-                                        color="white"
-                                        type="button"
-                                        _hover={{ bg: "red.600" }}
-                                        onClick={handleDeleteEvent}
-                                        leftIcon={<FiTrash />}
-                                        fontSize={{ base: "xs", md: "sm" }}
-                                    >
-                                        Delete
-                                    </Button>
-                                </WrapItem>
+                                <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    colorScheme="yellow"
+                                    leftIcon={<Icon as={EditIcon} boxSize={4} />}
+                                    onClick={handleUpdateEvent}
+                                >
+                                    Edit
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    colorScheme="red"
+                                    leftIcon={<Icon as={FiTrash2} boxSize={4} />}
+                                    onClick={handleDeleteEvent}
+                                >
+                                    Delete
+                                </Button>
                             </PermissionGuard>
-                            <WrapItem>
-                                <Button
-                                    size="sm"
-                                    bg={EventDesignSystem.primaryColor}
-                                    color="white"
-                                    _hover={{ opacity: 0.9 }}
-                                    onClick={handleViewEvent}
-                                    leftIcon={<ViewIcon />}
-                                    fontSize={{ base: "xs", md: "sm" }}
-                                >
-                                    View
-                                </Button>
-                            </WrapItem>
-                            <WrapItem>
-                                <Button
-                                    size="sm"
-                                    bg={EventDesignSystem.primaryColor}
-                                    color="white"
-                                    disabled={canRegister ? false : true}
-                                    _hover={{ opacity: 0.9 }}
-                                    onClick={(e) => { e.stopPropagation(); onOpen(); }}
-                                    leftIcon={<ExternalLinkIcon />}
-                                    fontSize={{ base: "xs", md: "sm" }}
-                                >
-                                    {user?.role === "admin" ? "Manage" : "Register"}
-                                </Button>
-                            </WrapItem>
-                        </Wrap>
-                    </CardBody>
-                </Card>
+                            <Button
+                                size="sm"
+                                variant="ghost"
+                                colorScheme="blue"
+                                leftIcon={<Icon as={ExternalLinkIcon} boxSize={4} />}
+                                onClick={(e) => { e.stopPropagation(); onOpen(); }}
+                                bg={EventDesignSystem.primaryColor}
+                                color={"#fff"}
+                                _hover={{ opacity: 0.9 }}
+                            >
+                                {user?.role === "admin" ? "Manage" : "Register"}
+                            </Button>
+                        </HStack>
+                    </VStack>
+                </CardBody>
+
+            </Card>
 
 
-            </Box >
+
         </>
     )
 });
