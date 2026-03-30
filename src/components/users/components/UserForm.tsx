@@ -133,7 +133,7 @@ export default function UserForm(props: UserFormProps) {
               color={EventDesignSystem.form.label.color}
               fontSize="md"
             >
-              Enter Password
+            Password
             </FormLabel>
             <Input
               {...register("password")}
