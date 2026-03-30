@@ -1,6 +1,6 @@
 import { CalendarIcon, EditIcon, ExternalLinkIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
 import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Progress, SimpleGrid, Stat, StatLabel, StatNumber, Text, useColorModeValue, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { memo, useCallback } from "react";
 import { FiMapPin, FiTrash2, FiUsers, FiCalendar, FiClock } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
@@ -11,10 +11,11 @@ import { PermissionGuard } from "../../PermissionGuard";
 import { registerToEvent } from "../../register-events/api/registerToEvent";
 import { EventDesignSystem } from "../designSystem";
 import { EventAPIResponse } from "../events.type";
+import { getRegisterEvents, RegisterEventApiResponse } from "../../register-events/api/getRegisterEvents";
 
 interface EventCardProps {
     event: EventAPIResponse;
-    onDeleteEvent: (id: string) => void
+    onDeleteEvent: (id: string) => void;
 }
 
 const formatTime = (dateString: string) => {
@@ -34,7 +35,7 @@ const getStatusColor = (status: string) => {
     }
 };
 
-const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
+const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { user } = useAuth();
     const toast = useToast();
@@ -75,9 +76,13 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
     const isEventFull = event.registration_count >= event.capacity;
     const isEventExpired = new Date(event.event_date) < new Date();
     const canRegister = !isEventExpired && !isEventFull;
-    const isRegistered = event.registration_status === true;
+    // const isRegistered = false;
     const registrationPercentage = Math.round((event.registration_count / event.capacity) * 100);
+    // Not Registered;
 
+    // Check if the event_id is in the registration event List
+
+   
     return (
         <>
             <BasicEventModalRegModal
@@ -87,7 +92,6 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                 event={event}
                 onClose={onClose}
             />
-
             <Card
                 borderRadius="xl"
                 overflow="hidden"
@@ -155,11 +159,18 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                     Open
                                 </Badge>
                             )}
-                            {isRegistered && (
+
+                            {/* {notRegistered && (
+                                <Badge colorScheme="blue" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
+                                    Not Registered
+                                </Badge>
+                            )} */}
+
+                            {/* {isRegistered && (
                                 <Badge colorScheme="blue" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Registered
                                 </Badge>
-                            )}
+                            )} */}
                         </HStack>
 
                         <Text
@@ -281,8 +292,11 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                     size="sm"
                                     colorScheme="green"
                                     leftIcon={<ExternalLinkIcon />}
-                                    onClick={(e) => { e.stopPropagation(); onOpen(); }}
-                                    isDisabled={!canRegister && user?.role !== "admin"}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onOpen();
+                                    }}
+                                    isDisabled={!canRegister}
                                     bg={EventDesignSystem.primaryColor}
                                     color="white"
                                     _hover={{ opacity: 0.9 }}
