@@ -3,8 +3,10 @@ import { EventAPIResponse } from "../../events/events.type";
 import { UserAPIResponse } from "../../users/users.type";
 
 export interface RegisterEventApiResponse {
-  event: EventAPIResponse;
-  user: UserAPIResponse;
+  name: string;
+  description: string;
+  registration_count: number;
+  capacity: number;
   id: string;
   user_id: string;
   event_id: string;

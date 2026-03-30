@@ -6,17 +6,25 @@ import { getRegisterEvents, RegisterEventApiResponse } from "./api/getRegisterEv
 
 const columnHelper = createColumnHelper<RegisterEventApiResponse>();
 const basicColumns = [
-  columnHelper.accessor(row => row.event.name, {
+  columnHelper.accessor(row => row.name, {
     id: "name",
     header: "Event Name",
     cell: (info: CellContext<RegisterEventApiResponse, string>) => {
       const value = info.getValue();
       return <Text>{value}</Text>;
     },
+  }), 
+  columnHelper.accessor(row => row.registration_count, {
+    id: "registration_count",
+    header: "Registration Count",
+    cell: (info: CellContext<RegisterEventApiResponse, number>) => {
+      const value = info.getValue();
+      return <Text>{value}</Text>;
+    }
   }),
-  columnHelper.accessor(row => row.event.capacity, {
+   columnHelper.accessor(row => row.capacity, {
     id: "capacity",
-    header: "Capacity",
+    header: "Event Capacity",
     cell: (info: CellContext<RegisterEventApiResponse, number>) => {
       const value = info.getValue();
       return <Text>{value}</Text>;
@@ -30,7 +38,7 @@ const basicColumns = [
       return <Text>{value}</Text>;
     },
   }),
-  columnHelper.accessor(row => row.event.description, {
+  columnHelper.accessor(row => row.description, {
     id: "description",
     header: "Description",
     cell: (info: CellContext<RegisterEventApiResponse, string | undefined>) => {
