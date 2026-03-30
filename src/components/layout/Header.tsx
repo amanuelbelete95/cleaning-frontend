@@ -63,7 +63,7 @@ function Header() {
         <CalendarIcon boxSize={6} />
         <Box>
           <Text fontSize="lg" fontWeight="bold">
-            Event Tracking System
+            EMS
           </Text>
 
           <Text fontSize="xs" opacity={0.85}>
