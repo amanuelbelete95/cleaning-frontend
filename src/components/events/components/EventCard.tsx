@@ -1,5 +1,5 @@
 import { CalendarIcon, TimeIcon } from "@chakra-ui/icons";
-import { Badge, Box, Button, Card, CardBody, Divider, Heading, HStack, Icon, Stack, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react";
+import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Stack, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { memo, useCallback } from "react";
 import { FiMapPin } from "react-icons/fi";
@@ -62,11 +62,13 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
 
     // Check if the user is an admin, if so they can manage registration even if the event is full
     const isEventFull = event.registration_count >= event.capacity;
-    
+
     // Check if the user is an admin, they can manage registration regardless of the event date is expired or not, 
     // but if the user is not an admin, they can only register if the event is not expired
     const isEventExpired = new Date(event.event_date) < new Date();
     const canRegister = !isEventExpired && !isEventFull
+
+    const isRegistered = event.registration_status === true;
 
     return (
         <>
@@ -122,21 +124,27 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                             >
                                 {event.name}
                             </Heading>
-                        <PermissionGuard allowedRoles={["admin"]}>
-                        <Badge
-                            variant="outline"
-                            fontSize="xs"
-                            colorScheme="#389999"
-                            textTransform="uppercase"
-                        >
-                            {event.event_status || "todo"}
-                        </Badge>
-                        </PermissionGuard>
+                            <PermissionGuard allowedRoles={["admin"]}>
+                                <Badge
+                                    variant="outline"
+                                    fontSize="xs"
+                                    colorScheme="#389999"
+                                    textTransform="uppercase"
+                                >
+                                    {event.event_status || "todo"}
+                                </Badge>
+                            </PermissionGuard>
+                            <Flex justifyContent={"stretch"} gap={4} >
                             {
-                            isEventExpired                                ? <Badge colorScheme="red" variant="subtle">Event Expired</Badge>
-                                : isEventFull ? <Badge colorScheme="orange" variant="subtle">Event Full</Badge>
-                                : <Badge colorScheme="green" variant="subtle">Open for Registration</Badge>
-                         }
+                                isEventExpired ? <Badge colorScheme="red" variant="subtle" p={1} borderRadius={"md"}>Event Expired</Badge>
+                                    : isEventFull ? <Badge colorScheme="orange" variant="subtle" p={1} borderRadius={"md"}>Event Full</Badge>
+                                        : <Badge colorScheme="green" variant="subtle" p={1} borderRadius={"md"}>Open for Registration</Badge>
+                            }
+
+                            {
+                                isRegistered ? <Badge colorScheme="green" variant="outline" p={1} borderRadius={"md"}>Registered</Badge> : null
+                            }
+                            </Flex>
                         </Box>
                     </Stack>
                     <CardBody p={6} flex={1} display="flex" flexDirection="column">
@@ -231,13 +239,13 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                     bg={EventDesignSystem.primaryColor}
                                     color="white"
                                     disabled={canRegister ? false : true}
-                                     _hover={{ opacity: 0.9} }
+                                    _hover={{ opacity: 0.9 }}
                                     onClick={(e) => { e.stopPropagation(); onOpen(); }}
                                 >
                                     {user?.role === "admin" ? "Manage Registration" : "Register"}
                                 </Button>
                             </>
-                         
+
 
                         </HStack>
                     </CardBody>
