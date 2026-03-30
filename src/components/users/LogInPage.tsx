@@ -1,10 +1,9 @@
 import { createStandaloneToast, Heading } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './auth/AuthProvider';
-import UserForm from './users/components/UserForm';
-import { EventDesignSystem } from './events/designSystem';
-
+import { useAuth } from '../auth/AuthProvider';
+import  LogInForm from './components/UserForm';
+import { logInSchema } from './schema';
 const { toast } = createStandaloneToast();
 
 
@@ -20,8 +19,9 @@ function LogInPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/50 px-4">
-      <UserForm
-        isNew={false}
+      <LogInForm
+        formKey='login'
+        schema={logInSchema}
         onConfirm={login}
         onSuccess={(data) => {
           console.log(data)
@@ -34,6 +34,7 @@ function LogInPage() {
 
           });
           navigate("/");
+          
         }}
         onError={(error) => {
           console.log(error)
@@ -46,7 +47,9 @@ function LogInPage() {
             position: "top-right"
           });
         }}
-        title='SignIn' />
+        title='LogIn' 
+        name='Access your account'
+        />
     </div>
   )
 }

@@ -239,9 +239,11 @@ const UserHome = () => {
     queryFn: getRegisterEvents,
   });
 
-  const registeredEventIds = registrations.map((r) => r.event_id);
+  const safeEvents = Array.isArray(events) ? events : [];
+  const safeRegistrations = Array.isArray(registrations) ? registrations : [];
+  const registeredEventIds = safeRegistrations.map((r) => r.event_id);
 
-  const upcomingEvents = events
+  const upcomingEvents = safeEvents
     .filter((e: EventAPIResponse) => new Date(e.event_date) > new Date())
     .sort(
       (a: EventAPIResponse, b: EventAPIResponse) =>
@@ -249,10 +251,10 @@ const UserHome = () => {
     )
     .slice(0, 3);
 
-  const featuredEvents = events.slice(0, 4);
+  const featuredEvents = safeEvents.slice(0, 4);
 
-  const totalRegistered = registrations.length;
-  const upcomingCount = events.filter(
+  const totalRegistered = safeRegistrations.length;
+  const upcomingCount = safeEvents.filter(
     (e: EventAPIResponse) =>
       registeredEventIds.includes(e.id) && new Date(e.event_date) > new Date()
   ).length;
@@ -301,7 +303,7 @@ const UserHome = () => {
                 />
                 <Box>
                   <Heading size="lg" color="gray.700">
-                    Welcome, {user?.username}!
+                    Welcome, {user?.firstname}!
                   </Heading>
                   <Text color="gray.500">
                     Discover and register for amazing events.
@@ -353,7 +355,7 @@ const UserHome = () => {
             />
             <StatCard
               label="Available Events"
-              value={events.length}
+              value={safeEvents.length}
               icon={FiZap}
               helpText="Events to explore"
               colorScheme="purple"

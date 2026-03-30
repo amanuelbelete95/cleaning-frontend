@@ -1,11 +1,10 @@
 import { Box, useToast } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import UserForm from '../../components/users/components/UserForm';
-import { registerUser } from '../../components/users/api/getUser';
+import { registerUser } from '../../components/auth/api/registerUser';
+import CreateUserAccountForm from '../../components/users/components/UserForm';
+import { userSchema } from './schema';
 
-function NewUser() {
+const CreateUserAccount = () => {
     const toast = useToast();
-    const navigate = useNavigate();
     const handleSuccess = () => {
         toast({
             title: "User created",
@@ -25,23 +24,19 @@ function NewUser() {
             isClosable: true,
         });
     };
-
     return (
         <Box>
-            <UserForm
-                initialValues={{
-                    username: '',
-                    password: '',
-                    role: '',
-                }}
+            <CreateUserAccountForm
+                schema={userSchema}
                 onConfirm={registerUser}
                 onSuccess={handleSuccess}
                 onError={handleError}
-                title="Create New User"
-                isNew={true}
+                formKey='create'
+                name='Create A User'
+                title='Create Account'
             />
         </Box>
     );
 }
 
-export default NewUser;
+export default CreateUserAccount;

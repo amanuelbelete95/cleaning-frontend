@@ -42,7 +42,7 @@ function NewEvent() {
                 onConfirm={addEvents}
                 onSuccess={handleSuccess}
                 onError={handleError}
-                title="Create New Event"
+                title="Create Event"
             />
         </Box>
     );

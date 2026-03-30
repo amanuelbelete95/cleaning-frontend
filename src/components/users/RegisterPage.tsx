@@ -1,7 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import UserForm from './users/components/UserForm';
 import { createStandaloneToast } from '@chakra-ui/react';
-import { registerUser } from './users/api/registerUser';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../auth/api/registerUser';
+import SignUpForm from './components/UserForm';
+import { registerSchema } from './schema';
 
 const { toast } = createStandaloneToast();
 
@@ -9,7 +10,10 @@ function RegisterPage() {
   const navigate = useNavigate();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <UserForm isNew={true} title={"Register"}
+      <SignUpForm
+        title={"Register"}
+        formKey='register'
+        schema={registerSchema}
         onConfirm={registerUser}
         onSuccess={() => {
           toast({
@@ -19,7 +23,6 @@ function RegisterPage() {
             isClosable: true,
 
           });
-
           navigate("/login")
         }}
         onError={(error: { message: string }) => toast({
@@ -31,6 +34,7 @@ function RegisterPage() {
           position: "top-right"
 
         })}
+        name='Create your account'
       />
     </div>
   )

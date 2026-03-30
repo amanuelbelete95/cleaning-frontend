@@ -25,15 +25,15 @@ function UserLogInRegisterLayout() {
 
   return (
     <Box minH="100vh" bg={bgPage} py={20} w={"100%"}>
-     <Heading
-                   size="xl"
-                   mb={2}
-                   textAlign="center"
-                   color={EventDesignSystem.primaryColor}
-                   fontWeight="bold"
-                 >
-                   Event Management System 
-          </Heading>
+      <Heading
+        size="xl"
+        mb={2}
+        textAlign="center"
+        color={EventDesignSystem.primaryColor}
+        fontWeight="bold"
+      >
+        EMS
+      </Heading>
       <Container maxW="md">
         <Card bg={cardBg} boxShadow="xl" borderRadius="xl">
           <CardBody p={8}>

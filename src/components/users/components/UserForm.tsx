@@ -1,9 +1,9 @@
 import { Box, Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, VStack, useColorModeValue } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, FieldValues } from "react-hook-form";
+import * as yup from "yup";
 import { EventDesignSystem } from "../../events/designSystem";
-import { CreateUpdateUserWithRole, logInSchema, registerWithRoleSchema } from "../schema";
 import { UserAPIResponse } from "../users.type";
 
 interface UserLogInResponse {
@@ -12,14 +12,16 @@ interface UserLogInResponse {
   token?: string
 }
 
-export interface UserFormProps {
-  initialValues?: any;
-  onConfirm?: (data: any) => Promise<any>
+type FormKey = "login" | "register" | "edit" | "create";
+export interface UserFormProps<T extends FieldValues = FieldValues> {
+  initialValues?: Partial<T>;
+  schema: yup.ObjectSchema<T>;
+  onConfirm?: (data: T) => Promise<any>
   onSuccess?: (data: Partial<UserLogInResponse>) => void;
   onError?: (error: any) => void;
   title: string;
-  isNew: boolean;
-  name?: boolean;
+  formKey: FormKey;
+  name?: string;
 }
 
 export default function UserForm(props: UserFormProps) {
@@ -29,12 +31,10 @@ export default function UserForm(props: UserFormProps) {
     onSuccess,
     onError,
     title,
-    isNew = false,
-    name
-
+    name,
+    schema,
+    formKey,
   } = props;
-
-  const schema = isNew ? registerWithRoleSchema : logInSchema;
 
   const {
     register,
@@ -43,7 +43,7 @@ export default function UserForm(props: UserFormProps) {
   } = useForm({
     defaultValues: initialValues,
     mode: "onTouched",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
   });
 
   const { mutate } = useMutation({
@@ -53,7 +53,7 @@ export default function UserForm(props: UserFormProps) {
 
   });
 
-  const onSubmit: SubmitHandler<any> = (data) => {
+  const onSubmit: SubmitHandler<Record<string, unknown>> = (data) => {
     mutate(data);
   };
 
@@ -78,7 +78,40 @@ export default function UserForm(props: UserFormProps) {
         {name}
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
+
         <VStack spacing={4} align="stretch">
+          {["create", "register", "edit", ""].includes(formKey) && (
+            <>
+              <FormControl isInvalid={!!errors.firstname}>
+                <FormLabel
+                  fontWeight="semibold"
+                  fontSize="md"
+                >
+                  First Name
+                </FormLabel>
+                <Input
+                  {...register("firstname")}
+                  type="text"
+                  placeholder="Please enter your name"
+                />
+                <FormErrorMessage>{errors.firstname?.message as string}</FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.lastname}>
+                <FormLabel
+                  fontWeight="semibold"
+                  fontSize="md"
+                >
+                  Last Name
+                </FormLabel>
+                <Input
+                  {...register("lastname")}
+                  type="text"
+                  placeholder="Please enter your last name"
+                />
+                <FormErrorMessage>{errors.lastname?.message as string}</FormErrorMessage>
+              </FormControl>
+            </>
+          )}
           <FormControl isInvalid={!!errors.username}>
             <FormLabel
               fontWeight="semibold"
@@ -100,7 +133,7 @@ export default function UserForm(props: UserFormProps) {
               color={EventDesignSystem.form.label.color}
               fontSize="md"
             >
-              Enter Password
+            Password
             </FormLabel>
             <Input
               {...register("password")}
@@ -110,24 +143,10 @@ export default function UserForm(props: UserFormProps) {
             <FormErrorMessage>{errors.password?.message as string}</FormErrorMessage>
           </FormControl>
           {
-            isNew && (
+            ["create", "register", "edit"].includes(formKey) && (
               <>
-                <FormControl isInvalid={!!errors.role}>
-                  <FormLabel
-                    fontWeight="semibold"
-                    color={EventDesignSystem.form.label.color}
-                    fontSize="md"
-                  >
-                    Role
-                  </FormLabel>
-                  <Select {...register("role")} placeholder="Select role">
-                    <option value="admin">Admin</option>
-                    <option value="employee">Employee</option>
-                    <option value="user">User</option>
-                  </Select>
-                  <FormErrorMessage>{errors.role?.message as string}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!!errors}>
+                <FormControl isInvalid={!!errors.confirmPassword
+                }>
                   <FormLabel
                     fontWeight="semibold"
                     color={EventDesignSystem.form.label.color}
@@ -141,6 +160,21 @@ export default function UserForm(props: UserFormProps) {
                     placeholder="confirm password"
                   />
                   <FormErrorMessage>{errors.confirmPassword?.message as string}</FormErrorMessage>
+                </FormControl>
+                 <FormControl isInvalid={!!errors.role}>
+                  <FormLabel
+                    fontWeight="semibold"
+                    color={EventDesignSystem.form.label.color}
+                    fontSize="md"
+                  >
+                    Role
+                  </FormLabel>
+                  <Select {...register("role")} placeholder="Select role">
+                    <option value="admin">Admin</option>
+                    <option value="employee">Employee</option>
+                    <option value="user">User</option>
+                  </Select>
+                  <FormErrorMessage>{errors.role?.message as string}</FormErrorMessage>
                 </FormControl>
               </>
             )
