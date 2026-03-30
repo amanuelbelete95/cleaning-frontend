@@ -178,11 +178,10 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                         <HStack spacing={2} justify="center">
                             <Button
                                 size="sm"
-                                variant="ghost"
+                                variant="outline"
+                                colorScheme="green"
                                 leftIcon={<Icon as={ViewIcon} boxSize={4} />}
                                 onClick={handleViewEvent}
-                                bg={EventDesignSystem.primaryColor}
-                                color={"#fff"}
                                 _hover={{ opacity: 0.9 }}
                             >
                                 View
@@ -190,21 +189,23 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                             <PermissionGuard allowedRoles={["admin"]}>
                                 <Button
                                     size="sm"
-                                    variant="ghost"
+                                    variant="outline"
                                     colorScheme="yellow"
                                     leftIcon={<Icon as={EditIcon} boxSize={4} />}
                                     onClick={handleUpdateEvent}
+                                    
                                 >
-                                    Edit
+                                    Update
                                 </Button>
                                 <Button
                                     size="sm"
-                                    variant="ghost"
+                                    variant="outline"
                                     colorScheme="red"
                                     leftIcon={<Icon as={FiTrash2} boxSize={4} />}
                                     onClick={handleDeleteEvent}
+
                                 >
-                                    Delete
+                                    Remove
                                 </Button>
                             </PermissionGuard>
                             <Button
@@ -213,7 +214,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                 colorScheme="blue"
                                 leftIcon={<Icon as={ExternalLinkIcon} boxSize={4} />}
                                 onClick={(e) => { e.stopPropagation(); onOpen(); }}
-                                bg={EventDesignSystem.primaryColor}
+                                bg={EventDesignSystem.primaryLight}
                                 color={"#fff"}
                                 _hover={{ opacity: 0.9 }}
                             >
