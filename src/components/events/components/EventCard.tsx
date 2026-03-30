@@ -1,5 +1,5 @@
 import { CalendarIcon, EditIcon, ExternalLinkIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
-import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Stack, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react";
+import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, SimpleGrid, Stack, Text, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { memo, useCallback } from "react";
 import { FiMapPin, FiTrash } from "react-icons/fi";
@@ -156,7 +156,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                                 fontSize="sm"
                                 color="gray.600"
                                 noOfLines={3}
-                                mb={4}
+                                mb={2}
                                 lineHeight="1.5"
                             >
                                 {event.description}
@@ -164,7 +164,7 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
                         )}
 
                         {/* Event Details */}
-                        <VStack spacing={3} align="stretch" mb={4}>
+                        <VStack spacing={3} align="stretch" mb={2}>
                             <HStack spacing={3}>
                                 <Icon
                                     as={CalendarIcon}
@@ -204,53 +204,65 @@ const EventCard = memo(({ event, onDeleteEvent }: EventCardProps) => {
 
                         <Divider mt={4} mb={0} />
 
-                        <HStack spacing={2} w="full" position={{ base: "relative", md: "absolute" }} bottom={{ base: 0, md: 5 }} left={{ base: 0, md: 5 }} mt={4} pt={2}>
+                        <Wrap spacing={2} w="full" position={{ base: "relative", md: "absolute" }} bottom={{ base: 0, md: 5 }} left={{ base: 0, md: 5 }} mt={4} pt={2} justify={{ base: "space-between", md: "flex-start" }}>
                             <PermissionGuard allowedRoles={["admin"]}>
+                                <WrapItem>
+                                    <Button
+                                        size="sm"
+                                        bg={EventDesignSystem.primaryColor}
+                                        color="white"
+                                        _hover={{ opacity: 0.9 }}
+                                        onClick={handleUpdateEvent}
+                                        disabled={isEventExpired}
+                                        leftIcon={<EditIcon />}
+                                        fontSize={{ base: "xs", md: "sm" }}
+                                    >
+                                        Update
+                                    </Button>
+                                </WrapItem>
+                                <WrapItem>
+                                    <Button
+                                        size="sm"
+                                        bg="red.500"
+                                        color="white"
+                                        type="button"
+                                        _hover={{ bg: "red.600" }}
+                                        onClick={handleDeleteEvent}
+                                        leftIcon={<FiTrash />}
+                                        fontSize={{ base: "xs", md: "sm" }}
+                                    >
+                                        Delete
+                                    </Button>
+                                </WrapItem>
+                            </PermissionGuard>
+                            <WrapItem>
                                 <Button
                                     size="sm"
                                     bg={EventDesignSystem.primaryColor}
                                     color="white"
                                     _hover={{ opacity: 0.9 }}
-                                    onClick={handleUpdateEvent}
-                                    disabled={isEventExpired}
-                                    leftIcon={<EditIcon />}
+                                    onClick={handleViewEvent}
+                                    leftIcon={<ViewIcon />}
+                                    fontSize={{ base: "xs", md: "sm" }}
                                 >
-                                    Update Event
+                                    View
                                 </Button>
+                            </WrapItem>
+                            <WrapItem>
                                 <Button
                                     size="sm"
-                                    bg="red.500"
+                                    bg={EventDesignSystem.primaryColor}
                                     color="white"
-                                    type="button"
-                                    _hover={{ bg: "red.600" }}
-                                    onClick={handleDeleteEvent}
-                                    leftIcon={<FiTrash />}
+                                    disabled={canRegister ? false : true}
+                                    _hover={{ opacity: 0.9 }}
+                                    onClick={(e) => { e.stopPropagation(); onOpen(); }}
+                                    leftIcon={<ExternalLinkIcon />}
+                                    fontSize={{ base: "xs", md: "sm" }}
                                 >
-                                    Delete
+                                    {user?.role === "admin" ? "Manage" : "Register"}
                                 </Button>
-                            </PermissionGuard>
-                            <Button
-                                size="sm"
-                                bg={EventDesignSystem.primaryColor}
-                                color="white"
-                                _hover={{ opacity: 0.9 }}
-                                onClick={handleViewEvent}
-                                leftIcon={<ViewIcon />}
-                            >
-                                View
-                            </Button>
-                            <Button
-                                size="sm"
-                                bg={EventDesignSystem.primaryColor}
-                                color="white"
-                                disabled={canRegister ? false : true}
-                                _hover={{ opacity: 0.9 }}
-                                onClick={(e) => { e.stopPropagation(); onOpen(); }}
-                                leftIcon={<ExternalLinkIcon />}
-                            >
-                                {user?.role === "admin" ? "Manage Registration" : "Register"}
-                            </Button>
-                        </HStack>
+                            </WrapItem>
+                        </Wrap>
                     </CardBody>
                 </Card>
 
