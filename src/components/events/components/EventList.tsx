@@ -200,7 +200,7 @@ const EventList = () => {
                                 </StatHelpText>
                             </Stat>
                         </Card>
-
+                        <PermissionGuard allowedRoles={["admin"]}>
                         <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
                             <Stat>
                                 <StatLabel color="whiteAlpha.800" fontSize={{ base: "xs", md: "sm" }}>
@@ -214,6 +214,7 @@ const EventList = () => {
                                 </StatHelpText>
                             </Stat>
                         </Card>
+                        </PermissionGuard>
                     </SimpleGrid>
                 </VStack>
             </Box>
