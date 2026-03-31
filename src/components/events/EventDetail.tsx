@@ -11,6 +11,7 @@ import BasicEventModalRegModal from "../BasicEventModalReg";
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { registerToEvent } from "../register-events/api/registerToEvent";
+import { useRegistrationInfo } from "./useRegistrationInfo";
 
 export const loader: LoaderFunction = async ({ params }) => {
   const id = params.id;
@@ -43,12 +44,9 @@ const EventDetail = () => {
 
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const cardBg = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
 
-  const isEventExpired = new Date(event.event_date) < new Date();
-  const isEventFull = event.registration_count >= event.capacity;
-  const canRegister = !isEventExpired && !isEventFull;
-  const isRegistered = event.registration_status === true;
+   const { canRegister, isEventFull, isEventExpired, isRegistered } = useRegistrationInfo(event);
+
 
   const { mutate: registerEventFn } = useMutation({
     mutationFn: async (data: any) => {
@@ -317,7 +315,7 @@ const EventDetail = () => {
                   >
                     View All Events
                   </Button>
-                  {user?.role !== "admin" && (
+                  {user?.role !== "admin" && canRegister &&  (
                     <Button
                       w="full"
                       bg={canRegister ? EventDesignSystem.primaryColor : "gray.400"}
@@ -327,7 +325,7 @@ const EventDetail = () => {
                       onClick={onOpen}
                       isDisabled={!canRegister}
                     >
-                      {isRegistered ? "Manage Registration" : "Register Now"}
+                      "Register Now"
                     </Button>
                   )}
                 </VStack>

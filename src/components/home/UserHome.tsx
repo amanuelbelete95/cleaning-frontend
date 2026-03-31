@@ -1,47 +1,46 @@
 import {
-  Box,
-  Heading,
-  Text,
-  Container,
-  SimpleGrid,
-  VStack,
-  HStack,
-  Button,
-  useColorModeValue,
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  Icon,
-  Flex,
+  AspectRatio,
   Avatar,
   Badge,
+  Box,
+  Button,
   Card,
   CardBody,
-  Image,
-  AspectRatio,
-  Stack,
+  Container,
   Divider,
+  Flex,
+  Heading,
+  HStack,
+  Icon,
   IconButton,
+  SimpleGrid,
+  Stack,
+  Stat,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+  Text,
+  useColorModeValue,
+  VStack
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "../auth/AuthProvider";
-import getAllEvents from "../events/api/getAllEvents";
-import { getRegisterEvents } from "../register-events/api/getRegisterEvents";
-import { EventDesignSystem } from "../events/designSystem";
-import { EventAPIResponse } from "../events/events.type";
-import { RegisterEventApiResponse } from "../register-events/api/getRegisterEvents";
 import {
-  FiCalendar,
-  FiMapPin,
-  FiClock,
-  FiUsers,
   FiArrowRight,
-  FiStar,
+  FiCalendar,
   FiCheck,
+  FiClock,
+  FiMapPin,
+  FiStar,
+  FiUsers,
   FiZap,
 } from "react-icons/fi";
+import { Link as RouterLink } from "react-router-dom";
+import { useAuth } from "../auth/AuthProvider";
+import getAllEvents from "../events/api/getAllEvents";
+import { EventDesignSystem } from "../events/designSystem";
+import { EventAPIResponse } from "../events/events.type";
+import { useRegistrationInfo } from "../events/useRegistrationInfo";
+import { getRegisterEvents, RegisterEventApiResponse } from "../register-events/api/getRegisterEvents";
 
 const StatCard = ({
   label,
@@ -95,12 +94,8 @@ const StatCard = ({
 
 const FeaturedEventCard = ({
   event,
-  isRegistered,
-  onRegister,
 }: {
-  event: any;
-  isRegistered: boolean;
-  onRegister: () => void;
+  event: EventAPIResponse;
 }) => {
   const cardBg = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
@@ -108,8 +103,11 @@ const FeaturedEventCard = ({
 
   const daysUntil = Math.ceil(
     (new Date(event.event_date).getTime() - new Date().getTime()) /
-      (1000 * 60 * 60 * 24)
+    (1000 * 60 * 60 * 24)
   );
+
+
+  const { canRegister, isEventFull, isEventExpired, isRegistered } = useRegistrationInfo(event);
 
   return (
     <Card
@@ -149,19 +147,6 @@ const FeaturedEventCard = ({
       <CardBody>
         <VStack align="stretch" spacing={3}>
           <Box>
-            <HStack justify="space-between" mb={1}>
-              <Badge
-                colorScheme={event.event_status === "todo" ? "green" : "blue"}
-                fontSize="xs"
-              >
-                {event.event_status.replace("_", " ")}
-              </Badge>
-              {daysUntil > 0 && (
-                <Text fontSize="xs" color="gray.500">
-                  {daysUntil} days away
-                </Text>
-              )}
-            </HStack>
             <Heading size="md" color="gray.700" noOfLines={1}>
               {event.name}
             </Heading>
@@ -210,9 +195,8 @@ const FeaturedEventCard = ({
                 bg={EventDesignSystem.primaryColor}
                 color="white"
                 _hover={{ bg: EventDesignSystem.primaryDark }}
-                onClick={onRegister}
               >
-                Register
+                {canRegister ? "Register" : "Check Registration"}
               </Button>
             )}
           </Flex>
@@ -469,8 +453,6 @@ const UserHome = () => {
                 <FeaturedEventCard
                   key={event.id}
                   event={event}
-                  isRegistered={registeredEventIds.includes(event.id)}
-                  onRegister={() => {}}
                 />
               ))}
             </SimpleGrid>
@@ -527,7 +509,6 @@ const UserHome = () => {
                           <Text fontWeight="semibold" color="gray.700">
                             {event.name}
                           </Text>
-                          {getStatusBadge(event.event_status)}
                           {registeredEventIds.includes(event.id) && (
                             <Badge bg="green.100" color="green.700">
                               Registered

@@ -1,17 +1,19 @@
-import { CalendarIcon, EditIcon, ExternalLinkIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
-import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Progress, SimpleGrid, Stat, StatLabel, StatNumber, Text, useColorModeValue, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { EditIcon, ExternalLinkIcon, ViewIcon } from "@chakra-ui/icons";
+import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Progress, SimpleGrid, Text, useColorModeValue, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
 import { memo, useCallback } from "react";
-import { FiMapPin, FiTrash2, FiUsers, FiCalendar, FiClock } from "react-icons/fi";
+import { FiCalendar, FiClock, FiMapPin, FiTrash2, FiUsers } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/dateUtility";
 import { useAuth } from "../../auth/AuthProvider";
 import BasicEventModalRegModal from "../../BasicEventModalReg";
-import { PermissionGuard } from "../../PermissionGuard";
 import { registerToEvent } from "../../register-events/api/registerToEvent";
 import { EventDesignSystem } from "../designSystem";
 import { EventAPIResponse } from "../events.type";
-import { getRegisterEvents, RegisterEventApiResponse } from "../../register-events/api/getRegisterEvents";
+import { useRegistrationInfo } from "../useRegistrationInfo";
+import { PermissionGuard } from "../../PermissionGuard";
+import { tuple } from "yup";
+
 
 interface EventCardProps {
     event: EventAPIResponse;
@@ -35,7 +37,7 @@ const getStatusColor = (status: string) => {
     }
 };
 
-const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
+const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { user } = useAuth();
     const toast = useToast();
@@ -72,17 +74,9 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
             });
         },
     });
+    const { canRegister, isEventFull, isEventExpired, isRegistered } = useRegistrationInfo(event);
 
-    const isEventFull = event.registration_count >= event.capacity;
-    const isEventExpired = new Date(event.event_date) < new Date();
-    const canRegister = !isEventExpired && !isEventFull;
-    // const isRegistered = false;
     const registrationPercentage = Math.round((event.registration_count / event.capacity) * 100);
-    // Not Registered;
-
-    // Check if the event_id is in the registration event List
-
-   
     return (
         <>
             <BasicEventModalRegModal
@@ -130,17 +124,19 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
                             >
                                 {event.name}
                             </Heading>
-                            <Badge
-                                colorScheme={getStatusColor(event.event_status || "draft")}
-                                variant="subtle"
-                                px={2}
-                                py={1}
-                                borderRadius="md"
-                                fontSize="xs"
-                                flexShrink={0}
-                            >
-                                {event.event_status || "draft"}
-                            </Badge>
+                            <PermissionGuard allowedRoles={["admin"]}>
+                                <Badge
+                                    colorScheme={getStatusColor(event.event_status || "draft")}
+                                    variant="subtle"
+                                    px={2}
+                                    py={1}
+                                    borderRadius="md"
+                                    fontSize="xs"
+                                    flexShrink={0}
+                                >
+                                    {event.event_status || "draft"}
+                                </Badge>
+                            </PermissionGuard>
                         </Flex>
 
                         <HStack spacing={2} flexWrap="wrap">
@@ -160,17 +156,17 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
                                 </Badge>
                             )}
 
-                            {/* {notRegistered && (
+                            {!isRegistered && (
                                 <Badge colorScheme="blue" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Not Registered
                                 </Badge>
-                            )} */}
+                            )}
 
-                            {/* {isRegistered && (
+                            {isRegistered && (
                                 <Badge colorScheme="blue" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Registered
                                 </Badge>
-                            )} */}
+                            )}
                         </HStack>
 
                         <Text
@@ -248,8 +244,8 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
                             <WrapItem>
                                 <Button
                                     size="sm"
-                                    variant="ghost"
-                                    colorScheme="blue"
+                                    variant="outline"
+                                    colorScheme={EventDesignSystem.primaryColor}
                                     leftIcon={<ViewIcon />}
                                     onClick={handleViewEvent}
                                     _hover={{ bg: "blue.50" }}
@@ -263,8 +259,8 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
                                     <WrapItem>
                                         <Button
                                             size="sm"
-                                            variant="ghost"
-                                            colorScheme="orange"
+                                            variant="outline"
+                                            colorScheme="green"
                                             leftIcon={<EditIcon />}
                                             onClick={handleUpdateEvent}
                                             _hover={{ bg: "orange.50" }}
@@ -275,7 +271,7 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
                                     <WrapItem>
                                         <Button
                                             size="sm"
-                                            variant="ghost"
+                                            variant="outline"
                                             colorScheme="red"
                                             leftIcon={<FiTrash2 />}
                                             onClick={handleDeleteEvent}
@@ -296,12 +292,13 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
                                         e.stopPropagation();
                                         onOpen();
                                     }}
-                                    isDisabled={!canRegister}
                                     bg={EventDesignSystem.primaryColor}
                                     color="white"
+
+                                    display={ canRegister ? "inline-block" : "none"}
                                     _hover={{ opacity: 0.9 }}
                                 >
-                                    {user?.role === "admin" ? "Manage" : "Register"}
+                                    {user?.role === "admin" ? "Register User" : "Register"}
                                 </Button>
                             </WrapItem>
                         </Wrap>
