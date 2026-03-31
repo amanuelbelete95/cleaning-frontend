@@ -11,6 +11,8 @@ import { registerToEvent } from "../../register-events/api/registerToEvent";
 import { EventDesignSystem } from "../designSystem";
 import { EventAPIResponse } from "../events.type";
 import { useRegistrationInfo } from "../useRegistrationInfo";
+import { PermissionGuard } from "../../PermissionGuard";
+import { tuple } from "yup";
 
 
 interface EventCardProps {
@@ -122,17 +124,19 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                             >
                                 {event.name}
                             </Heading>
-                            <Badge
-                                colorScheme={getStatusColor(event.event_status || "draft")}
-                                variant="subtle"
-                                px={2}
-                                py={1}
-                                borderRadius="md"
-                                fontSize="xs"
-                                flexShrink={0}
-                            >
-                                {event.event_status || "draft"}
-                            </Badge>
+                            <PermissionGuard allowedRoles={["admin"]}>
+                                <Badge
+                                    colorScheme={getStatusColor(event.event_status || "draft")}
+                                    variant="subtle"
+                                    px={2}
+                                    py={1}
+                                    borderRadius="md"
+                                    fontSize="xs"
+                                    flexShrink={0}
+                                >
+                                    {event.event_status || "draft"}
+                                </Badge>
+                            </PermissionGuard>
                         </Flex>
 
                         <HStack spacing={2} flexWrap="wrap">
@@ -288,7 +292,9 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                         e.stopPropagation();
                                         onOpen();
                                     }}
-                                    isDisabled={!canRegister}
+                                    isDisabled={user?.role !== "admin" ?
+                                        !canRegister : !isEventExpired && !isEventFull ?
+                                            false : true}
                                     bg={EventDesignSystem.primaryColor}
                                     color="white"
                                     _hover={{ opacity: 0.9 }}
