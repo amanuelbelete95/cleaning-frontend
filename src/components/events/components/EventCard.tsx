@@ -244,8 +244,8 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                             <WrapItem>
                                 <Button
                                     size="sm"
-                                    variant="ghost"
-                                    colorScheme="blue"
+                                    variant="outline"
+                                    colorScheme={EventDesignSystem.primaryColor}
                                     leftIcon={<ViewIcon />}
                                     onClick={handleViewEvent}
                                     _hover={{ bg: "blue.50" }}
@@ -259,8 +259,8 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                     <WrapItem>
                                         <Button
                                             size="sm"
-                                            variant="ghost"
-                                            colorScheme="orange"
+                                            variant="outline"
+                                            colorScheme="green"
                                             leftIcon={<EditIcon />}
                                             onClick={handleUpdateEvent}
                                             _hover={{ bg: "orange.50" }}
@@ -271,7 +271,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                     <WrapItem>
                                         <Button
                                             size="sm"
-                                            variant="ghost"
+                                            variant="outline"
                                             colorScheme="red"
                                             leftIcon={<FiTrash2 />}
                                             onClick={handleDeleteEvent}
@@ -299,7 +299,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                     color="white"
                                     _hover={{ opacity: 0.9 }}
                                 >
-                                    {user?.role === "admin" ? "Manage" : "Register"}
+                                    {user?.role === "admin" ? "Register User" : "Register"}
                                 </Button>
                             </WrapItem>
                         </Wrap>
