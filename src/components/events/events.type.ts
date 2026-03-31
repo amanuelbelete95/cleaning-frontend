@@ -28,6 +28,6 @@ export interface EventAPIResponse {
   event_status: string;
   description?: string;
   capacity: number;
-  registration_status: boolean
+  is_registered: boolean;
   registration_count: number;
 }

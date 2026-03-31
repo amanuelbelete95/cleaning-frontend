@@ -75,13 +75,9 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
 
     const isEventFull = event.registration_count >= event.capacity;
     const isEventExpired = new Date(event.event_date) < new Date();
-    const canRegister = !isEventExpired && !isEventFull;
-    // const isRegistered = false;
+    const isRegistered = event.is_registered;
+    const canRegister = !isEventExpired && !isEventFull && !isRegistered
     const registrationPercentage = Math.round((event.registration_count / event.capacity) * 100);
-    // Not Registered;
-
-    // Check if the event_id is in the registration event List
-
    
     return (
         <>
@@ -160,17 +156,17 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
                                 </Badge>
                             )}
 
-                            {/* {notRegistered && (
+                            {!isRegistered && (
                                 <Badge colorScheme="blue" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Not Registered
                                 </Badge>
-                            )} */}
+                            )}
 
-                            {/* {isRegistered && (
+                            {isRegistered && (
                                 <Badge colorScheme="blue" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Registered
                                 </Badge>
-                            )} */}
+                            )}
                         </HStack>
 
                         <Text
