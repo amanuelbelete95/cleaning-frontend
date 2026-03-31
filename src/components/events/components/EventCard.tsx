@@ -1,17 +1,17 @@
-import { CalendarIcon, EditIcon, ExternalLinkIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
-import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Progress, SimpleGrid, Stat, StatLabel, StatNumber, Text, useColorModeValue, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { EditIcon, ExternalLinkIcon, ViewIcon } from "@chakra-ui/icons";
+import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Progress, SimpleGrid, Text, useColorModeValue, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
 import { memo, useCallback } from "react";
-import { FiMapPin, FiTrash2, FiUsers, FiCalendar, FiClock } from "react-icons/fi";
+import { FiCalendar, FiClock, FiMapPin, FiTrash2, FiUsers } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/dateUtility";
 import { useAuth } from "../../auth/AuthProvider";
 import BasicEventModalRegModal from "../../BasicEventModalReg";
-import { PermissionGuard } from "../../PermissionGuard";
 import { registerToEvent } from "../../register-events/api/registerToEvent";
 import { EventDesignSystem } from "../designSystem";
 import { EventAPIResponse } from "../events.type";
-import { getRegisterEvents, RegisterEventApiResponse } from "../../register-events/api/getRegisterEvents";
+import { useRegistrationInfo } from "../useRegistrationInfo";
+
 
 interface EventCardProps {
     event: EventAPIResponse;
@@ -35,7 +35,7 @@ const getStatusColor = (status: string) => {
     }
 };
 
-const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
+const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { user } = useAuth();
     const toast = useToast();
@@ -72,13 +72,9 @@ const EventCard = memo(({ event, onDeleteEvent,}: EventCardProps) => {
             });
         },
     });
+    const { canRegister, isEventFull, isEventExpired, isRegistered } = useRegistrationInfo(event);
 
-    const isEventFull = event.registration_count >= event.capacity;
-    const isEventExpired = new Date(event.event_date) < new Date();
-    const isRegistered = event.is_registered;
-    const canRegister = !isEventExpired && !isEventFull && !isRegistered
     const registrationPercentage = Math.round((event.registration_count / event.capacity) * 100);
-   
     return (
         <>
             <BasicEventModalRegModal
