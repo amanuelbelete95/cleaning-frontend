@@ -99,6 +99,8 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                 borderColor="transparent"
                 cursor="pointer"
                 h="100%"
+                display="flex"
+                flexDirection="column"
                 onClick={handleViewEvent}
                 bg={cardBg}
                 position="relative"
@@ -112,8 +114,8 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                     bg={isEventExpired || isEventFull ? "red.100" : EventDesignSystem.primaryColor}
                 />
 
-                <CardBody p={{ base: 4, md: 6 }}>
-                    <VStack spacing={4} align="stretch">
+                <CardBody p={{ base: 4, md: 6 }} display="flex" flexDirection="column" flex={1}>
+                    <VStack spacing={4} align="stretch" flex={1} justify="space-between">
                         <Flex justify="space-between" align="flex-start">
                             <Heading
                                 size={{ base: "sm", md: "md" }}
