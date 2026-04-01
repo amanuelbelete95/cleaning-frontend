@@ -109,7 +109,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                     left={0}
                     right={0}
                     h="6px"
-                    bg={isEventExpired ? "red.400" : isEventFull ? "orange.400" : EventDesignSystem.primaryColor}
+                    bg={isEventExpired || isEventFull ? "red.100" : EventDesignSystem.primaryColor}
                 />
 
                 <CardBody p={{ base: 4, md: 6 }}>
@@ -146,7 +146,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                 </Badge>
                             )}
                             {isEventFull && !isEventExpired && (
-                                <Badge colorScheme="orange" variant="solid" px={2} py={1} borderRadius="md" fontSize="xs">
+                                <Badge colorScheme="red" variant="solid" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Full
                                 </Badge>
                             )}
