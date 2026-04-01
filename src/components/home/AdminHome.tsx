@@ -119,14 +119,7 @@ const AdminHome = () => {
   const completedEvents = events.filter(
     (e: EventAPIResponse) => e.event_status === "completed"
   ).length;
-  const totalCapacity = events.reduce(
-    (sum: number, e: EventAPIResponse) => sum + Number(e.capacity),
-    0
-  );
-  const registeredCount = events.filter(
-    (e: EventAPIResponse) => e.registration_status
-  ).length;
-
+  
   const recentEvents = [...events]
     .sort(
       (a: EventAPIResponse, b: EventAPIResponse) =>
@@ -221,12 +214,12 @@ const AdminHome = () => {
           </Box>
 
           {/* Stats Grid */}
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 5 }} spacing={6}>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
             <StatCard
               label="Total Events"
               value={totalEvents}
               icon={FiCalendar}
-              helpText="All time"
+              helpText="All Events"
               colorScheme="blue"
             />
            
@@ -234,30 +227,24 @@ const AdminHome = () => {
               label="Active Events"
               value={activeEvents}
               icon={FiActivity}
-              helpText="In progress & todo"
+              helpText="Drafted Events"
               colorScheme="green"
             />
              <StatCard
               label="Posted Events"
               value={postedEvents}
               icon={FiGlobe}
-              helpText="Published events"
+              helpText="Published Events"
               colorScheme="green"
             />
             <StatCard
               label="Completed"
               value={completedEvents}
               icon={FiCheckCircle}
-              helpText="Finished events"
+              helpText="Finished Events"
               colorScheme="purple"
             />
-            <StatCard
-              label="Total Capacity"
-              value={totalCapacity}
-              icon={FiTrendingUp}
-              helpText={`${registeredCount} registered`}
-              colorScheme="orange"
-            />
+            
           </SimpleGrid>
 
           {/* Main Content Grid */}
