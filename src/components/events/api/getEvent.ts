@@ -1,7 +1,7 @@
 import { BASE_URL } from "../constants";
 import { EventAPIResponse } from "../events.type";
 
-export const getEventById = async (id: string): Promise<EventAPIResponse> => {
+const getEventById = async (id: string): Promise<EventAPIResponse> => {
   try {
     const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/api/events/${id}`, {

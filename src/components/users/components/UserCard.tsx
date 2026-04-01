@@ -121,30 +121,14 @@ const UserCard = memo(({ user, onDelete }: UserCardProps) => {
           <HStack spacing={2} justify="center">
             <Button
               size="sm"
-              variant="ghost"
-              colorScheme="blue"
+              variant="outline"
+          
+             colorScheme={EventDesignSystem.primaryColor}
+             
               leftIcon={<Icon as={FiUser} boxSize={4} />}
               onClick={handleView}
             >
               View
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              colorScheme="yellow"
-              leftIcon={<Icon as={FiEdit2} boxSize={4} />}
-              onClick={handleEdit}
-            >
-              Edit
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              colorScheme="red"
-              leftIcon={<Icon as={FiTrash2} boxSize={4} />}
-              onClick={handleDelete}
-            >
-              Delete
             </Button>
           </HStack>
         </VStack>

@@ -120,7 +120,7 @@ const UserDetail = () => {
               bgGradient={`linear(to-r, ${EventDesignSystem.primaryColor}, ${EventDesignSystem.primaryLight})`}
               position="relative"
             />
-            <CardBody pt={0} pb={6} px={6}>
+            <CardBody pt={2} pb={6} px={6}>
               <Flex direction={{ base: 'column', sm: 'row' }} align="flex-end" mt="-60px" mb={4} gap={4}>
                 <Avatar
                   size="2xl"
@@ -132,9 +132,9 @@ const UserDetail = () => {
                   border="4px solid white"
                   shadow="xl"
                 />
-                <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={1} flex={1} mb={2}>
+                <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={1} flex={1} mb={2} >
                   <Heading size="lg" color="gray.800" textAlign={{ base: 'center', sm: 'left' }}>
-                    {user.username}
+                    {`${user.firstname} ${user.lastname}`}
                   </Heading>
                   <Badge
                     px={4}
