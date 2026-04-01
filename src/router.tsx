@@ -10,8 +10,8 @@ import RoleBasedHome from "./components/home/RoleBasedHome";
 import Layout from "./components/layout/Layout";
 import NoMatch from "./components/nomatch/NoMatch";
 import RegisterEvents from "./components/register-events/RegeisterEvents";
-import UserList from "./components/users/components/UserList";
-import { loader as userListLoader } from "./components/users/components/UserList";
+import UserList, { loader as userListLoader } from "./components/users/components/UserList";
+import UserDetail, { loader as userDetailLoader } from "./components/users/components/UserDetail";
 import UserLogInRegisterLayout from "./components/users/components/UserLoginLayout";
 import LogInPage from "./components/users/LogInPage";
 
@@ -47,8 +47,10 @@ export const router = createBrowserRouter([
       },
       {
        path: ROUTE_PATHS.USERS,
-       element: <UserList/>,
-       loader: userListLoader,
+       children: [
+         { index: true, element: <UserList/>, loader: userListLoader },
+         { path: ":id/detail", element: <UserDetail />, loader: userDetailLoader },
+       ]
       },
       { path: ROUTE_PATHS.REGISTER_EVENTS, element: <RegisterEvents /> },
       { path: ROUTE_PATHS.CONTACT, element: <Contacts /> },
@@ -71,4 +73,3 @@ export const router = createBrowserRouter([
 ]);
 
 export { ROUTE_PATHS };
-
