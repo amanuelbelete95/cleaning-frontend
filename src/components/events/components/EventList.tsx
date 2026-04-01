@@ -52,7 +52,7 @@ const EventList = () => {
     const stats = useMemo(() => {
         const published = events.filter(e => e.event_status === "published").length;
         const totalCapacity = events.reduce((sum, e) => sum + e.capacity, 0);
-        const totalRegistered = events.reduce((sum, e) => sum + e.registration_count, 0);
+        const totalRegistered =  events.filter(e => e.is_registered).length;
         const upcoming = events.filter(e => new Date(e.event_date) > new Date()).length;
         return { published, totalCapacity, totalRegistered, upcoming };
     }, [events]);
@@ -156,8 +156,8 @@ const EventList = () => {
                         </PermissionGuard>
                     </Flex>
 
-                    <SimpleGrid columns={{ base: 2, md: 4 }} spacing={{ base: 3, md: 6 }}>
-                        <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
+                    <SimpleGrid columns={{ base: 2, md: 2 }} spacing={{ base: 3, md: 6 }}>
+                        {/* <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
                             <Stat>
                                 <StatLabel color="whiteAlpha.800" fontSize={{ base: "xs", md: "sm" }}>
                                     Total Events
@@ -169,15 +169,15 @@ const EventList = () => {
                                     {stats.published} published
                                 </StatHelpText>
                             </Stat>
-                        </Card>
+                        </Card> */}
 
                         <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
                             <Stat>
                                 <StatLabel color="whiteAlpha.800" fontSize={{ base: "xs", md: "sm" }}>
-                                    Total Capacity
+                                    Registration
                                 </StatLabel>
                                 <StatNumber color="white" fontSize={{ base: "2xl", md: "3xl" }}>
-                                    {stats.totalCapacity}
+                                    {events.length}
                                 </StatNumber>
                                 <StatHelpText color="whiteAlpha.700" mb={0} fontSize={{ base: "xs", md: "sm" }}>
                                     <Icon as={FiUsers} verticalAlign="middle" mr={1} />
