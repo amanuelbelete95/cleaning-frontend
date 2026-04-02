@@ -238,7 +238,7 @@ const UserHome = () => {
   const featuredEvents = safeEvents.slice(0, 4);
 
   const totalRegistered = safeRegistrations.length;
-  const upcomingCount = safeEvents.filter(
+  const upcomingRegisteredEventCount = safeEvents.filter(
     (e: EventAPIResponse) =>
       registeredEventIds.includes(e.id) && new Date(e.event_date) > new Date()
   ).length;
@@ -331,8 +331,8 @@ const UserHome = () => {
               colorScheme="green"
             />
             <StatCard
-              label="Upcoming Events"
-              value={upcomingCount}
+              label="Upcoming Registered Events"
+              value={upcomingRegisteredEventCount}
               icon={FiClock}
               helpText="Events to attend"
               colorScheme="blue"

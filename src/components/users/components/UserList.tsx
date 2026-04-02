@@ -67,16 +67,38 @@ const UserList = () => {
 
   const columns = useMemo<ColumnDef<UserAPIResponse>[]>(() => [
     {
-      accessorKey: 'username',
-      header: 'User',
+      accessorKey: 'firstname',
+      header: 'First Name',
       cell: ({ row }) => (
         <HStack spacing={3}>
           <Avatar
             size="sm"
-            name={row.original.username}
+            name={row.original.firstname}
             bg={EventDesignSystem.primaryColor}
             color="white"
           />
+          <Text fontWeight="medium" color="gray.700">
+            {row.original.firstname}
+          </Text>
+        </HStack>
+      ),
+    },
+    {
+      accessorKey: 'lastname',
+      header: 'Last Name',
+      cell: ({ row }) => (
+        <HStack spacing={3}>
+          <Text fontWeight="medium" color="gray.700">
+            {row.original.lastname}
+          </Text>
+        </HStack>
+      ),
+    },
+    {
+      accessorKey: 'username',
+      header: 'User',
+      cell: ({ row }) => (
+        <HStack spacing={3}>
           <Text fontWeight="medium" color="gray.700">
             {row.original.username}
           </Text>
@@ -100,7 +122,7 @@ const UserList = () => {
       header: 'User ID',
       cell: ({ getValue }) => (
         <Text fontSize="sm" color="gray.500" fontFamily="mono">
-          {String(getValue()).slice(0, 8)}...
+          {String(getValue())}
         </Text>
       ),
     },
@@ -133,7 +155,7 @@ const UserList = () => {
   ], [handleView, handleEdit, handleDelete]);
 
   return (
-    <Box p={6} maxW="1400px" mx="auto" bg="gray.50" minHeight="100vh">
+    <Box p={6} bg="gray.50" minHeight="100vh">
       <Flex mb={6} align="center" direction={{ base: 'column', md: 'row' }} gap={4}>
         <Heading size="xl" color={EventDesignSystem.primaryColor} fontWeight="bold">
           Users Management
