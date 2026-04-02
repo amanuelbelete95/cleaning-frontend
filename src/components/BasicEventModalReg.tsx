@@ -29,14 +29,14 @@ import { RegisterEventResponse } from "./register-events/EventRegisterForm";
 import useFetchAllUsers from "./users/hooks/useFetchAllUsers";
 import { EventAPIResponse } from "./events/events.type";
 export interface CreateUpdateRegistration {
-    event_id: string;
-    user_id: string;
-    reason: string;
-    registered_on?: string;
-    position?: string;
+  event_id: string;
+  user_id: string;
+  reason: string;
+  registered_on?: string;
+  position?: string;
 }
 
-interface BasicEventModalRegProps{
+interface BasicEventModalRegProps {
   isOpen: boolean;
   title: string;
   actionName?: string;
@@ -63,54 +63,47 @@ export default function BasicEventModalRegModal(
     onClose,
   } = props;
 
-// When user is signed in by himself we need the id of the user and the event id selected
-const { user } = useAuth();
-const { data: selectedEvent } = useFetchEvent(event.id);
+  // When user is signed in by himself we need the id of the user and the event id selected
+  const { user } = useAuth();
+  const { data: selectedEvent } = useFetchEvent(event.id);
 
 
-// For the admin to select when registering the user for the event;
-const {data: users} = useFetchAllUsers();
+  // For the admin to select when registering the user for the event;
+  const { data: users } = useFetchAllUsers();
   const { toast } = createStandaloneToast();
   const { register, handleSubmit, formState: { errors } } = useForm({
-          resolver: yupResolver(validationSchema),
-      });
+    resolver: yupResolver(validationSchema),
+  });
 
   const { mutate, isPending } = useMutation
-  ({
-    mutationFn: onConfirm,
-    onError: (error : any) => {
-      const ErrorMessage = error.message ?? "There was an issue performing the action. If the problem persists, please contact support";
-      return toast({
-        status: "error",
-        title: "Server error!",
-        position: "top-right",
-        description: ErrorMessage,
-      });
-    },
-    onSuccess: (data) => {
-      if(data == undefined || data === null ) return;
-      toast({
-        status: "success",
-        title: "Event joined successfully!",
-        position: "top-right",
-        description: "You have successfully performed the event joining action.",
-      });
-      onClose();
-    },
-  });
+    ({
+      mutationFn: onConfirm,
+      onError: (error: any) => {
+        const ErrorMessage = error.message ?? "There was an issue performing the action. If the problem persists, please contact support";
+        toast({
+          status: "error",
+          title: "Server error!",
+          position: "top-right",
+          description: ErrorMessage,
+        });
+      },
+      onSuccess: () => {
+        onClose();
+      },
+    });
 
 
   const onSubmit: SubmitHandler<CreateUpdateRegistration> = (data) => {
 
-  const payload = user?.role === "admin"
-    ? {...data, event_id: selectedEvent?.id as string}
-    : {
+    const payload = user?.role === "admin"
+      ? { ...data, event_id: selectedEvent?.id as string }
+      : {
         ...data,
         event_id: selectedEvent?.id as string,
         user_id: user?.id as string,
       };
-  mutate(payload);
-};
+    mutate(payload);
+  };
 
 
   return (
@@ -122,11 +115,11 @@ const {data: users} = useFetchAllUsers();
         blockScrollOnMount={true}
         size={"xl"}
       >
-        <ModalOverlay  
-        bg='none'
-        backdropFilter='auto'
-        backdropInvert='20%'
-        backdropBlur='2px'/>
+        <ModalOverlay
+          bg='none'
+          backdropFilter='auto'
+          backdropInvert='20%'
+          backdropBlur='2px' />
         <ModalContent zIndex={1400} borderRadius={8} py={3}>
           <ModalHeader
             w="100%"
@@ -153,62 +146,62 @@ const {data: users} = useFetchAllUsers();
           <ModalCloseButton />
           <ModalBody display={"flex"} flexDirection={"column"} gap={2}>
             <form onSubmit={handleSubmit(onSubmit)}>
-            <PermissionGuard allowedRoles={["admin"]}>
-            <FormControl isInvalid={!!errors.user_id}>
-              <FormLabel
-                  fontWeight="semibold"
-                  fontSize="md"
-              >
-                  User
-              </FormLabel>
-              <Select placeholder="Select user" {...register("user_id")}>
-               {users?.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.username}
-                </option>
-                ))}
-              </Select>
-            <FormErrorMessage>{errors.user_id?.message}</FormErrorMessage>
-            </FormControl>
-            </PermissionGuard>   
-             <FormControl marginY={4} isInvalid={!!errors.reason}>
-            <FormLabel>Position</FormLabel>
-            <Input
-              {...register("position")}
-            />
-            </FormControl>
-            <FormControl marginY={4} isInvalid={!!errors.reason}>
-            <FormLabel>Registered On</FormLabel>
-            <Input
-              {...register("registered_on")}
-              type="date"
-            />
-            </FormControl>
-            <FormControl marginY={4} isInvalid={!!errors.reason}>
-            <FormLabel>Reason</FormLabel>
-            <Input
-              {...register("reason")}
-              placeholder="Please provide your reason for joining"
-            />
-            <FormErrorMessage>{errors.reason?.message}</FormErrorMessage>
-            </FormControl>
-           
-          <Flex mt={2} justifyContent={"flex-end"}>
-            <Button
-              mr={3}
-              bg={EventDesignSystem.primaryColor}
-              isDisabled={isPending}
-              isLoading={isPending}
-              spinnerPlacement="start"
-              loadingText="Processing"
-              type="submit"
-            >
-              Join Event
-            </Button>
-            <Button onClick={onClose}>Close</Button>
-            
-          </Flex>
-          </form>
+              <PermissionGuard allowedRoles={["admin"]}>
+                <FormControl isInvalid={!!errors.user_id}>
+                  <FormLabel
+                    fontWeight="semibold"
+                    fontSize="md"
+                  >
+                    User
+                  </FormLabel>
+                  <Select placeholder="Select user" {...register("user_id")}>
+                    {users?.map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.username}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormErrorMessage>{errors.user_id?.message}</FormErrorMessage>
+                </FormControl>
+              </PermissionGuard>
+              <FormControl marginY={4} isInvalid={!!errors.reason}>
+                <FormLabel>Position</FormLabel>
+                <Input
+                  {...register("position")}
+                />
+              </FormControl>
+              <FormControl marginY={4} isInvalid={!!errors.reason}>
+                <FormLabel>Registered On</FormLabel>
+                <Input
+                  {...register("registered_on")}
+                  type="date"
+                />
+              </FormControl>
+              <FormControl marginY={4} isInvalid={!!errors.reason}>
+                <FormLabel>Reason</FormLabel>
+                <Input
+                  {...register("reason")}
+                  placeholder="Please provide your reason for joining"
+                />
+                <FormErrorMessage>{errors.reason?.message}</FormErrorMessage>
+              </FormControl>
+
+              <Flex mt={2} justifyContent={"flex-end"}>
+                <Button
+                  mr={3}
+                  bg={EventDesignSystem.primaryColor}
+                  isDisabled={isPending}
+                  isLoading={isPending}
+                  spinnerPlacement="start"
+                  loadingText="Processing"
+                  type="submit"
+                >
+                  Register
+                </Button>
+                <Button onClick={onClose}>Close</Button>
+
+              </Flex>
+            </form>
           </ModalBody>
         </ModalContent>
       </Modal>
