@@ -28,10 +28,6 @@ export default function EventForm(props: EventFormProps) {
     title,
   } = props;
 
-
-
-
-
   const {
     register,
     handleSubmit,

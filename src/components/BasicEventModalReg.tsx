@@ -32,6 +32,8 @@ export interface CreateUpdateRegistration {
     event_id: string;
     user_id: string;
     reason: string;
+    registered_on?: string;
+    position?: string;
 }
 
 interface BasicEventModalRegProps{
@@ -47,6 +49,8 @@ const validationSchema = Yup.object().shape({
   reason: Yup.string().required("reason is required"),
   event_id: Yup.string().optional(),
   user_id: Yup.string().optional(),
+  registered_on: Yup.string().optional(),
+  position: Yup.string().optional()
 });
 
 export default function BasicEventModalRegModal(
@@ -63,7 +67,6 @@ export default function BasicEventModalRegModal(
 const { user } = useAuth();
 const { data: selectedEvent } = useFetchEvent(event.id);
 
-console.log("selected", selectedEvent)
 
 // For the admin to select when registering the user for the event;
 const {data: users} = useFetchAllUsers();
@@ -97,7 +100,7 @@ const {data: users} = useFetchAllUsers();
   });
 
 
-  const onSubmit: SubmitHandler<any> = (data) => {
+  const onSubmit: SubmitHandler<CreateUpdateRegistration> = (data) => {
 
   const payload = user?.role === "admin"
     ? {...data, event_id: selectedEvent?.id as string}
@@ -168,6 +171,13 @@ const {data: users} = useFetchAllUsers();
             <FormErrorMessage>{errors.user_id?.message}</FormErrorMessage>
             </FormControl>
             </PermissionGuard>   
+             <FormControl marginY={4} isInvalid={!!errors.reason}>
+            <FormLabel>Registered On</FormLabel>
+            <Input
+              {...register("registered_on")}
+              type="date"
+            />
+            </FormControl>
             <FormControl marginY={4} isInvalid={!!errors.reason}>
             <FormLabel>Reason</FormLabel>
             <Input
@@ -176,6 +186,7 @@ const {data: users} = useFetchAllUsers();
             />
             <FormErrorMessage>{errors.reason?.message}</FormErrorMessage>
             </FormControl>
+           
           <Flex mt={2} justifyContent={"flex-end"}>
             <Button
               mr={3}

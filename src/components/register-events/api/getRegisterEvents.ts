@@ -3,14 +3,16 @@ import { EventAPIResponse } from "../../events/events.type";
 import { UserAPIResponse } from "../../users/users.type";
 
 export interface RegisterEventApiResponse {
+  id: string;
+  user_id: string;
+  event_id: string;
+  registered_on?: string;
+  position?: string;
+  reason: string;
   name: string;
   description: string;
   registration_count: number;
   capacity: number;
-  id: string;
-  user_id: string;
-  event_id: string;
-  reason: string;
 }
 
 export const getRegisterEvents = async (): Promise<RegisterEventApiResponse[]> => {

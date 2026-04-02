@@ -6,6 +6,7 @@ import { getRegisterEvents, RegisterEventApiResponse } from "./api/getRegisterEv
 import { FiSearch } from "react-icons/fi";
 import { EventDesignSystem } from "../events/designSystem";
 import { useMemo, useState } from "react";
+import { formatDate } from "../../utils/dateUtility";
 
 const columnHelper = createColumnHelper<RegisterEventApiResponse>();
 const basicColumns = [
@@ -14,6 +15,24 @@ const basicColumns = [
     header: "Event Name",
     cell: (info: CellContext<RegisterEventApiResponse, string>) => {
       const value = info.getValue();
+      return <Text>{value}</Text>;
+    },
+  }),
+
+   columnHelper.accessor(row => row.position, {
+    id: "position",
+    header: "Position",
+    cell: (info: CellContext<RegisterEventApiResponse, string>) => {
+      const value = info.getValue();
+      return <Text>{value}</Text>;
+    },
+  }),
+
+   columnHelper.accessor(row => row.registered_on, {
+    id: "registered_on",
+    header: "Registered On",
+    cell: (info: CellContext<RegisterEventApiResponse, string>) => {
+      const value = formatDate(info.getValue())
       return <Text>{value}</Text>;
     },
   }),
