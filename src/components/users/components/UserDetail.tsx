@@ -1,6 +1,6 @@
 import { Avatar, Badge, Box, Button, Card, CardBody, CardHeader, Divider, Flex, Grid, Heading, HStack, Icon, SimpleGrid, Text, useToast, VStack } from '@chakra-ui/react';
 import { useCallback, useEffect, useState } from 'react';
-import { FiArrowLeft, FiCalendar, FiEdit2, FiMail, FiShield, FiTrash2, FiUser, FiClock } from 'react-icons/fi';
+import { FiArrowLeft, FiCalendar, FiUsers, FiEdit2, FiMail, FiShield, FiTrash2, FiUser, FiClock } from 'react-icons/fi';
 import { useLoaderData, useNavigate, useParams, LoaderFunction } from 'react-router-dom';
 import { EventDesignSystem } from '../../events/designSystem';
 import { getUser } from '../api/getUser';
@@ -120,7 +120,7 @@ const UserDetail = () => {
               bgGradient={`linear(to-r, ${EventDesignSystem.primaryColor}, ${EventDesignSystem.primaryLight})`}
               position="relative"
             />
-            <CardBody pt={2} pb={6} px={6}>
+            <CardBody pt={4} pb={6} px={6}>
               <Flex direction={{ base: 'column', sm: 'row' }} align="flex-end" mt="-60px" mb={4} gap={4}>
                 <Avatar
                   size="2xl"
@@ -154,7 +154,7 @@ const UserDetail = () => {
                     </HStack>
                   </Badge>
                 </VStack>
-                <HStack spacing={3}>
+                {/* <HStack spacing={3}>
                   <Button
                     leftIcon={<Icon as={FiEdit2} />}
                     colorScheme="yellow"
@@ -177,7 +177,7 @@ const UserDetail = () => {
                   >
                     Delete
                   </Button>
-                </HStack>
+                </HStack> */}
               </Flex>
             </CardBody>
           </Card>
@@ -227,11 +227,20 @@ const UserDetail = () => {
                   colorScheme="blue"
                   justifyContent="flex-start"
                   leftIcon={<Icon as={FiCalendar} />}
-                  onClick={() => navigate('/register-events')}
+                  onClick={() => navigate(`/register-events`)}
                 >
                   View Registrations
                 </Button>
-                <Button
+                 <Button
+                  variant="outline"
+                  colorScheme="green"
+                  justifyContent="flex-start"
+                  leftIcon={<Icon as={FiUsers} />}
+                  onClick={() => navigate(`/users`)}
+                >
+                  View All Users
+                </Button>
+                {/* <Button
                   variant="outline"
                   colorScheme="purple"
                   justifyContent="flex-start"
@@ -239,7 +248,7 @@ const UserDetail = () => {
                   onClick={() => toast({ title: 'Coming soon', status: 'info', duration: 2000 })}
                 >
                   Manage Permissions
-                </Button>
+                </Button> */}
               </VStack>
             </CardBody>
           </Card>

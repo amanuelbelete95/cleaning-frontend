@@ -34,6 +34,7 @@ import getAllEvents from "../api/getAllEvents";
 import { EventDesignSystem } from "../designSystem";
 import EventCard from "./EventCard";
 import { useAuth } from "../../auth/AuthProvider";
+import { EventAPIResponse } from "../events.type";
 
 const EventList = () => {
     const navigate = useNavigate();
@@ -41,32 +42,37 @@ const EventList = () => {
     const pageBg = useColorModeValue("gray.50", "gray.900");
     const cardBg = useColorModeValue("white", "gray.800");
     const { user } = useAuth();
+    const toast = useToast();
 
     const { data: events = [], refetch } = useQuery({
         queryKey: ["events"],
         queryFn: getAllEvents,
     });
 
-    const toast = useToast();
+    const recentEvents = events
+        .sort(
+            (a: EventAPIResponse, b: EventAPIResponse) =>
+                new Date(b.event_date).getTime() - new Date(a.event_date).getTime()
+        );
 
     const stats = useMemo(() => {
         const published = events.filter(e => e.event_status === "published").length;
         const totalCapacity = events.reduce((sum, e) => sum + e.capacity, 0);
-        const totalRegistered = events.reduce((sum, e) => sum + e.registration_count, 0);
+        const totalRegistered = events.filter(e => e.is_registered).length;
         const upcoming = events.filter(e => new Date(e.event_date) > new Date()).length;
         return { published, totalCapacity, totalRegistered, upcoming };
     }, [events]);
 
     const filteredEvents = useMemo(() => {
-        if (!searchTerm) return events;
+        if (!searchTerm) return recentEvents;
         const lower = searchTerm.toLowerCase();
-        return events.filter(
+        return recentEvents.filter(
             (event) =>
                 event.name.toLowerCase().includes(lower) ||
                 event.location.toLowerCase().includes(lower) ||
                 event.event_status?.toLowerCase().includes(lower)
         );
-    }, [events]);
+    }, [events, searchTerm]);
 
     const { mutate: deleteEventFn } = useMutation({
         mutationFn: (id: string) => onDelete(id),
@@ -96,7 +102,7 @@ const EventList = () => {
     const userEvents = filteredEvents.filter(event => event.event_status === "published");
 
     return (
-        <Box bg={pageBg} minH="100vh" w="100%">
+        <Box bg={"white"} minH="100vh" w="100%">
             <Box
                 bg={`linear-gradient(135deg, ${EventDesignSystem.primaryColor} 0%, #2c5282 100%)`}
                 px={{ base: 4, md: 8 }}
@@ -156,11 +162,11 @@ const EventList = () => {
                         </PermissionGuard>
                     </Flex>
 
-                    <SimpleGrid columns={{ base: 2, md: 4 }} spacing={{ base: 3, md: 6 }}>
+                    <SimpleGrid columns={{ base: 2, md: 2, lg: 3 }} spacing={{ base: 3, md: 6 }}>
                         <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
                             <Stat>
                                 <StatLabel color="whiteAlpha.800" fontSize={{ base: "xs", md: "sm" }}>
-                                    Total Events
+                                    Published Events
                                 </StatLabel>
                                 <StatNumber color="white" fontSize={{ base: "2xl", md: "3xl" }}>
                                     {events.length}
@@ -174,10 +180,10 @@ const EventList = () => {
                         <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
                             <Stat>
                                 <StatLabel color="whiteAlpha.800" fontSize={{ base: "xs", md: "sm" }}>
-                                    Total Capacity
+                                    Registration
                                 </StatLabel>
                                 <StatNumber color="white" fontSize={{ base: "2xl", md: "3xl" }}>
-                                    {stats.totalCapacity}
+                                    {events.length}
                                 </StatNumber>
                                 <StatHelpText color="whiteAlpha.700" mb={0} fontSize={{ base: "xs", md: "sm" }}>
                                     <Icon as={FiUsers} verticalAlign="middle" mr={1} />
@@ -201,19 +207,19 @@ const EventList = () => {
                             </Stat>
                         </Card>
                         <PermissionGuard allowedRoles={["admin"]}>
-                        <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
-                            <Stat>
-                                <StatLabel color="whiteAlpha.800" fontSize={{ base: "xs", md: "sm" }}>
-                                    Registration Rate
-                                </StatLabel>
-                                <StatNumber color="white" fontSize={{ base: "2xl", md: "3xl" }}>
-                                    {stats.totalCapacity > 0 ? Math.round((stats.totalRegistered / stats.totalCapacity) * 100) : 0}%
-                                </StatNumber>
-                                <StatHelpText color="whiteAlpha.700" mb={0} fontSize={{ base: "xs", md: "sm" }}>
-                                    Overall fill rate
-                                </StatHelpText>
-                            </Stat>
-                        </Card>
+                            <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
+                                <Stat>
+                                    <StatLabel color="whiteAlpha.800" fontSize={{ base: "xs", md: "sm" }}>
+                                        Registration Rate
+                                    </StatLabel>
+                                    <StatNumber color="white" fontSize={{ base: "2xl", md: "3xl" }}>
+                                        {stats.totalCapacity > 0 ? Math.round((stats.totalRegistered / stats.totalCapacity) * 100) : 0}%
+                                    </StatNumber>
+                                    <StatHelpText color="whiteAlpha.700" mb={0} fontSize={{ base: "xs", md: "sm" }}>
+                                        Overall fill rate
+                                    </StatHelpText>
+                                </Stat>
+                            </Card>
                         </PermissionGuard>
                     </SimpleGrid>
                 </VStack>

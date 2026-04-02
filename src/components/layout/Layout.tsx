@@ -10,10 +10,7 @@ const Layout = () => {
   return (
     <Flex display="flex" direction={"column"} minHeight={"100vh"}>
       <Header />
-      <Box className="content-container" flex={1} padding={'20px'} overflowY={"auto"}>
-        <Outlet />
-      </Box>
-
+      <Outlet />
       <Footer />
     </Flex>
   );

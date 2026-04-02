@@ -25,7 +25,7 @@ const NAV_ITEMS_ADMIN = [
   { path: "/", label: "Dashboard" },
   { path: "/events", label: "Events" },
   { path: "/users", label: "Users" },
-  { path: "/contact", label: "Contacts" }
+  // { path: "/contact", label: "Contacts" }
 ];
 
 const NAV_ITEMS_USER = [

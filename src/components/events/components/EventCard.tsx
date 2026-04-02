@@ -99,6 +99,8 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                 borderColor="transparent"
                 cursor="pointer"
                 h="100%"
+                display="flex"
+                flexDirection="column"
                 onClick={handleViewEvent}
                 bg={cardBg}
                 position="relative"
@@ -109,11 +111,11 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                     left={0}
                     right={0}
                     h="6px"
-                    bg={isEventExpired ? "red.400" : isEventFull ? "orange.400" : EventDesignSystem.primaryColor}
+                    bg={isEventExpired || isEventFull ? "red.100" : EventDesignSystem.primaryColor}
                 />
 
-                <CardBody p={{ base: 4, md: 6 }}>
-                    <VStack spacing={4} align="stretch">
+                <CardBody p={{ base: 4, md: 6 }} display="flex" flexDirection="column" flex={1}>
+                    <VStack spacing={4} align="stretch" flex={1} justify="space-between">
                         <Flex justify="space-between" align="flex-start">
                             <Heading
                                 size={{ base: "sm", md: "md" }}
@@ -141,29 +143,29 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
 
                         <HStack spacing={2} flexWrap="wrap">
                             {isEventExpired && (
-                                <Badge colorScheme="red" variant="solid" px={2} py={1} borderRadius="md" fontSize="xs">
+                                <Badge colorScheme="red" variant="subtle" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Expired
                                 </Badge>
                             )}
                             {isEventFull && !isEventExpired && (
-                                <Badge colorScheme="orange" variant="solid" px={2} py={1} borderRadius="md" fontSize="xs">
+                                <Badge colorScheme="red" variant="subtle" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Full
                                 </Badge>
                             )}
                             {!isEventExpired && !isEventFull && (
-                                <Badge colorScheme="green" variant="solid" px={2} py={1} borderRadius="md" fontSize="xs">
+                                <Badge colorScheme="green" variant="subtle" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Open
                                 </Badge>
                             )}
 
                             {!isRegistered && (
-                                <Badge colorScheme="blue" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
+                                <Badge colorScheme="yellow" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Not Registered
                                 </Badge>
                             )}
 
                             {isRegistered && (
-                                <Badge colorScheme="blue" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
+                                <Badge colorScheme="green" variant="outline" px={2} py={1} borderRadius="md" fontSize="xs">
                                     Registered
                                 </Badge>
                             )}
@@ -233,7 +235,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                             <Progress
                                 value={registrationPercentage}
                                 size="sm"
-                                colorScheme={isEventFull ? "red" : "green"}
+                                colorScheme={"green"}
                                 borderRadius="full"
                             />
                         </Box>
@@ -245,7 +247,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                 <Button
                                     size="sm"
                                     variant="outline"
-                                    colorScheme={EventDesignSystem.primaryColor}
+                                    colorScheme={"green"}
                                     leftIcon={<ViewIcon />}
                                     onClick={handleViewEvent}
                                     _hover={{ bg: "blue.50" }}
@@ -295,7 +297,15 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                     bg={EventDesignSystem.primaryColor}
                                     color="white"
 
-                                    display={ canRegister ? "inline-block" : "none"}
+                                    display={
+                                        canRegister &&
+                                            (
+                                                user?.role === "admin" ||
+                                                !isRegistered
+                                            )
+                                            ? "inline-block"
+                                            : "none"
+                                    }
                                     _hover={{ opacity: 0.9 }}
                                 >
                                     {user?.role === "admin" ? "Register User" : "Register"}
