@@ -162,11 +162,11 @@ const EventList = () => {
                         </PermissionGuard>
                     </Flex>
 
-                    <SimpleGrid columns={{ base: 2, md: 2 }} spacing={{ base: 3, md: 6 }}>
-                        {/* <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
+                    <SimpleGrid columns={{ base: 2, md: 2, lg: 3 }} spacing={{ base: 3, md: 6 }}>
+                        <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
                             <Stat>
                                 <StatLabel color="whiteAlpha.800" fontSize={{ base: "xs", md: "sm" }}>
-                                    Total Events
+                                    Published Events
                                 </StatLabel>
                                 <StatNumber color="white" fontSize={{ base: "2xl", md: "3xl" }}>
                                     {events.length}
@@ -175,7 +175,7 @@ const EventList = () => {
                                     {stats.published} published
                                 </StatHelpText>
                             </Stat>
-                        </Card> */}
+                        </Card>
 
                         <Card bg="whiteAlpha.200" backdropFilter="blur(10px)" borderRadius="xl" p={{ base: 3, md: 4 }}>
                             <Stat>
