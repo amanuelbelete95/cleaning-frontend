@@ -2,7 +2,7 @@ import { Box, Container, Stack, Text, Link, Icon, HStack, useColorModeValue } fr
 import { FiMail, FiPhone, FiMapPin, FiCalendar } from 'react-icons/fi';
 
 const Footer = function () {
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
+  const bgColor = useColorModeValue('gray.100', 'gray.900');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const textColor = useColorModeValue('gray.600', 'gray.400');
 

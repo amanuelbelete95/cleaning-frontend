@@ -101,21 +101,7 @@ export function ReactTable<T extends object>({
   }, [table.getPageCount(), table.getState().pagination.pageIndex]);
 
   return (
-    <Box overflowX="auto">
-      {showSearch && (
-        <Flex mb={4} justify="flex-end">
-          <InputGroup maxW="300px">
-            <InputLeftElement pointerEvents="none">
-              <SearchIcon color="gray.300" />
-            </InputLeftElement>
-            <Input
-              placeholder={searchPlaceholder}
-              value={globalFilter ?? ''}
-              onChange={(e) => setGlobalFilter(e.target.value)}
-            />
-          </InputGroup>
-        </Flex>
-      )}
+    <Box overflowX="auto" bg={"white"}>
 
       <Heading
         as="h5"

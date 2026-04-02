@@ -155,7 +155,7 @@ const UserList = () => {
   ], [handleView, handleEdit, handleDelete]);
 
   return (
-    <Box p={6} bg="gray.50" minHeight="auto">
+    <Box p={6} bg="gray.100" minHeight="auto">
       <Flex mb={6} align="center" direction={{ base: 'column', md: 'row' }} gap={4}>
         <Heading size="xl" color={EventDesignSystem.primaryColor} fontWeight="bold">
           Users Management
