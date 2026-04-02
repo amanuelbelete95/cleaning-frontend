@@ -64,16 +64,15 @@ const EventList = () => {
     }, [events]);
 
     const filteredEvents = useMemo(() => {
-        if (!searchTerm) return events;
+        if (!searchTerm) return recentEvents;
         const lower = searchTerm.toLowerCase();
-
         return recentEvents.filter(
             (event) =>
                 event.name.toLowerCase().includes(lower) ||
                 event.location.toLowerCase().includes(lower) ||
                 event.event_status?.toLowerCase().includes(lower)
         );
-    }, [events]);
+    }, [events, searchTerm]);
 
     const { mutate: deleteEventFn } = useMutation({
         mutationFn: (id: string) => onDelete(id),
