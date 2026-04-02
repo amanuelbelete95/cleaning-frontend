@@ -155,7 +155,7 @@ const UserList = () => {
   ], [handleView, handleEdit, handleDelete]);
 
   return (
-    <Box p={6} bg="gray.50" minHeight="100vh">
+    <Box p={6} bg="gray.50" minHeight="auto">
       <Flex mb={6} align="center" direction={{ base: 'column', md: 'row' }} gap={4}>
         <Heading size="xl" color={EventDesignSystem.primaryColor} fontWeight="bold">
           Users Management
@@ -179,7 +179,7 @@ const UserList = () => {
         </InputGroup>
       </Flex>
 
-      <Box bg="white" borderRadius="xl" shadow="md" overflow="hidden">
+      <Box p={4} bg="white" borderRadius="xl" shadow="md" overflow="hidden">
         <ReactTable
           columns={columns}
           data={filteredData}
@@ -191,10 +191,6 @@ const UserList = () => {
           tableCaption=""
         />
       </Box>
-
-      <Text mt={4} color="gray.500" fontSize="sm" textAlign="right">
-        Total: {filteredData.length} of {users.length} users
-      </Text>
     </Box>
   );
 };
