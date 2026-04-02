@@ -172,6 +172,12 @@ const {data: users} = useFetchAllUsers();
             </FormControl>
             </PermissionGuard>   
              <FormControl marginY={4} isInvalid={!!errors.reason}>
+            <FormLabel>Position</FormLabel>
+            <Input
+              {...register("position")}
+            />
+            </FormControl>
+            <FormControl marginY={4} isInvalid={!!errors.reason}>
             <FormLabel>Registered On</FormLabel>
             <Input
               {...register("registered_on")}

@@ -8,7 +8,7 @@ export const useRegistrationInfo = (event: EventAPIResponse) => {
         const isRegistered = event.is_registered;
 
         const canRegister =
-            !isEventExpired && !isEventFull && !isRegistered;
+            !isEventExpired && !isEventFull
 
         return {
             isEventFull,

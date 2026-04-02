@@ -297,7 +297,15 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                     bg={EventDesignSystem.primaryColor}
                                     color="white"
 
-                                    display={ canRegister ? "inline-block" : "none"}
+                                    display={
+                                        canRegister &&
+                                            (
+                                                user?.role === "admin" ||
+                                                !isRegistered
+                                            )
+                                            ? "inline-block"
+                                            : "none"
+                                    }
                                     _hover={{ opacity: 0.9 }}
                                 >
                                     {user?.role === "admin" ? "Register User" : "Register"}
