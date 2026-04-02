@@ -53,7 +53,7 @@ const Footer = function () {
         <Box borderTop="1px" borderColor={borderColor} mt={8} pt={6}>
           <Stack direction={{ base: 'column', md: 'row' }} justify="space-between" align="center" spacing={4}>
             <Text fontSize="sm" color={textColor}>
-              © {new Date().getFullYear()} Event Management System. All rights reserved.
+              © {new Date().getFullYear()} Event Management System. All rights reserved. Powered by EMS Tech
             </Text>
             <HStack spacing={2} color={textColor}>
               <Icon as={FiCalendar} />
