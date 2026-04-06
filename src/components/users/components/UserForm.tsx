@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm, FieldValues } from "react-hook-form";
 import * as yup from "yup";
 import { EventDesignSystem } from "../../events/designSystem";
+import { CreateUpdateUser } from "../schema";
 import { UserAPIResponse } from "../users.type";
 
 interface UserLogInResponse {
@@ -16,7 +17,7 @@ type FormKey = "login" | "register" | "edit" | "create";
 export interface UserFormProps<T extends FieldValues = FieldValues> {
   initialValues?: Partial<T>;
   schema: yup.ObjectSchema<T>;
-  onConfirm?: (data: T) => Promise<any>
+  onConfirm: (data: CreateUpdateUser) => Promise<any>
   onSuccess?: (data: Partial<UserLogInResponse>) => void;
   onError?: (error: any) => void;
   title: string;
@@ -54,7 +55,7 @@ export default function UserForm(props: UserFormProps) {
   });
 
   const onSubmit: SubmitHandler<Record<string, unknown>> = (data) => {
-    mutate(data);
+    mutate(data as unknown as CreateUpdateUser);
   };
 
   return (
