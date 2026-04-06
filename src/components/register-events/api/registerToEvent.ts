@@ -1,9 +1,9 @@
+import { CreateUpdateRegistration, EventRegistrationAPIResponse } from "../../BasicEventModalReg";
 import { BASE_URL } from "../../events/constants";
-import { CreateUpdateRegistration, RegisterEventResponse } from "../EventRegisterForm";
 
 export const registerToEvent = async (
     event: CreateUpdateRegistration
-): Promise<RegisterEventResponse> => {
+): Promise<EventRegistrationAPIResponse> => {
     const response = await fetch(`${BASE_URL}/api/event-register`, {
         method: "POST",
         headers: {

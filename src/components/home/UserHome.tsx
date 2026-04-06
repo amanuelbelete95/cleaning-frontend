@@ -40,7 +40,7 @@ import getAllEvents from "../events/api/getAllEvents";
 import { EventDesignSystem } from "../events/designSystem";
 import { EventAPIResponse } from "../events/events.type";
 import { useRegistrationInfo } from "../events/useRegistrationInfo";
-import { getRegisterEvents, RegisterEventApiResponse } from "../register-events/api/getRegisterEvents";
+import { getRegisterEvents, RegisterationListAPIResponse } from "../register-events/api/getRegisterEvents";
 
 const StatCard = ({
   label,
@@ -99,15 +99,7 @@ const FeaturedEventCard = ({
 }) => {
   const cardBg = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
-  const hoverBg = useColorModeValue("gray.50", "gray.700");
-
-  const daysUntil = Math.ceil(
-    (new Date(event.event_date).getTime() - new Date().getTime()) /
-    (1000 * 60 * 60 * 24)
-  );
-
-
-  const { canRegister, isEventFull, isEventExpired, isRegistered } = useRegistrationInfo(event);
+  const { canRegister, isRegistered } = useRegistrationInfo(event);
 
   return (
     <Card
@@ -218,7 +210,7 @@ const UserHome = () => {
     queryFn: getAllEvents,
   });
 
-  const { data: registrations = [] } = useQuery<RegisterEventApiResponse[]>({
+  const { data: registrations = [] } = useQuery<RegisterationListAPIResponse[]>({
     queryKey: ["register-events"],
     queryFn: getRegisterEvents,
   });

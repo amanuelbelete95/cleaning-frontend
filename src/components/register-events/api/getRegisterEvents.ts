@@ -2,7 +2,7 @@ import { BASE_URL } from "../../events/constants";
 import { EventAPIResponse } from "../../events/events.type";
 import { UserAPIResponse } from "../../users/users.type";
 
-export interface RegisterEventApiResponse {
+export interface RegisterationListAPIResponse {
   id: string;
   user_id: string;
   event_id: string;
@@ -15,7 +15,7 @@ export interface RegisterEventApiResponse {
   capacity: number;
 }
 
-export const getRegisterEvents = async (): Promise<RegisterEventApiResponse[]> => {
+export const getRegisterEvents = async (): Promise<RegisterationListAPIResponse[]> => {
   try {
     const token = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/api/event-register`, {

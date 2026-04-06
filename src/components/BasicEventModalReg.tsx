@@ -21,19 +21,27 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as Yup from "yup";
+import { InferType } from "yup";
 import { PermissionGuard } from "./PermissionGuard";
 import { useAuth } from "./auth/AuthProvider";
 import { EventDesignSystem } from "./events/designSystem";
-import useFetchEvent from "./events/hooks/useFetchEvent";
-import { RegisterEventResponse } from "./register-events/EventRegisterForm";
-import useFetchAllUsers from "./users/hooks/useFetchAllUsers";
 import { EventAPIResponse } from "./events/events.type";
-export interface CreateUpdateRegistration {
-  event_id: string;
-  user_id: string;
-  reason: string;
-  registered_on?: string;
-  position?: string;
+import useFetchEvent from "./events/hooks/useFetchEvent";
+import useFetchAllUsers from "./users/hooks/useFetchAllUsers";
+import { UserAPIResponse } from "./users/users.type";
+
+const validationSchema = Yup.object().shape({
+  reason: Yup.string().required("reason is required"),
+  event_id: Yup.string().optional(),
+  user_id: Yup.string().optional(),
+  registered_on: Yup.string().optional(),
+  position: Yup.string().optional()
+});
+
+export type CreateUpdateRegistration = InferType<typeof validationSchema>;
+export interface EventRegistrationAPIResponse extends CreateUpdateRegistration {
+    event: EventAPIResponse;
+    user: UserAPIResponse;
 }
 
 interface BasicEventModalRegProps {
@@ -44,14 +52,6 @@ interface BasicEventModalRegProps {
   onClose: () => void;
   onConfirm: (data: CreateUpdateRegistration) => any;
 }
-
-const validationSchema = Yup.object().shape({
-  reason: Yup.string().required("reason is required"),
-  event_id: Yup.string().optional(),
-  user_id: Yup.string().optional(),
-  registered_on: Yup.string().optional(),
-  position: Yup.string().optional()
-});
 
 export default function BasicEventModalRegModal(
   props: BasicEventModalRegProps
@@ -71,8 +71,8 @@ export default function BasicEventModalRegModal(
   // For the admin to select when registering the user for the event;
   const { data: users } = useFetchAllUsers();
   const { toast } = createStandaloneToast();
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(validationSchema),
+  const { register, handleSubmit, formState: { errors } } = useForm<CreateUpdateRegistration>({
+    resolver: yupResolver(validationSchema) as any,
   });
 
   const { mutate, isPending } = useMutation

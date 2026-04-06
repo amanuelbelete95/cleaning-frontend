@@ -242,7 +242,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
 
                         <Divider />
 
-                        <Wrap spacing={2} justify={{ base: "space-between", md: "flex-start" }}>
+                        <Wrap spacing={2} justify={{ base: "space-between", md: "space-between" }}>
                             <WrapItem>
                                 <Button
                                     size="sm"
@@ -279,7 +279,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                             onClick={handleDeleteEvent}
                                             _hover={{ bg: "red.50" }}
                                         >
-                                            Delete
+                                            Void
                                         </Button>
                                     </WrapItem>
                                 </>
@@ -308,7 +308,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                     }
                                     _hover={{ opacity: 0.9 }}
                                 >
-                                    {user?.role === "admin" ? "Register User" : "Register"}
+                                    Register
                                 </Button>
                             </WrapItem>
                         </Wrap>
