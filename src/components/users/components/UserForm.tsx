@@ -162,7 +162,7 @@ export default function UserForm(props: UserFormProps) {
                   />
                   <FormErrorMessage>{errors.confirmPassword?.message as string}</FormErrorMessage>
                 </FormControl>
-                 <FormControl isInvalid={!!errors.role}>
+                 {/* <FormControl isInvalid={!!errors.role}>
                   <FormLabel
                     fontWeight="semibold"
                     color={EventDesignSystem.form.label.color}
@@ -176,7 +176,7 @@ export default function UserForm(props: UserFormProps) {
                     <option value="user">User</option>
                   </Select>
                   <FormErrorMessage>{errors.role?.message as string}</FormErrorMessage>
-                </FormControl>
+                </FormControl> */}
               </>
             )
           }
