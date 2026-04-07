@@ -81,7 +81,7 @@ export default function UserForm(props: UserFormProps) {
       <form onSubmit={handleSubmit(onSubmit)}>
 
         <VStack spacing={4} align="stretch">
-          {["create", "register", "edit", ""].includes(formKey) && (
+          {["register", "edit"].includes(formKey) && (
             <>
               <FormControl isInvalid={!!errors.firstname}>
                 <FormLabel
@@ -113,38 +113,43 @@ export default function UserForm(props: UserFormProps) {
               </FormControl>
             </>
           )}
-          <FormControl isInvalid={!!errors.username}>
-            <FormLabel
-              fontWeight="semibold"
-              fontSize="md"
-            >
-              Username
-            </FormLabel>
-            <Input
-              {...register("username")}
-              type="text"
-              placeholder="Enter username"
-            />
-            <FormErrorMessage>{errors.username?.message as string}</FormErrorMessage>
-          </FormControl>
+          {["login", "register"].includes(formKey) &&
+            <>
+              <FormControl isInvalid={!!errors.username}>
+                <FormLabel
+                  fontWeight="semibold"
+                  fontSize="md"
+                >
+                  Username
+                </FormLabel>
+                <Input
+                  {...register("username")}
+                  type="text"
+                  placeholder="Enter username"
+                />
+                <FormErrorMessage>{errors.username?.message as string}</FormErrorMessage>
+              </FormControl>
 
-          <FormControl isInvalid={!!errors.password}>
-            <FormLabel
-              fontWeight="semibold"
-              color={EventDesignSystem.form.label.color}
-              fontSize="md"
-            >
-            Password
-            </FormLabel>
-            <Input
-              {...register("password")}
-              type="password"
-              placeholder="Enter password"
-            />
-            <FormErrorMessage>{errors.password?.message as string}</FormErrorMessage>
-          </FormControl>
+              <FormControl isInvalid={!!errors.password}>
+                <FormLabel
+                  fontWeight="semibold"
+                  color={EventDesignSystem.form.label.color}
+                  fontSize="md"
+                >
+                  Password
+                </FormLabel>
+                <Input
+                  {...register("password")}
+                  type="password"
+                  placeholder="Enter password"
+                />
+                <FormErrorMessage>{errors.password?.message as string}</FormErrorMessage>
+              </FormControl>
+            </>
+          }
           {
-            ["create", "register", "edit"].includes(formKey) && (
+            ["register"].includes(formKey) &&
+            (
               <>
                 <FormControl isInvalid={!!errors.confirmPassword
                 }>
@@ -162,24 +167,27 @@ export default function UserForm(props: UserFormProps) {
                   />
                   <FormErrorMessage>{errors.confirmPassword?.message as string}</FormErrorMessage>
                 </FormControl>
-                 {/* <FormControl isInvalid={!!errors.role}>
-                  <FormLabel
-                    fontWeight="semibold"
-                    color={EventDesignSystem.form.label.color}
-                    fontSize="md"
-                  >
-                    Role
-                  </FormLabel>
-                  <Select {...register("role")} placeholder="Select role">
-                    <option value="admin">Admin</option>
-                    <option value="employee">Employee</option>
-                    <option value="user">User</option>
-                  </Select>
-                  <FormErrorMessage>{errors.role?.message as string}</FormErrorMessage>
-                </FormControl> */}
               </>
             )
           }
+          {
+            ["edit"].includes(formKey) &&
+            (<FormControl isInvalid={!!errors.role}>
+              <FormLabel
+                fontWeight="semibold"
+                color={EventDesignSystem.form.label.color}
+                fontSize="md"
+              >
+                Role
+              </FormLabel>
+              <Select {...register("role")} placeholder="Select role">
+                <option value="admin">Admin</option>
+                <option value="employee">Employee</option>
+                <option value="user">User</option>
+              </Select>
+              <FormErrorMessage>{errors.role?.message as string}</FormErrorMessage>
+            </FormControl>
+            )}
           <Button
             type="submit"
             bg={EventDesignSystem.primaryColor}

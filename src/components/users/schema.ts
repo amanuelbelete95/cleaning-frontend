@@ -18,6 +18,12 @@ export const registerSchema = yup.object({
   
 });
 
+export const updateUserSchema =  yup.object({
+  firstname: yup.string().optional(),
+  lastname: yup.string().optional(),
+  role: yup.string().optional(),
+})
+
 export const userSchema = yup.object({
   id: yup.string().optional(),
   username: yup.string().required("Username is required"),
