@@ -26,7 +26,7 @@
     "xlsx": "^0.18.5",
     "yup": "^1.7.1"
   },
-  "homepage": "https://amanuelbelete95.github.io/cleaning",
+  "homepage": "https://amanuelbelete95.github.io/events",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

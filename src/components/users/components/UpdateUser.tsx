@@ -35,7 +35,7 @@ function UpdateUserPage() {
                         isClosable: true,
 
                     });
-                    navigate("/login")
+                    navigate("/users")
                 }}
                 onError={(error: { message: string }) => toast({
                     title: "Error Updating User",

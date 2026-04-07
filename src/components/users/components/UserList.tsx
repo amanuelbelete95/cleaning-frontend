@@ -42,8 +42,7 @@ const UserList = () => {
     const term = searchTerm.toLowerCase();
     return users.filter(user =>
       user.username.toLowerCase().includes(term) ||
-      user.role?.toLowerCase().includes(term) ||
-      user.id.toLowerCase().includes(term)
+      user.role?.toLowerCase().includes(term)
     );
   }, [users, searchTerm]);
 

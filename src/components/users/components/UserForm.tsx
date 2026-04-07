@@ -61,6 +61,7 @@ export default function UserForm(props: UserFormProps) {
   return (
     <Box
       maxW="600px"
+      w={"100%"}
       mx="auto"
       p={8}
       borderRadius={EventDesignSystem.card.borderRadius}
