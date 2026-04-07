@@ -115,7 +115,7 @@ const RegisterEvents = () => {
     );
   }, [registerEvents, searchTerm]);
   return (
-    <Box p={6} minHeight="100vh">
+    <Box p={6} minHeight="100vh" bg="gray.100">
       <Flex mb={6} align="center" direction={{ base: 'column', md: 'row' }} gap={4}>
         <Heading size="xl" color={EventDesignSystem.primaryColor} fontWeight="bold">
           Registered Events
@@ -142,7 +142,7 @@ const RegisterEvents = () => {
         <ReactTable
           columns={basicColumns}
           data={filteredData}
-          tableCaption="Registered Events" />
+         />
       </Box>
     </Box>
   )
