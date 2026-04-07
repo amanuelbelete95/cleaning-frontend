@@ -5,6 +5,7 @@ import { UserAPIResponse } from "../../users/users.type";
 export interface RegisterationListAPIResponse {
   id: string;
   user_id: string;
+  status: string;
   event_id: string;
   registered_on?: string;
   position?: string;
