@@ -10,12 +10,12 @@ export const logInSchema = yup.object({
 
 export const registerSchema = yup.object({
   id: yup.string().optional(),
+  firstname: yup.string().optional(),
+  lastname: yup.string().optional(),  
   username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),
-  confirmPassword: yup.string().optional(),
-  firstname: yup.string().optional(),
-  lastname: yup.string().optional(),
-  role: yup.mixed().oneOf(["admin", "employee", "user"]).required("Role is required"),    
+  confirmPassword: yup.string().required("Confirm Password"),
+  
 });
 
 export const userSchema = yup.object({
