@@ -1,6 +1,6 @@
-import { Avatar, Badge, Box, Button, Flex, Heading, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItem, MenuList, Spacer, Text, useToast } from '@chakra-ui/react';
+import { Avatar, Badge, Box, Button, Flex, Heading, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Spacer, Text, Tooltip, useToast } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
-import { FiSearch, FiMoreVertical, FiEye, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { FiSearch, FiEye, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { LoaderFunction, useLoaderData } from 'react-router-dom';
@@ -129,26 +129,38 @@ const UserList = () => {
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => (
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            icon={<Icon as={FiMoreVertical} />}
-            variant="ghost"
-            size="sm"
-            aria-label="Actions"
-          />
-          <MenuList>
-            <MenuItem icon={<Icon as={FiEye} boxSize={4} />} onClick={() => handleView(row.original.id)}>
-              View Details
-            </MenuItem>
-            <MenuItem icon={<Icon as={FiEdit2} boxSize={4} />} onClick={() => handleEdit(row.original.id)}>
-              Edit User
-            </MenuItem>
-            <MenuItem icon={<Icon as={FiTrash2} boxSize={4} />} color="red.500" onClick={() => handleDelete(row.original.id)}>
-              Delete User
-            </MenuItem>
-          </MenuList>
-        </Menu>
+        <HStack spacing={2}>
+          <Tooltip label="View Details" hasArrow>
+            <IconButton
+              aria-label="View user"
+              icon={<Icon as={FiEye} />}
+              size="sm"
+              variant="ghost"
+              colorScheme="green"
+              onClick={() => handleView(row.original.id)}
+            />
+          </Tooltip>
+          <Tooltip label="Edit User" hasArrow>
+            <IconButton
+              aria-label="Edit user"
+              icon={<Icon as={FiEdit2} />}
+              size="sm"
+              variant="ghost"
+              colorScheme="gray"
+              onClick={() => handleEdit(row.original.id)}
+            />
+          </Tooltip>
+          <Tooltip label="Delete User" hasArrow>
+            <IconButton
+              aria-label="Delete user"
+              icon={<Icon as={FiTrash2} />}
+              size="sm"
+              variant="ghost"
+              colorScheme="yellow"
+              onClick={() => handleDelete(row.original.id)}
+            />
+          </Tooltip>
+        </HStack>
       ),
     },
   ], [handleView, handleEdit, handleDelete]);
