@@ -1,5 +1,5 @@
 
-import { BASE_URL } from "../constants";
+import { BASE_URL } from "../../events/constants";
 import { UserAPIResponse } from "../users.type";
 
 export const getAllUsers = async (): Promise<UserAPIResponse[]> => {
