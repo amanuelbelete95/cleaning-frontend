@@ -6,6 +6,7 @@ import EventDetail, { loader as eventDetailLoader } from "./components/events/Ev
 import EventEdit from "./components/events/EventEdit";
 import EventNew from "./components/events/EventNew";
 import EventList from "./components/events/components/EventList";
+import EventLayout from "./components/events/EventLayout";
 import RoleBasedHome from "./components/home/RoleBasedHome";
 import Layout from "./components/layout/Layout";
 import NoMatch from "./components/nomatch/NoMatch";
@@ -39,6 +40,7 @@ export const router = createBrowserRouter([
       { index: true, element: <RoleBasedHome /> },
       {
         path: ROUTE_PATHS.EVENTS,
+        element: <EventLayout />,
         children: [
           { index: true, element: <EventList /> },
           { path: "new", element: <EventNew /> },
