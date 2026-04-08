@@ -1,4 +1,5 @@
 import { Avatar, Box, Button, Card, CardBody, Flex, Heading, HStack, Icon, Text, VStack, useColorModeValue, createStandaloneToast } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { FiArrowLeft, FiUser, FiEdit2 } from 'react-icons/fi';
 import { LoaderFunction, useLoaderData, useNavigate } from 'react-router-dom';
 import { getUser } from '../api/getUser';
@@ -19,6 +20,7 @@ export const loader: LoaderFunction = async ({ params }): Promise<UserAPIRespons
 function UpdateUserPage() {
     const user = useLoaderData() as UserAPIResponse;
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const cardBg = useColorModeValue("white", "gray.700");
 
     const handleBack = () => navigate("/users");
@@ -94,6 +96,7 @@ function UpdateUserPage() {
                                     duration: 3000,
                                     isClosable: true,
                                 });
+                                queryClient.invalidateQueries({ queryKey: ['users'] });
                                 navigate("/users")
                             }}
                             onError={(error: { message: string }) => toast({

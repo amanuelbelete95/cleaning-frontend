@@ -1,22 +1,13 @@
 import { Avatar, Badge, Box, Button, Flex, Heading, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Spacer, Text, Tooltip, useToast } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 import { FiSearch, FiEye, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
-import { LoaderFunction, useLoaderData } from 'react-router-dom';
 import { EventDesignSystem } from '../../events/designSystem';
 import { getAllUsers } from '../api/getAllUsers';
 import { UserAPIResponse } from '../users.type';
 import ReactTable from '../../ReactTable';
-
-export const loader: LoaderFunction = async () => {
-  try {
-    const users = await getAllUsers();
-    return users;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
 
 const getRoleBadgeColor = (role: string | null) => {
   switch (role?.toLowerCase()) {
@@ -32,10 +23,14 @@ const getRoleBadgeColor = (role: string | null) => {
 };
 
 const UserList = () => {
-  const users = useLoaderData() as UserAPIResponse[];
   const navigate = useNavigate();
   const toast = useToast();
   const [searchTerm, setSearchTerm] = useState('');
+
+  const { data: users = [] } = useQuery({
+    queryKey: ['users'],
+    queryFn: getAllUsers,
+  });
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return users;
