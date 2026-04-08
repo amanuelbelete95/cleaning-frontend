@@ -13,6 +13,7 @@ import { EventAPIResponse } from "../events.type";
 import { useRegistrationInfo } from "../useRegistrationInfo";
 import { PermissionGuard } from "../../PermissionGuard";
 import { tuple } from "yup";
+import ConformationModal from "../../ConformationModal";
 
 
 interface EventCardProps {
@@ -38,17 +39,23 @@ const getStatusColor = (status: string) => {
 };
 
 const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen: isOpenRegistrationModal, onOpen: onOpenRegistrationModal, onClose: onCloseRegistrationModal } = useDisclosure();
+    const { isOpen: isOpenVoidModal, onOpen: onOpenVoidModal, onClose: onCloseVoidModal } = useDisclosure();
     const { user } = useAuth();
     const toast = useToast();
     const navigate = useNavigate();
+
+    const handleVoidClick = (e: React.MouseEvent) => {
+        e?.stopPropagation()
+        onOpenVoidModal();
+    }
 
     const cardBg = useColorModeValue("white", "gray.800");
     const hoverBg = useColorModeValue("gray.50", "gray.700");
 
     const handleViewEvent = useCallback(() => navigate(`/events/${event.id}/detail`), [event.id, navigate]);
     const handleUpdateEvent = useCallback((e: React.MouseEvent) => { e.stopPropagation(); navigate(`/events/${event.id}/edit`); }, [event.id, navigate]);
-    const handleDeleteEvent = useCallback((e: React.MouseEvent) => { e.stopPropagation(); onDeleteEvent(event.id); }, [event.id, onDeleteEvent]);
+    const handleDeleteEvent = useCallback((e?: React.MouseEvent) => { e?.stopPropagation(); onDeleteEvent(event.id); }, [event.id, onDeleteEvent]);
 
     const { mutate: registerEventFn } = useMutation({
         mutationFn: async (data: any) => {
@@ -79,13 +86,26 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
     const registrationPercentage = Math.round((event.registration_count / event.capacity) * 100);
     return (
         <>
+            {/* Registration Modal */}
             <BasicEventModalRegModal
-                isOpen={isOpen}
+                isOpen={isOpenRegistrationModal}
                 title="Register for Event"
                 onConfirm={registerEventFn}
                 event={event}
-                onClose={onClose}
+                onClose={onCloseRegistrationModal}
             />
+
+            {/* Void Modal */}
+            <ConformationModal
+                isOpen={isOpenVoidModal}
+                onClose={onCloseVoidModal}
+                title={"event"}
+                message={"This action will remove the event from the List!"}
+                posativeAction={"Proceed"}
+                closeAction={"Undo"}
+                action={"remove"}
+                conformationAction={handleDeleteEvent} />
+
             <Card
                 borderRadius="xl"
                 overflow="hidden"
@@ -276,7 +296,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                             variant="outline"
                                             colorScheme="red"
                                             leftIcon={<FiTrash2 />}
-                                            onClick={handleDeleteEvent}
+                                            onClick={handleVoidClick}
                                             _hover={{ bg: "red.50" }}
                                         >
                                             Void
@@ -292,7 +312,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                     leftIcon={<ExternalLinkIcon />}
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        onOpen();
+                                        onOpenRegistrationModal();
                                     }}
                                     bg={EventDesignSystem.primaryColor}
                                     color="white"
