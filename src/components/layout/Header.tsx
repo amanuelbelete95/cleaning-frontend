@@ -39,7 +39,6 @@ const NAV_ITEMS_USER = [
   { path: "/", label: "Home" },
   { path: "/events", label: "Browse Events" },
   { path: "/register-events", label: "My Registrations" },
-  { path: "/contact", label: "Contact" }
 ];
 
 function Header() {

@@ -1,49 +1,46 @@
 import {
-  Box,
-  Heading,
-  Text,
-  Container,
-  SimpleGrid,
-  VStack,
-  HStack,
-  Button,
-  useColorModeValue,
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  Icon,
-  Flex,
   Avatar,
   Badge,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Progress,
-  Divider,
+  Box,
+  Button,
   Card,
   CardBody,
+  Container,
+  Divider,
+  Flex,
+  Heading,
+  HStack,
+  Icon,
+  SimpleGrid,
+  Stat,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
+  VStack
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import {
+  FiActivity,
+  FiCalendar,
+  FiCheckCircle,
+  FiGlobe,
+  FiMapPin,
+  FiPlus,
+  FiUsers
+} from "react-icons/fi";
+import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
 import getAllEvents from "../events/api/getAllEvents";
 import { EventDesignSystem } from "../events/designSystem";
 import { EventAPIResponse } from "../events/events.type";
-import {
-  FiCalendar,
-  FiUsers,
-  FiCheckCircle,
-  FiTrendingUp,
-  FiPlus,
-  FiActivity,
-  FiClock,
-  FiMapPin,
-  FiGlobe,
-} from "react-icons/fi";
 
 const StatCard = ({
   label,
@@ -152,8 +149,8 @@ const AdminHome = () => {
   };
 
   return (
-    <Box bg={pageBg} minH="calc(100vh - 80px)" py={8}>
-      <Container maxW="7xl">
+    <Box bg={pageBg} minH="calc(100vh - 80px)" py={8} px={4}>
+      <Container maxW="7xl" w={"100%"}>
         <VStack spacing={8} align="stretch">
           {/* Welcome Section */}
           <Box
@@ -194,7 +191,7 @@ const AdminHome = () => {
                   bg={EventDesignSystem.primaryColor}
                   color="white"
                   _hover={{ bg: EventDesignSystem.primaryDark }}
-                  size="lg"
+                  size="md"
                 >
                   Create Event
                 </Button>
@@ -205,7 +202,7 @@ const AdminHome = () => {
                   variant="outline"
                   borderColor={EventDesignSystem.primaryColor}
                   color={EventDesignSystem.primaryColor}
-                  size="lg"
+                  size="md"
                 >
                   Manage Users
                 </Button>

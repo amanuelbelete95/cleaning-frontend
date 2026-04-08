@@ -8,73 +8,99 @@ import {
   Text,
   Card,
   CardBody,
-  useColorModeValue
+  VStack,
+  Icon,
+  useColorModeValue,
+  Flex
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { EventDesignSystem } from "../../events/designSystem";
+import { FiCalendar } from "react-icons/fi";
 
 function UserLogInRegisterLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const activeTabIndex = location.pathname === "/login/new" ? 1 : 0;
 
   const bgPage = useColorModeValue("gray.50", "gray.900");
   const cardBg = useColorModeValue("white", "gray.800");
 
-  return (
-    <Box minH="100vh" bg={bgPage} py={20} w={"100%"}>
-      <Heading
-        size="xl"
-        mb={2}
-        textAlign="center"
-        color={EventDesignSystem.primaryColor}
-        fontWeight="bold"
-      >
-        EMS
-      </Heading>
-      <Container maxW="md">
-        <Card bg={cardBg} boxShadow="xl" borderRadius="xl">
-          <CardBody p={8}>
-            <Box textAlign="center" mb={6}>
-              <Heading size="lg" mb={2}>
-                Welcome
-              </Heading>
-              <Text fontSize="sm" color="gray.500">
-                Access your account or create a new one
-              </Text>
-            </Box>
-            <Tabs
-              index={activeTabIndex}
-              variant="soft-rounded"
-              colorScheme="blue"
-              mb={6}
-              isFitted
-            >
-              <TabList>
-                <Tab onClick={() => {
-                  navigate("/login")
-                  setActiveTabIndex(0)
-                }}
-                >
-                  Login
-                </Tab>
-                <Tab onClick={() => {
-                  navigate("/login/new")
-                  setActiveTabIndex(1)
-                }}>
-                  Register
-                </Tab>
-              </TabList>
-            </Tabs>
+  useEffect(() => {
+    navigate(activeTabIndex === 0 ? "/login" : "/login/new", { replace: true })
+  }, [])
 
-            {/* Forms Render Here */}
-            <Outlet />
+  return (
+    <Flex minH="100vh" bg={bgPage} py={{ base: 8, md: 20 }} w={"100%"} align="center" justify="center">
+      <VStack spacing={8} w="full" maxW="md">
+        <VStack spacing={2}>
+          <Flex
+            align="center"
+            gap={2}
+            p={3}
+            bg={`${EventDesignSystem.primaryColor}15`}
+            borderRadius="xl"
+          >
+            <Icon as={FiCalendar} boxSize={8} color={EventDesignSystem.primaryColor} />
+            <Heading
+              size="lg"
+              color={EventDesignSystem.primaryColor}
+              fontWeight="bold"
+            >
+              EMS
+            </Heading>
+          </Flex>
+          <Text color="gray.500" fontSize="sm" textAlign="center">
+            Event Management System
+          </Text>
+        </VStack>
+
+        <Card bg={cardBg} boxShadow="xl" borderRadius="2xl" w="full">
+          <CardBody p={{ base: 6, md: 8 }}>
+            <VStack spacing={6}>
+              <Box textAlign="center" w="full">
+                <Heading size="md" mb={1}>
+                  Welcome back
+                </Heading>
+                <Text fontSize="sm" color="gray.500">
+                  {activeTabIndex === 0 ? "Sign in to your account" : "Create a new account"}
+                </Text>
+              </Box>
+
+              <Tabs
+                index={activeTabIndex}
+                variant="soft-rounded"
+                colorScheme="blue"
+                w="full"
+                isFitted
+              >
+                <TabList bg={useColorModeValue("gray.100", "gray.700")} borderRadius="lg" p={1}>
+                  <Tab
+                    borderRadius="md"
+                    onClick={() => navigate("/login")}
+                    _selected={{ bg: "white", color: "blue.600", boxShadow: "sm" }}
+                  >
+                    Sign In
+                  </Tab>
+                  <Tab
+                    borderRadius="md"
+                    onClick={() => navigate("/login/new")}
+                    _selected={{ bg: "white", color: "blue.600", boxShadow: "sm" }}
+                  >
+                    Register
+                  </Tab>
+                </TabList>
+              </Tabs>
+
+              <Box w="full">
+                <Outlet />
+              </Box>
+            </VStack>
           </CardBody>
         </Card>
-      </Container>
-    </Box >
+      </VStack>
+    </Flex>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Icon, Input, InputGroup, InputLeftElement, Spacer, Text } from "@chakra-ui/react";
+import { Badge, Box, Flex, Heading, Icon, Input, InputGroup, InputLeftElement, Spacer, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { CellContext, createColumnHelper } from "@tanstack/react-table";
 import ReactTable from "../ReactTable";
@@ -7,6 +7,18 @@ import { FiSearch } from "react-icons/fi";
 import { EventDesignSystem } from "../events/designSystem";
 import { useMemo, useState } from "react";
 import { formatDate } from "../../utils/dateUtility";
+
+
+const getColorByStatus = (stat: "upcoming" | "completed") => {
+  switch (stat?.toLowerCase()) {
+    case 'upcoming':
+      return 'green';
+    case 'completed':
+      return 'yellow';
+    default:
+      return 'gray';
+  }
+}
 
 const columnHelper = createColumnHelper<RegisterationListAPIResponse>();
 const basicColumns = [
@@ -19,7 +31,20 @@ const basicColumns = [
     },
   }),
 
-   columnHelper.accessor(row => row.position, {
+  columnHelper.accessor(row => row.status, {
+    id: "status",
+    header: "Status",
+    cell: (info: CellContext<RegisterationListAPIResponse, string>) => {
+      const stat = info.getValue() as "upcoming" || "completed";
+      return (
+        <Badge colorScheme={getColorByStatus(stat)} variant="outline" px={2} py={1} borderRadius="md">
+          {stat}
+        </Badge>
+      );
+    },
+  }),
+
+  columnHelper.accessor(row => row.position, {
     id: "position",
     header: "Position",
     cell: (info: CellContext<RegisterationListAPIResponse, string>) => {
@@ -28,7 +53,7 @@ const basicColumns = [
     },
   }),
 
-   columnHelper.accessor(row => row.registered_on, {
+  columnHelper.accessor(row => row.registered_on, {
     id: "registered_on",
     header: "Registered On",
     cell: (info: CellContext<RegisterationListAPIResponse, string>) => {
@@ -90,8 +115,8 @@ const RegisterEvents = () => {
     );
   }, [registerEvents, searchTerm]);
   return (
-    <Box p={6} minHeight="100vh">
-      <Flex  mb={6} align="center" direction={{ base: 'column', md: 'row' }} gap={4}>
+    <Box p={6} minHeight="100vh" bg="gray.100">
+      <Flex mb={6} align="center" direction={{ base: 'column', md: 'row' }} gap={4}>
         <Heading size="xl" color={EventDesignSystem.primaryColor} fontWeight="bold">
           Registered Events
         </Heading>
@@ -117,7 +142,7 @@ const RegisterEvents = () => {
         <ReactTable
           columns={basicColumns}
           data={filteredData}
-          tableCaption="Registered Events" />
+         />
       </Box>
     </Box>
   )

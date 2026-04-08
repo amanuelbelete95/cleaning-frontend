@@ -235,22 +235,6 @@ const UserHome = () => {
       registeredEventIds.includes(e.id) && new Date(e.event_date) > new Date()
   ).length;
 
-  const getStatusBadge = (status: string) => {
-    const colors: Record<string, { bg: string; color: string }> = {
-      completed: { bg: "green.100", color: "green.700" },
-      in_progress: { bg: "blue.100", color: "blue.700" },
-      todo: { bg: "yellow.100", color: "yellow.700" },
-      postponed: { bg: "orange.100", color: "orange.700" },
-      cancelled: { bg: "red.100", color: "red.700" },
-    };
-    const style = colors[status] || { bg: "gray.100", color: "gray.700" };
-    return (
-      <Badge bg={style.bg} color={style.color} px={2} py={1} borderRadius="md">
-        {status.replace("_", " ")}
-      </Badge>
-    );
-  };
-
   return (
     <Box bg={pageBg} minH="calc(100vh - 80px)" py={8}>
       <Container maxW="7xl">
@@ -350,7 +334,7 @@ const UserHome = () => {
             <Heading size="md" color="gray.700" mb={4}>
               Quick Actions
             </Heading>
-            <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4}>
+            <SimpleGrid columns={{ base: 2, md: 2}} spacing={4}>
               <Button
                 as={RouterLink}
                 to="/events"
@@ -397,7 +381,7 @@ const UserHome = () => {
                   </Text>
                 </VStack>
               </Button>
-              <Button
+              {/* <Button
                 as={RouterLink}
                 to="/contact"
                 h="auto"
@@ -419,7 +403,7 @@ const UserHome = () => {
                     Contact Support
                   </Text>
                 </VStack>
-              </Button>
+              </Button> */}
             </SimpleGrid>
           </Box>
 
