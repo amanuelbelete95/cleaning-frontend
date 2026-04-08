@@ -99,10 +99,9 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
             <ConformationModal
                 isOpen={isOpenVoidModal}
                 onClose={onCloseVoidModal}
-                title={"event"}
-                message={"This action will remove the event from the List!"}
+                message={`This action will remove the ${event.name} event from the List!`}
                 posativeAction={"Proceed"}
-                closeAction={"Undo"}
+                closeAction={"Go Back"}
                 action={"remove"}
                 conformationAction={handleDeleteEvent} />
 

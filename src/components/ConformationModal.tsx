@@ -5,7 +5,6 @@ import { EventDesignSystem } from "./events/designSystem";
 interface ConformationModalProps {
     isOpen: boolean;
     onClose: () => void;
-    title: string;
     message: string;
     posativeAction: string;
     closeAction: string;
@@ -14,7 +13,7 @@ interface ConformationModalProps {
 }
 
 const ConformationModal = (props: ConformationModalProps) => {
-    const { isOpen = false, onClose, action, title, posativeAction, closeAction, conformationAction, message } = props;
+    const { isOpen = false, onClose, action, posativeAction, closeAction, conformationAction, message } = props;
 
     const handleConfirm = () => {
         conformationAction();
@@ -52,10 +51,6 @@ const ConformationModal = (props: ConformationModalProps) => {
                     <Heading size="md" color="gray.700" mb={2}>
                         Confirm {action.charAt(0).toUpperCase() + action.slice(1)}
                     </Heading>
-
-                    <Text color="gray.500" fontSize="sm" mb={1}>
-                        Are you sure you want to {action} this {title}?
-                    </Text>
 
                     <Text color="gray.400" fontSize="xs" mb={6}>
                         {message}
