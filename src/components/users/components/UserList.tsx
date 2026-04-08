@@ -50,6 +50,7 @@ const UserList = () => {
   const { mutate: deleteUserFn } = useMutation({
     mutationFn: (id: string) => onDeleteUser(id),
     onSuccess: () => {
+
       queryClient.invalidateQueries({ queryKey: ['users'] });
       toast({
         title: "User deleted",
@@ -232,7 +233,6 @@ const UserList = () => {
       <ConformationModal
         isOpen={isOpen}
         onClose={onClose}
-        title="user"
         message={`This action will permanently remove ${selectedUserName} from the system.`}
         posativeAction={"Delete"}
         closeAction={"Cancel"}
