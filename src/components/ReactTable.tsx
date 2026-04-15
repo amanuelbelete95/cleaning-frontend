@@ -1,40 +1,34 @@
-import {
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  flexRender,
-  ColumnDef,
-  SortingState,
-  PaginationState,
-} from '@tanstack/react-table';
-import { useState, useMemo } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Table as ChakraTable,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Checkbox,
-  Text,
-  HStack,
   Button,
-  Select,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Flex,
-  IconButton,
   chakra,
-  Table,
+  Flex,
   Heading,
-  Skeleton,
-  SkeletonCircle,
+  HStack,
+  IconButton,
+  Select,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr
 } from '@chakra-ui/react';
-import { SearchIcon, ChevronLeftIcon, ChevronRightIcon, ArrowUpIcon, ArrowDownIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  PaginationState,
+  SortingState,
+  useReactTable,
+} from '@tanstack/react-table';
+import { useMemo, useState } from 'react';
+import Skeleton from './Skeleton';
 
 interface ReactTableProps<T> {
   columns: ColumnDef<T, any>[];
@@ -270,3 +264,4 @@ export function ReactTable<T extends object>({
 
 export default ReactTable;
 export type { ColumnDef };
+

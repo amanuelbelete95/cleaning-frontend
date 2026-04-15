@@ -41,6 +41,7 @@ import { EventDesignSystem } from "../events/designSystem";
 import { EventAPIResponse } from "../events/events.type";
 import { useRegistrationInfo } from "../events/useRegistrationInfo";
 import { getRegisterEvents, RegisterationListAPIResponse } from "../register-events/api/getRegisterEvents";
+import Skeleton from "../Skeleton";
 
 const StatCard = ({
   label,
@@ -198,6 +199,68 @@ const FeaturedEventCard = ({
   );
 };
 
+const FeaturedEventCardSkeleton = () => {
+  const cardBg = useColorModeValue("white", "gray.800");
+
+  return (
+    <Card
+      bg={cardBg}
+      borderRadius="xl"
+      overflow="hidden"
+      boxShadow="md"
+      border="1px solid"
+      borderColor="gray.200"
+      w={"100%"}
+    >
+
+        <AspectRatio ratio={16 / 9}>
+        <Box
+          bgGradient={`linear(to-br, gray.300, gray.400)`}
+        >
+          <Flex
+            h="full"
+            align="center"
+            justify="center"
+            direction="column"
+            color="white"
+          >
+            <Skeleton width="48px" height="48px" borderRadius="md" />
+            <Skeleton height="14px" width="180px" borderRadius="md"/>
+          </Flex>
+        </Box>
+      </AspectRatio>
+
+      <CardBody>
+        <VStack align="stretch" spacing={3}>
+          <Skeleton height="24px" width="80%" borderRadius="md" />
+          <Skeleton height="24px" width="50px" borderRadius="md" />
+
+          <Stack spacing={2}>
+            <HStack>
+              <Skeleton height="16px" width="16px" borderRadius="sm" />
+              <Skeleton height="14px" width="100px" borderRadius="md" />
+            </HStack>
+            <HStack>
+              <Skeleton height="16px" width="16px" borderRadius="sm" />
+              <Skeleton height="14px" width="60px" borderRadius="md" />
+            </HStack>
+          </Stack>
+
+          <Skeleton height="14px" width="100%" borderRadius="md" />
+          <Skeleton height="14px" width="70%" borderRadius="md" />
+
+          <Divider />
+
+          <Flex justify="space-between" align="center">
+            <Skeleton height="32px" width="100px" borderRadius="md" />
+            <Skeleton height="32px" width="90px" borderRadius="md" />
+          </Flex>
+        </VStack>
+      </CardBody>
+    </Card>
+  );
+};
+
 const UserHome = () => {
   const { user } = useAuth();
   const pageBg = useColorModeValue("gray.50", "gray.900");
@@ -210,7 +273,7 @@ const UserHome = () => {
     queryFn: getAllEvents,
   });
 
-  const { data: registrations = [] } = useQuery<RegisterationListAPIResponse[]>({
+  const { data: registrations = [], isLoading } = useQuery<RegisterationListAPIResponse[]>({
     queryKey: ["register-events"],
     queryFn: getRegisterEvents,
   });
@@ -334,7 +397,7 @@ const UserHome = () => {
             <Heading size="md" color="gray.700" mb={4}>
               Quick Actions
             </Heading>
-            <SimpleGrid columns={{ base: 2, md: 2}} spacing={4}>
+            <SimpleGrid columns={{ base: 2, md: 2 }} spacing={4}>
               <Button
                 as={RouterLink}
                 to="/events"
@@ -408,7 +471,7 @@ const UserHome = () => {
           </Box>
 
           {/* Featured Events */}
-          <Box>
+          <Box w={"100%"}>
             <Flex justify="space-between" align="center" mb={4}>
               <Heading size="md" color="gray.700">
                 Featured Events
@@ -425,7 +488,9 @@ const UserHome = () => {
               </Button>
             </Flex>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
-              {featuredEvents.map((event) => (
+              {isLoading ? [...Array(4)].map((_, i) => (
+                <FeaturedEventCardSkeleton key={i} />
+              )) : featuredEvents.map((event) => (
                 <FeaturedEventCard
                   key={event.id}
                   event={event}

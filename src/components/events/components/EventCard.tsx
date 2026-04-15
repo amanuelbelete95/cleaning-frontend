@@ -1,5 +1,5 @@
 import { EditIcon, ExternalLinkIcon, ViewIcon } from "@chakra-ui/icons";
-import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Progress, SimpleGrid, Skeleton, SkeletonCircle, SkeletonText, Text, useColorModeValue, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
+import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Progress, SimpleGrid, SkeletonCircle, SkeletonText, Text, useColorModeValue, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { memo, useCallback } from "react";
 import { FiCalendar, FiClock, FiMapPin, FiTrash2, FiUsers } from "react-icons/fi";
@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/dateUtility";
 import { useAuth } from "../../auth/AuthProvider";
 import BasicEventModalRegModal from "../../BasicEventModalReg";
+import ConformationModal from "../../ConformationModal";
+import { PermissionGuard } from "../../PermissionGuard";
 import { registerToEvent } from "../../register-events/api/registerToEvent";
 import { EventDesignSystem } from "../designSystem";
 import { EventAPIResponse } from "../events.type";
 import { useRegistrationInfo } from "../useRegistrationInfo";
-import { PermissionGuard } from "../../PermissionGuard";
-import { tuple } from "yup";
-import ConformationModal from "../../ConformationModal";
+import Skeleton from "../../Skeleton";
 
 
 interface EventCardProps {

@@ -3,6 +3,7 @@ import { router } from "./router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./components/auth/AuthProvider";
 import { ChakraProvider } from "@chakra-ui/react";
+import "./App.css";
 
 const queryClient = new QueryClient();
 
