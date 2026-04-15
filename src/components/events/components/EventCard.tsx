@@ -67,7 +67,7 @@ export const EventCardSkeleton = () => {
                         <Flex align="center" p={2} bg={hoverBg} borderRadius="lg">
                             <SkeletonCircle size="8" mr={3} />
                             <Box>
-                                <Skeleton height="10px" width="40px" mb={1} />
+                                <Skeleton height="10px" width="40px"  style={{ marginBottom: 1 }}/>
                                 <Skeleton height="14px" width="80px" />
                             </Box>
                         </Flex>
@@ -75,7 +75,7 @@ export const EventCardSkeleton = () => {
                         <Flex align="center" p={2} bg={hoverBg} borderRadius="lg">
                             <SkeletonCircle size="8" mr={3} />
                             <Box>
-                                <Skeleton height="10px" width="40px" mb={1} />
+                                <Skeleton height="10px" width="40px" style={{ marginBottom: 1 }}/>
                                 <Skeleton height="14px" width="60px" />
                             </Box>
                         </Flex>
@@ -83,7 +83,7 @@ export const EventCardSkeleton = () => {
                         <Flex align="center" p={2} bg={hoverBg} borderRadius="lg" gridColumn={{ sm: "span 2" }}>
                             <SkeletonCircle size="8" mr={3} />
                             <Box>
-                                <Skeleton height="10px" width="50px" mb={1} />
+                                <Skeleton height="10px" width="50px" style={{ marginBottom: 1 }} />
                                 <Skeleton height="14px" width="100px" />
                             </Box>
                         </Flex>
@@ -94,7 +94,7 @@ export const EventCardSkeleton = () => {
                             <Skeleton height="14px" width="120px" />
                             <Skeleton height="14px" width="30px" />
                         </Flex>
-                        <Skeleton height="8px" borderRadius="full" />
+                        <Skeleton height="8px" borderRadius="full"  />
                     </Box>
 
                     <Divider />

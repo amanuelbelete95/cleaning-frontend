@@ -16,3 +16,11 @@ export const formatDateISO = (dateString: string | null | undefined) => {
     if (isNaN(date.getTime())) return 'Invalid Date'
     return date.toISOString().split('T')[0]
 }
+
+export const formatTime = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
