@@ -33,7 +33,7 @@ const UserList = () => {
   const [selectedUserName, setSelectedUserName] = useState<string>('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { data: users = [] } = useQuery({
+  const { data: users = [], isLoading } = useQuery({
     queryKey: ['users'],
     queryFn: getAllUsers,
   });
@@ -220,6 +220,7 @@ const UserList = () => {
           <ReactTable
             columns={columns}
             data={filteredData}
+            isLoading={isLoading}
             searchPlaceholder="Search users..."
             showSearch={false}
             showPagination={true}

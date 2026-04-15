@@ -99,7 +99,7 @@ const basicColumns = [
 
 const RegisterEvents = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { data: registerEvents = [] } = useQuery<RegisterationListAPIResponse[]>({
+  const { data: registerEvents = [], isLoading } = useQuery<RegisterationListAPIResponse[]>({
     queryKey: ["register-events"],
     queryFn: getRegisterEvents,
   });
@@ -142,6 +142,7 @@ const RegisterEvents = () => {
         <ReactTable
           columns={basicColumns}
           data={filteredData}
+          isLoading={isLoading}
          />
       </Box>
     </Box>
