@@ -299,21 +299,16 @@ const EventDetail = () => {
                   >
                     View All Events
                   </Button>
-                  {user?.role !== "admin" && canRegister && (
+                  {canRegister && (
                     <Button
                       w="full"
-                      bg={canRegister ? EventDesignSystem.primaryColor : "gray.400"}
+                      bg={EventDesignSystem.primaryColor}
                       color="white"
-                      _hover={{ opacity: canRegister ? 0.9 : 1 }}
+                      _hover={{ opacity: 0.9 }}
                       leftIcon={<ExternalLinkIcon />}
                       onClick={onOpen}
                       display={
-                        canRegister &&
-                        // as long as canregister is true, we want to show the button to the admin and user who is not registered, but hide it from the user who is already registered
-                          (
-                            user?.role === "admin" ||
-                            !isRegistered
-                          )
+                        canRegister && (user?.role === "admin" || !isRegistered)
                           ? "inline-block"
                           : "none"
                       }
