@@ -34,9 +34,12 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const storedUser = localStorage.getItem("user");
+const initialUser = storedUser ? JSON.parse(storedUser) : null;
+
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(initialUser);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const isAuthenticated = !!user;
 
@@ -46,6 +49,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       const { token, user } = await logInUser(data);
       localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
       setIsLoading(false)
       setUser(user)
       return user;
@@ -57,6 +61,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
   };
 
