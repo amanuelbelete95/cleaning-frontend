@@ -32,7 +32,7 @@ import { PermissionGuard } from "../../PermissionGuard";
 import { onDelete } from "../api/deleteEvents";
 import getAllEvents from "../api/getAllEvents";
 import { EventDesignSystem } from "../designSystem";
-import EventCard from "./EventCard";
+import EventCard, { EventCardSkeleton } from "./EventCard";
 import { useAuth } from "../../auth/AuthProvider";
 import { EventAPIResponse } from "../events.type";
 
@@ -44,7 +44,7 @@ const EventList = () => {
     const { user } = useAuth();
     const toast = useToast();
 
-    const { data: events = [], refetch } = useQuery({
+    const { data: events = [], refetch, isLoading } = useQuery({
         queryKey: ["events"],
         queryFn: getAllEvents,
     });
@@ -267,7 +267,21 @@ const EventList = () => {
                         </Box>
                     </Flex>
 
-                    {filteredEvents.length > 0 ? (
+                    {isLoading ? (
+                        <Grid
+                            templateColumns={{
+                                base: "1fr",
+                                sm: "repeat(2, 1fr)",
+                                lg: "repeat(3, 1fr)",
+                                xl: "repeat(4, 1fr)",
+                            }}
+                            gap={6}
+                        >
+                            {[...Array(8)].map((_, i) => (
+                                <EventCardSkeleton key={i} />
+                            ))}
+                        </Grid>
+                    ) : filteredEvents.length > 0 ? (
                         <Grid
                             templateColumns={{
                                 base: "1fr",
