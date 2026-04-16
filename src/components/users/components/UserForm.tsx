@@ -38,18 +38,17 @@ export default function UserForm(props: UserFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid ,isLoading },
+    formState: { errors, isSubmitting, isValid },
   } = useForm({
     defaultValues: initialValues,
     mode: "onTouched",
     resolver: yupResolver(schema as any),
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: onConfirm,
     onSuccess: onSuccess,
     onError: onError,
-
   });
 
   const onSubmit: SubmitHandler<Record<string, unknown>> = (data) => {
@@ -185,7 +184,7 @@ export default function UserForm(props: UserFormProps) {
             color="white"
             size="lg"
             width="full"
-            isLoading={isLoading}
+            isLoading={isPending}
             loadingText={`${title}...`}
             _hover={{ bg: EventDesignSystem.primaryDark }}
             _active={{ transform: "scale(0.98)" }}
@@ -196,7 +195,7 @@ export default function UserForm(props: UserFormProps) {
             mt={2}
             cursor={"pointer"}
           >
-            {isLoading || isSubmitting ? <Spinner color={EventDesignSystem.primaryLight} /> : `${title}`}
+            {title}
           </Button>
         </VStack>
       </form>
