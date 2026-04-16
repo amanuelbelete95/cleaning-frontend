@@ -41,7 +41,7 @@ import { EventDesignSystem } from "../events/designSystem";
 import { EventAPIResponse } from "../events/events.type";
 import { useRegistrationInfo } from "../events/useRegistrationInfo";
 import { getRegisterEvents, RegisterationListAPIResponse } from "../register-events/api/getRegisterEvents";
-import { UserHomeSkeleton, FeaturedEventCardSkeleton } from "./skeletons";
+import { UserHomeSkeleton } from "./skeletons";
 
 const StatCard = ({
   label,
@@ -206,12 +206,12 @@ const UserHome = () => {
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const hoverBg = useColorModeValue("gray.50", "gray.700");
 
-  const { data: events = [] } = useQuery<EventAPIResponse[]>({
+  const { data: events = [], isLoading: isLoadingEvents } = useQuery<EventAPIResponse[]>({
     queryKey: ["events"],
     queryFn: getAllEvents,
   });
 
-  const { data: registrations = [], isLoading } = useQuery<RegisterationListAPIResponse[]>({
+  const { data: registrations = [], isLoading: isLoadingRegistrations } = useQuery<RegisterationListAPIResponse[]>({
     queryKey: ["register-events"],
     queryFn: getRegisterEvents,
   });
@@ -236,7 +236,7 @@ const UserHome = () => {
       registeredEventIds.includes(e.id) && new Date(e.event_date) > new Date()
   ).length;
 
-  if (isLoading) {
+  if (isLoadingEvents || isLoadingRegistrations) {
     return <UserHomeSkeleton />;
   }
 
@@ -430,9 +430,7 @@ const UserHome = () => {
               </Button>
             </Flex>
             <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
-              {isLoading ? [...Array(4)].map((_, i) => (
-                <FeaturedEventCardSkeleton key={i} />
-              )) : featuredEvents.map((event) => (
+              {featuredEvents.map((event) => (
                 <FeaturedEventCard
                   key={event.id}
                   event={event}
