@@ -32,9 +32,10 @@ import { PermissionGuard } from "../../PermissionGuard";
 import { onDelete } from "../api/deleteEvents";
 import getAllEvents from "../api/getAllEvents";
 import { EventDesignSystem } from "../designSystem";
-import EventCard, { EventCardSkeleton } from "./EventCard";
+import EventCard from "./EventCard";
 import { useAuth } from "../../auth/AuthProvider";
 import { EventAPIResponse } from "../events.type";
+import EventsPageSkeleton from "../skeletons/EventsPageSkeleton";
 
 const EventList = () => {
     const navigate = useNavigate();
@@ -100,7 +101,7 @@ const EventList = () => {
 
     const adminEvents = filteredEvents;
     const userEvents = filteredEvents.filter(event => event.event_status === "published");
-
+    if (isLoading) return <EventsPageSkeleton />;
     return (
         <Box bg={"white"} minH="100vh" w="100%">
             <Box
@@ -267,21 +268,7 @@ const EventList = () => {
                         </Box>
                     </Flex>
 
-                    {isLoading ? (
-                        <Grid
-                            templateColumns={{
-                                base: "1fr",
-                                sm: "repeat(2, 1fr)",
-                                lg: "repeat(3, 1fr)",
-                                xl: "repeat(4, 1fr)",
-                            }}
-                            gap={6}
-                        >
-                            {[...Array(8)].map((_, i) => (
-                                <EventCardSkeleton key={i} />
-                            ))}
-                        </Grid>
-                    ) : filteredEvents.length > 0 ? (
+                    {filteredEvents.length > 0 ? (
                         <Grid
                             templateColumns={{
                                 base: "1fr",
