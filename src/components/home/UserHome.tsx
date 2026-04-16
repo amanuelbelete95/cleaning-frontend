@@ -41,7 +41,7 @@ import { EventDesignSystem } from "../events/designSystem";
 import { EventAPIResponse } from "../events/events.type";
 import { useRegistrationInfo } from "../events/useRegistrationInfo";
 import { getRegisterEvents, RegisterationListAPIResponse } from "../register-events/api/getRegisterEvents";
-import Skeleton from "../Skeleton";
+import { UserHomeSkeleton, FeaturedEventCardSkeleton } from "./skeletons";
 
 const StatCard = ({
   label,
@@ -199,68 +199,6 @@ const FeaturedEventCard = ({
   );
 };
 
-const FeaturedEventCardSkeleton = () => {
-  const cardBg = useColorModeValue("white", "gray.800");
-
-  return (
-    <Card
-      bg={cardBg}
-      borderRadius="xl"
-      overflow="hidden"
-      boxShadow="md"
-      border="1px solid"
-      borderColor="gray.200"
-      w={"100%"}
-    >
-
-        <AspectRatio ratio={16 / 9}>
-        <Box
-          bgGradient={`linear(to-br, gray.300, gray.400)`}
-        >
-          <Flex
-            h="full"
-            align="center"
-            justify="center"
-            direction="column"
-            color="white"
-          >
-            <Skeleton width="48px" height="48px" borderRadius="md" />
-            <Skeleton height="14px" width="180px" borderRadius="md"/>
-          </Flex>
-        </Box>
-      </AspectRatio>
-
-      <CardBody>
-        <VStack align="stretch" spacing={3}>
-          <Skeleton height="24px" width="80%" borderRadius="md" />
-          <Skeleton height="24px" width="50px" borderRadius="md" />
-
-          <Stack spacing={2}>
-            <HStack>
-              <Skeleton height="16px" width="16px" borderRadius="sm" />
-              <Skeleton height="14px" width="100px" borderRadius="md" />
-            </HStack>
-            <HStack>
-              <Skeleton height="16px" width="16px" borderRadius="sm" />
-              <Skeleton height="14px" width="60px" borderRadius="md" />
-            </HStack>
-          </Stack>
-
-          <Skeleton height="14px" width="100%" borderRadius="md" />
-          <Skeleton height="14px" width="70%" borderRadius="md" />
-
-          <Divider />
-
-          <Flex justify="space-between" align="center">
-            <Skeleton height="32px" width="100px" borderRadius="md" />
-            <Skeleton height="32px" width="90px" borderRadius="md" />
-          </Flex>
-        </VStack>
-      </CardBody>
-    </Card>
-  );
-};
-
 const UserHome = () => {
   const { user } = useAuth();
   const pageBg = useColorModeValue("gray.50", "gray.900");
@@ -297,6 +235,10 @@ const UserHome = () => {
     (e: EventAPIResponse) =>
       registeredEventIds.includes(e.id) && new Date(e.event_date) > new Date()
   ).length;
+
+  if (isLoading) {
+    return <UserHomeSkeleton />;
+  }
 
   return (
     <Box bg={pageBg} minH="calc(100vh - 80px)" py={8}>
