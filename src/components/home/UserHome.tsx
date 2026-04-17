@@ -41,6 +41,7 @@ import { EventDesignSystem } from "../events/designSystem";
 import { EventAPIResponse } from "../events/events.type";
 import { useRegistrationInfo } from "../events/useRegistrationInfo";
 import { getRegisterEvents, RegisterationListAPIResponse } from "../register-events/api/getRegisterEvents";
+import { UserHomeSkeleton } from "./skeletons";
 
 const StatCard = ({
   label,
@@ -205,12 +206,12 @@ const UserHome = () => {
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const hoverBg = useColorModeValue("gray.50", "gray.700");
 
-  const { data: events = [] } = useQuery<EventAPIResponse[]>({
+  const { data: events = [], isLoading: isLoadingEvents } = useQuery<EventAPIResponse[]>({
     queryKey: ["events"],
     queryFn: getAllEvents,
   });
 
-  const { data: registrations = [] } = useQuery<RegisterationListAPIResponse[]>({
+  const { data: registrations = [], isLoading: isLoadingRegistrations } = useQuery<RegisterationListAPIResponse[]>({
     queryKey: ["register-events"],
     queryFn: getRegisterEvents,
   });
@@ -234,6 +235,10 @@ const UserHome = () => {
     (e: EventAPIResponse) =>
       registeredEventIds.includes(e.id) && new Date(e.event_date) > new Date()
   ).length;
+
+  if (isLoadingEvents || isLoadingRegistrations) {
+    return <UserHomeSkeleton />;
+  }
 
   return (
     <Box bg={pageBg} minH="calc(100vh - 80px)" py={8}>
@@ -334,7 +339,7 @@ const UserHome = () => {
             <Heading size="md" color="gray.700" mb={4}>
               Quick Actions
             </Heading>
-            <SimpleGrid columns={{ base: 2, md: 2}} spacing={4}>
+            <SimpleGrid columns={{ base: 2, md: 2 }} spacing={4}>
               <Button
                 as={RouterLink}
                 to="/events"
@@ -408,7 +413,7 @@ const UserHome = () => {
           </Box>
 
           {/* Featured Events */}
-          <Box>
+          <Box w={"100%"}>
             <Flex justify="space-between" align="center" mb={4}>
               <Heading size="md" color="gray.700">
                 Featured Events

@@ -1,42 +1,39 @@
-import {
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  flexRender,
-  ColumnDef,
-  SortingState,
-  PaginationState,
-} from '@tanstack/react-table';
-import { useState, useMemo } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Table as ChakraTable,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Checkbox,
-  Text,
-  HStack,
   Button,
-  Select,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Flex,
-  IconButton,
   chakra,
-  Table,
+  Flex,
   Heading,
+  HStack,
+  IconButton,
+  Select,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr
 } from '@chakra-ui/react';
-import { SearchIcon, ChevronLeftIcon, ChevronRightIcon, ArrowUpIcon, ArrowDownIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  PaginationState,
+  SortingState,
+  useReactTable,
+} from '@tanstack/react-table';
+import { useMemo, useState } from 'react';
+import Skeleton from './Skeleton';
 
 interface ReactTableProps<T> {
   columns: ColumnDef<T, any>[];
   data: T[];
+  isLoading?: boolean;
   searchPlaceholder?: string;
   showSearch?: boolean;
   showPagination?: boolean;
@@ -45,9 +42,26 @@ interface ReactTableProps<T> {
   tableCaption?: string;
 }
 
+const TableSkeletonRows = ({ columnCount }: { columnCount: number }) => {
+  return (
+    <>
+      {[...Array(10)].map((_, i) => (
+        <Tr key={i}>
+          {[...Array(columnCount)].map((_, j) => (
+            <Td key={j}>
+              <Skeleton height="20px" width={j === 0 ? "60%" : j === columnCount - 1 ? "80px" : "70%"} borderRadius="md" />
+            </Td>
+          ))}
+        </Tr>
+      ))}
+    </>
+  );
+};
+
 export function ReactTable<T extends object>({
   columns,
   data,
+  isLoading = false,
   searchPlaceholder = 'Search...',
   showSearch = true,
   showPagination = true,
@@ -172,7 +186,9 @@ export function ReactTable<T extends object>({
 
         </Thead>
         <Tbody>
-          {table.getRowModel().rows.length === 0 ? (
+          {isLoading ? (
+            <TableSkeletonRows columnCount={columns.length} />
+          ) : table.getRowModel().rows.length === 0 ? (
             <Tr>
               <Td colSpan={columns.length} textAlign="center" py={8}>
                 <Text color="gray.500">No data available</Text>
@@ -248,3 +264,4 @@ export function ReactTable<T extends object>({
 
 export default ReactTable;
 export type { ColumnDef };
+

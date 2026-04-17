@@ -1,7 +1,7 @@
-import { Box, Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, VStack, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, Spinner, VStack, useColorModeValue } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { SubmitHandler, useForm, FieldValues } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { EventDesignSystem } from "../../events/designSystem";
 import { CreateUpdateUser } from "../schema";
@@ -22,7 +22,6 @@ export interface UserFormProps<T extends FieldValues = FieldValues> {
   onError?: (error: any) => void;
   title: string;
   formKey: FormKey;
-  name?: string;
 }
 
 export default function UserForm(props: UserFormProps) {
@@ -32,7 +31,6 @@ export default function UserForm(props: UserFormProps) {
     onSuccess,
     onError,
     title,
-    name,
     schema,
     formKey,
   } = props;
@@ -40,23 +38,23 @@ export default function UserForm(props: UserFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm({
     defaultValues: initialValues,
     mode: "onTouched",
     resolver: yupResolver(schema as any),
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: onConfirm,
     onSuccess: onSuccess,
     onError: onError,
-
   });
 
   const onSubmit: SubmitHandler<Record<string, unknown>> = (data) => {
     mutate(data as unknown as CreateUpdateUser);
   };
+
 
   return (
     <Box
@@ -70,15 +68,6 @@ export default function UserForm(props: UserFormProps) {
       borderWidth={EventDesignSystem.card.borderWidth}
       borderColor={EventDesignSystem.card.borderColor}
     >
-      <Heading
-        size="xl"
-        mb={6}
-        textAlign="center"
-        color={EventDesignSystem.primaryColor}
-        fontWeight="bold"
-      >
-        {name}
-      </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
 
         <VStack spacing={4} align="stretch">
@@ -121,12 +110,12 @@ export default function UserForm(props: UserFormProps) {
                   fontWeight="semibold"
                   fontSize="md"
                 >
-                  Username
+                  Email
                 </FormLabel>
                 <Input
                   {...register("username")}
                   type="text"
-                  placeholder="Enter username"
+                  placeholder="Enter your email"
                 />
                 <FormErrorMessage>{errors.username?.message as string}</FormErrorMessage>
               </FormControl>
@@ -142,7 +131,7 @@ export default function UserForm(props: UserFormProps) {
                 <Input
                   {...register("password")}
                   type="password"
-                  placeholder="Enter password"
+                  placeholder="Enter your password"
                 />
                 <FormErrorMessage>{errors.password?.message as string}</FormErrorMessage>
               </FormControl>
@@ -195,17 +184,18 @@ export default function UserForm(props: UserFormProps) {
             color="white"
             size="lg"
             width="full"
-            isLoading={isSubmitting}
-            loadingText="Saving..."
+            isLoading={isPending}
+            loadingText={`${title}...`}
             _hover={{ bg: EventDesignSystem.primaryDark }}
             _active={{ transform: "scale(0.98)" }}
             boxShadow="md"
             fontSize="md"
             fontWeight="bold"
+            disabled={isSubmitting || !isValid}
             mt={2}
             cursor={"pointer"}
           >
-            {isSubmitting ? "Saving..." : `${title}`}
+            {title}
           </Button>
         </VStack>
       </form>

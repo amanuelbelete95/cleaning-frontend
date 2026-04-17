@@ -41,6 +41,7 @@ import { useAuth } from "../auth/AuthProvider";
 import getAllEvents from "../events/api/getAllEvents";
 import { EventDesignSystem } from "../events/designSystem";
 import { EventAPIResponse } from "../events/events.type";
+import { AdminHomeSkeleton } from "./skeletons";
 
 const StatCard = ({
   label,
@@ -100,7 +101,7 @@ const AdminHome = () => {
   const tableHoverBg = useColorModeValue("gray.50", "gray.700");
   const theadBg = useColorModeValue("gray.50", "gray.700");
 
-  const { data: events = [] } = useQuery<EventAPIResponse[]>({
+  const { data: events = [], isLoading } = useQuery<EventAPIResponse[]>({
     queryKey: ["events"],
     queryFn: getAllEvents,
   });
@@ -147,6 +148,10 @@ const AdminHome = () => {
       </Badge>
     );
   };
+
+  if (isLoading) {
+    return <AdminHomeSkeleton />;
+  }
 
   return (
     <Box bg={pageBg} minH="calc(100vh - 80px)" py={8} px={4}>

@@ -35,6 +35,7 @@ import { EventDesignSystem } from "../designSystem";
 import EventCard from "./EventCard";
 import { useAuth } from "../../auth/AuthProvider";
 import { EventAPIResponse } from "../events.type";
+import EventsPageSkeleton from "../skeletons/EventsPageSkeleton";
 
 const EventList = () => {
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ const EventList = () => {
     const { user } = useAuth();
     const toast = useToast();
 
-    const { data: events = [], refetch } = useQuery({
+    const { data: events = [], refetch, isLoading } = useQuery({
         queryKey: ["events"],
         queryFn: getAllEvents,
     });
@@ -100,7 +101,7 @@ const EventList = () => {
 
     const adminEvents = filteredEvents;
     const userEvents = filteredEvents.filter(event => event.event_status === "published");
-
+    if (isLoading) return <EventsPageSkeleton />;
     return (
         <Box bg={"white"} minH="100vh" w="100%">
             <Box

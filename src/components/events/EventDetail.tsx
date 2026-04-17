@@ -1,38 +1,21 @@
-import { ArrowBackIcon, CalendarIcon, EditIcon, ExternalLinkIcon, TimeIcon, ViewIcon } from "@chakra-ui/icons";
-import { Badge, Box, Button, Card, CardBody, CardHeader, Divider, Flex, Grid, GridItem, Heading, HStack, Icon, SimpleGrid, Stat, StatArrow, StatHelpText, StatLabel, StatNumber, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import { ArrowBackIcon, ExternalLinkIcon, ViewIcon } from "@chakra-ui/icons";
+import { Badge, Box, Button, Card, CardBody, Divider, Flex, Grid, GridItem, Heading, HStack, Icon, SimpleGrid, Stat, StatArrow, StatHelpText, StatLabel, StatNumber, Text, useColorModeValue, useDisclosure, useToast, VStack } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
+import { FiCalendar, FiClock, FiMapPin, FiUsers } from "react-icons/fi";
 import { LoaderFunction, useLoaderData, useNavigate } from "react-router-dom";
-import { FiMapPin, FiUsers, FiCalendar, FiClock } from "react-icons/fi";
-import getEvent from "./api/getEvent";
-import { EventAPIResponse } from "./events.type";
-import { EventDesignSystem } from "./designSystem";
-import { formatDate } from "../../utils/dateUtility";
+import { formatDate, formatDateISO, formatTime } from "../../utils/dateUtility";
 import { useAuth } from "../auth/AuthProvider";
 import BasicEventModalRegModal from "../BasicEventModalReg";
-import { useDisclosure, useToast } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
 import { registerToEvent } from "../register-events/api/registerToEvent";
+import getEvent from "./api/getEvent";
+import { EventDesignSystem } from "./designSystem";
+import { EventAPIResponse } from "./events.type";
 import { useRegistrationInfo } from "./useRegistrationInfo";
 
 export const loader: LoaderFunction = async ({ params }) => {
   const id = params.id;
-  if (!id) {
-    throw new Response("Event ID is missing", { status: 400 });
-  }
-
   const event = await getEvent(id);
-  if (!event) {
-    throw new Response("Event not found", { status: 404 });
-  }
-
   return event;
-};
-
-const formatTime = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
 };
 
 const EventDetail = () => {
@@ -42,10 +25,11 @@ const EventDetail = () => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const cardBg = useColorModeValue("white", "gray.800");
 
-   const { canRegister, isEventFull, isEventExpired, isRegistered } = useRegistrationInfo(event);
+  const { canRegister, isEventFull, isEventExpired, isRegistered } = useRegistrationInfo(event);
 
 
   const { mutate: registerEventFn } = useMutation({
@@ -102,8 +86,8 @@ const EventDetail = () => {
                       event.event_status === "published"
                         ? "green"
                         : event.event_status === "draft"
-                        ? "yellow"
-                        : "red"
+                          ? "yellow"
+                          : "red"
                     }
                     px={3}
                     py={1}
@@ -315,17 +299,21 @@ const EventDetail = () => {
                   >
                     View All Events
                   </Button>
-                  {user?.role !== "admin" && canRegister &&  (
+                  {canRegister && (
                     <Button
                       w="full"
-                      bg={canRegister ? EventDesignSystem.primaryColor : "gray.400"}
+                      bg={EventDesignSystem.primaryColor}
                       color="white"
-                      _hover={{ opacity: canRegister ? 0.9 : 1 }}
+                      _hover={{ opacity: 0.9 }}
                       leftIcon={<ExternalLinkIcon />}
                       onClick={onOpen}
-                      isDisabled={!canRegister}
+                      display={
+                        canRegister && (user?.role === "admin" || !isRegistered)
+                          ? "inline-block"
+                          : "none"
+                      }
                     >
-                      "Register Now"
+                      Register
                     </Button>
                   )}
                 </VStack>

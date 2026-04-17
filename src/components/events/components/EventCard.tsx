@@ -7,13 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/dateUtility";
 import { useAuth } from "../../auth/AuthProvider";
 import BasicEventModalRegModal from "../../BasicEventModalReg";
+import ConformationModal from "../../ConformationModal";
+import { PermissionGuard } from "../../PermissionGuard";
 import { registerToEvent } from "../../register-events/api/registerToEvent";
 import { EventDesignSystem } from "../designSystem";
 import { EventAPIResponse } from "../events.type";
 import { useRegistrationInfo } from "../useRegistrationInfo";
-import { PermissionGuard } from "../../PermissionGuard";
-import { tuple } from "yup";
-import ConformationModal from "../../ConformationModal";
 
 
 interface EventCardProps {

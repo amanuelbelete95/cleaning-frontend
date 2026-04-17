@@ -48,7 +48,6 @@ function LogInPage() {
           });
         }}
         title='LogIn' 
-        name='Access your account'
         />
     </div>
   )
