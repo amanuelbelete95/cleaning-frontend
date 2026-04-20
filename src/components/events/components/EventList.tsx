@@ -91,7 +91,7 @@ const EventList = () => {
         onError: (error: any) => {
             toast({
                 title: "Event delete Failed",
-                description: `${error.message}`,
+                description: `Error: ${error.message}`,
                 status: "error",
                 duration: 5000,
                 isClosable: true,
