@@ -1,22 +1,23 @@
 import { createBrowserRouter } from "react-router-dom";
-import RegisterPage from "./components/users/RegisterPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import UserProfile, { loader as userProfileLoader } from "./components/auth/UserProfilet";
 import Contacts from "./components/contacts/Contacts";
+import EventList from "./components/events/components/EventList";
 import EventDetail, { loader as eventDetailLoader } from "./components/events/EventDetail";
 import EventEdit from "./components/events/EventEdit";
-import EventNew from "./components/events/EventNew";
-import EventList from "./components/events/components/EventList";
 import EventLayout from "./components/events/EventLayout";
+import EventNew from "./components/events/EventNew";
 import RoleBasedHome from "./components/home/RoleBasedHome";
 import Layout from "./components/layout/Layout";
 import NoMatch from "./components/nomatch/NoMatch";
 import RegisterEvents from "./components/register-events/RegeisterEvents";
-import UserList from "./components/users/components/UserList";
+import UserUpdatePage from "./components/users/components/UpdateUser";
 import UserDetail, { loader as userDetailLoader } from "./components/users/components/UserDetail";
+import UserList from "./components/users/components/UserList";
 import UserLogInRegisterLayout from "./components/users/components/UserLoginLayout";
-import LogInPage from "./components/users/LogInPage";
-import UserUpdatePage from "./components/users/components/UpdateUser"
 import CreateUserAccount from "./components/users/CreateUserAccount";
+import LogInPage from "./components/users/LogInPage";
+import RegisterPage from "./components/users/RegisterPage";
 
 
 const ROUTE_PATHS = {
@@ -37,8 +38,10 @@ export const router = createBrowserRouter([
       <ProtectedRoute redirectPath="/login">
         <Layout />,
       </ProtectedRoute >,
+    
     children: [
       { index: true, element: <RoleBasedHome /> },
+      {path: ROUTE_PATHS.USER_PROFILE, element: <UserProfile/>, loader: userProfileLoader},
       {
         path: ROUTE_PATHS.EVENTS,
         element: <EventLayout />,

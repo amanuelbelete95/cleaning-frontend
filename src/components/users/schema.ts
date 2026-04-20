@@ -28,14 +28,4 @@ export const updateUserSchema =  yup.object({
   role: yup.string().optional(),
 })
 
-// export const userSchema = yup.object({
-//   id: yup.string().optional(),
-//   username: yup.string().required("Username is required"),
-//   password: yup.string().required("Password is required"),
-//   confirmPassword: yup.string().optional(),
-//   firstname: yup.string().optional(),
-//   lastname: yup.string().optional(),
-//   role: yup.mixed().oneOf(["admin", "employee", "user"]).required("Role is required"),
-// });
-
-export type CreateUpdateUser = yup.InferType<typeof userSchema>;
+export type CreateUpdateUser = yup.InferType<typeof registerSchema>;
