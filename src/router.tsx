@@ -16,6 +16,7 @@ import UserDetail, { loader as userDetailLoader } from "./components/users/compo
 import UserLogInRegisterLayout from "./components/users/components/UserLoginLayout";
 import LogInPage from "./components/users/LogInPage";
 import UserUpdatePage from "./components/users/components/UpdateUser"
+import CreateUserAccount from "./components/users/CreateUserAccount";
 
 
 const ROUTE_PATHS = {
@@ -52,8 +53,9 @@ export const router = createBrowserRouter([
        path: ROUTE_PATHS.USERS,
        children: [
          { index: true, element: <UserList/>},
+         { path: "new", element: <CreateUserAccount /> },
          { path: ":id/detail", element: <UserDetail />, loader: userDetailLoader },
-          { path: ":id/edit", element: <UserUpdatePage />, loader: userDetailLoader },
+        { path: ":id/edit", element: <UserUpdatePage />, loader: userDetailLoader },
        ]
       },
       { path: ROUTE_PATHS.REGISTER_EVENTS, element: <RegisterEvents /> },

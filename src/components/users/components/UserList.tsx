@@ -1,4 +1,4 @@
-import { Avatar, Badge, Box, Button, Flex, Heading, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Spacer, Text, Tooltip, useDisclosure, useToast } from '@chakra-ui/react';
+import { Avatar, Badge, Box, Button, Flex, Heading, HStack, Icon, IconButton, Input, InputGroup, InputLeftElement, Spacer, Text, Tooltip, useDisclosure, useToast, VStack } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 import { FiSearch, FiEye, FiEdit2, FiTrash2 } from 'react-icons/fi';
@@ -10,6 +10,7 @@ import { UserAPIResponse } from '../users.type';
 import ReactTable from '../../ReactTable';
 import { onDeleteUser } from '../api/deleteUser';
 import ConformationModal from '../../ConformationModal';
+import { AddIcon } from '@chakra-ui/icons';
 
 const getRoleBadgeColor = (role: string | null) => {
   switch (role?.toLowerCase()) {
@@ -194,10 +195,10 @@ const UserList = () => {
     <>
       <Box p={6} bg="gray.100" minHeight="auto">
         <Flex mb={6} align="center" direction={{ base: 'column', md: 'row' }} gap={4}>
+          <VStack>
           <Heading size="xl" color={EventDesignSystem.primaryColor} fontWeight="bold">
             Users Management
           </Heading>
-          <Spacer />
           <InputGroup maxW="350px">
             <InputLeftElement pointerEvents="none">
               <Icon as={FiSearch} color="gray.400" />
@@ -214,6 +215,22 @@ const UserList = () => {
               }}
             />
           </InputGroup>
+          </VStack>
+
+          <Spacer />
+          <Button
+            leftIcon={<AddIcon />}
+            onClick={() => navigate("/users/new")}
+            size="lg"
+            borderRadius="xl"
+            bg="white"
+            color={EventDesignSystem.primaryColor}
+            _hover={{ opacity: 0.9, transform: "translateY(-2px)" }}
+            boxShadow="lg"
+            transition="all 0.2s"
+          >
+            Add User
+          </Button>
         </Flex>
 
         <Box p={4} bg="white" borderRadius="xl" shadow="md" overflow="hidden">

@@ -108,7 +108,7 @@ export default function UserForm(props: UserFormProps) {
               <FormControl isInvalid={!!errors.username}>
                 <FormLabel
                   fontWeight="semibold"
-                  fontSize="md"
+                fontSize="md"
                 >
                   Email
                 </FormLabel>
