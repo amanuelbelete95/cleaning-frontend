@@ -1,11 +1,12 @@
 import { Box, Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, VStack, useColorModeValue } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { EventAPIResponse } from "../events.type";
-import { CreateUpdateEvent, createUpdateEventSchema } from "../schema";
-import { EventDesignSystem } from "../designSystem";
 import { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { EventDesignSystem } from "../designSystem";
+import { EventAPIResponse } from "../events.type";
+import { CreateUpdateEvent } from "../schema";
 
 
 
@@ -13,6 +14,7 @@ import { useEffect } from "react";
 
 export interface EventFormProps {
   initialValues?: CreateUpdateEvent;
+  schema: yup.ObjectSchema<CreateUpdateEvent>;
   onConfirm?: (data: CreateUpdateEvent) => Promise<EventAPIResponse>
   onSuccess?: (data: EventAPIResponse) => void;
   onError?: (error: any) => void;
@@ -26,17 +28,18 @@ export default function EventForm(props: EventFormProps) {
     onSuccess,
     onError,
     title,
+    schema,
   } = props;
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm({
     defaultValues: initialValues,
     mode: "onTouched",
-    resolver: yupResolver(createUpdateEventSchema) as any,
+    resolver: yupResolver(schema),
   });
 
   useEffect(() => {
@@ -72,15 +75,6 @@ export default function EventForm(props: EventFormProps) {
       borderWidth={EventDesignSystem.card.borderWidth}
       borderColor={EventDesignSystem.card.borderColor}
     >
-      <Heading
-        size="xl"
-        mb={6}
-        textAlign="center"
-        color={EventDesignSystem.primaryColor}
-        fontWeight="bold"
-      >
-        {title}
-      </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack spacing={4} align="stretch">
           <FormControl isInvalid={!!errors.name}>
@@ -149,7 +143,7 @@ export default function EventForm(props: EventFormProps) {
               type="number"
               placeholder="Enter Capacity"
             />
-            {/* <FormErrorMessage>{errors.capacity?.message}</FormErrorMessage> */}
+            <FormErrorMessage>{errors.capacity?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl isInvalid={!!errors.event_status}>
@@ -190,9 +184,10 @@ export default function EventForm(props: EventFormProps) {
             boxShadow="md"
             fontSize="md"
             fontWeight="bold"
+            disabled={isSubmitting || !isValid}
             mt={2}
           >
-            {isSubmitting ? "Saving..." : (title.includes("Edit") ? "Update Event" : "Create Event")}
+            {title}
           </Button>
         </VStack>
       </form>

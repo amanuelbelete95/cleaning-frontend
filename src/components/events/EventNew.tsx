@@ -2,6 +2,7 @@ import { Box, useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import EventForm from '../../components/events/components/EventForm';
 import { addEvents } from '../../components/events/api/addEvents';
+import { eventSchema } from './schema';
 
 function NewEvent() {
     const toast = useToast();
@@ -42,7 +43,8 @@ function NewEvent() {
                 onConfirm={addEvents}
                 onSuccess={handleSuccess}
                 onError={handleError}
-                title="Create Event"
+                title="Add Event"
+                schema={eventSchema}
             />
         </Box>
     );
