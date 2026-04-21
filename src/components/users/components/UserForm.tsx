@@ -221,7 +221,7 @@ export default function UserForm(props: UserFormProps) {
           )}
 
           {["register"].includes(formKey) && (
-            <FormSection title="Confirm Password" icon={FiCheck}>
+            <FormSection title="Confirm Password" icon={errors.confirmPassword ? FiLock : FiCheck}>
               <FormField label="Confirm Password" icon={FiLock} isRequired isValid={!errors.confirmPassword}>
                 <InputGroup size="lg">
                   <Input
