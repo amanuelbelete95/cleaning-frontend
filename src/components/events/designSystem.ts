@@ -38,7 +38,14 @@ export const EventDesignSystem = {
     transition: "all 0.2s",
     hover: {
       shadow: "xl",
-      transform: "translateY(-2px)"
+      transform: "translateY(-2px)",
+      borderColor: "teal.200"
+    },
+    selected: {
+      borderColor: "teal.500",
+      borderWidth: "2px",
+      shadow: "xl",
+      transform: "translateY(-4px)"
     }
   },
 

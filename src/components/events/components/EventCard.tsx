@@ -1,7 +1,7 @@
 import { EditIcon, ExternalLinkIcon, ViewIcon } from "@chakra-ui/icons";
 import { Badge, Box, Button, Card, CardBody, Divider, Flex, Heading, HStack, Icon, Progress, SimpleGrid, Text, useColorModeValue, useDisclosure, useToast, VStack, Wrap, WrapItem } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useState } from "react";
 import { FiCalendar, FiClock, FiMapPin, FiTrash2, FiUsers } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/dateUtility";
@@ -39,6 +39,8 @@ const getStatusColor = (status: string) => {
 
 const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
     const { isOpen: isOpenRegistrationModal, onOpen: onOpenRegistrationModal, onClose: onCloseRegistrationModal } = useDisclosure();
+    const [isSelected, setIsSelected] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
     const { isOpen: isOpenVoidModal, onOpen: onOpenVoidModal, onClose: onCloseVoidModal } = useDisclosure();
     const { user } = useAuth();
     const toast = useToast();
@@ -47,12 +49,19 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
     const handleVoidClick = (e: React.MouseEvent) => {
         e?.stopPropagation()
         onOpenVoidModal();
-    }
+    };
+
+    const cardShadow = isHovered || isSelected ? "2xl" : "lg";
+    const cardTransform = isHovered ? "translateY(-6px)" : isSelected ? "translateY(-4px)" : "translateY(0)";
+    const cardBorderColor = isSelected ? "teal.500" : isHovered ? "teal.200" : "transparent";
 
     const cardBg = useColorModeValue(EventDesignSystem.background.secondary, EventDesignSystem.background.darkSecondary);
     const hoverBg = useColorModeValue("gray.50", "gray.700");
 
-    const handleViewEvent = useCallback(() => navigate(`/events/${event.id}/detail`), [event.id, navigate]);
+    const handleViewEvent = useCallback(() => {
+        setIsSelected(true);
+        navigate(`/events/${event.id}/detail`);
+    }, [navigate]);
     const handleUpdateEvent = useCallback((e: React.MouseEvent) => { e.stopPropagation(); navigate(`/events/${event.id}/edit`); }, [event.id, navigate]);
     const handleDeleteEvent = useCallback((e?: React.MouseEvent) => { e?.stopPropagation(); onDeleteEvent(event.id); }, [event.id, onDeleteEvent]);
 
@@ -107,19 +116,18 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
             <Card
                 borderRadius="xl"
                 overflow="hidden"
-                boxShadow="lg"
+                boxShadow={cardShadow}
+                transform={cardTransform}
                 transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
-                _hover={{
-                    transform: "translateY(-6px)",
-                    boxShadow: "2xl",
-                }}
-                borderWidth="1px"
-                borderColor="transparent"
+                borderWidth="2px"
+                borderColor={cardBorderColor}
                 cursor="pointer"
                 h="100%"
                 display="flex"
                 flexDirection="column"
-                onClick={handleViewEvent}
+                onClick={() => handleViewEvent()}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
                 bg={cardBg}
                 position="relative"
             >
@@ -308,7 +316,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
                                     size="sm"
                                     colorScheme="green"
                                     leftIcon={<ExternalLinkIcon />}
-                                    onClick={(e) => {
+                                    onClick={(e: React.MouseEvent) => {
                                         e.stopPropagation();
                                         onOpenRegistrationModal();
                                     }}
