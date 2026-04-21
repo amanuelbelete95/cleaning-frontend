@@ -45,10 +45,11 @@ interface FormFieldProps {
   icon?: React.ElementType;
   isRequired?: boolean;
   children: React.ReactNode;
+  isValid?: boolean;
 }
 
-const FormField = ({ label, icon, isRequired, children }: FormFieldProps) => (
-  <FormControl isRequired={isRequired}>
+const FormField = ({ label, icon, isRequired, children , isValid }: FormFieldProps) => (
+  <FormControl isRequired={isRequired} isInvalid={!isValid}>
     <FormLabel fontWeight="medium" fontSize="sm" color="gray.600" mb={1}>
       <HStack spacing={1}>
         {icon && <Icon as={icon} boxSize={3.5} />}
@@ -137,7 +138,7 @@ export default function UserForm(props: UserFormProps) {
           {["register", "edit", "create"].includes(formKey) && (
             <FormSection title="Personal Information" icon={FiUser}>
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
-                <FormField label="First Name" icon={FiUser} isRequired>
+                <FormField label="First Name" icon={FiUser} isRequired isValid={!errors.firstname}>
                   <Input
                     {...register("firstname")}
                     type="text"
@@ -153,7 +154,7 @@ export default function UserForm(props: UserFormProps) {
                   <FormErrorMessage>{errors.firstname?.message as string}</FormErrorMessage>
                 </FormField>
 
-                <FormField label="Last Name" icon={FiUser} isRequired>
+                <FormField label="Last Name" icon={FiUser} isRequired isValid={!errors.lastname} >
                   <Input
                     {...register("lastname")}
                     type="text"
@@ -174,7 +175,7 @@ export default function UserForm(props: UserFormProps) {
 
           {["login", "register", "create"].includes(formKey) && (
             <FormSection title="Account Credentials" icon={FiMail}>
-              <FormField label="Email / Username" icon={FiMail} isRequired>
+              <FormField label="Email / Username" icon={FiMail} isRequired isValid={!errors.username}>
                 <Input
                   {...register("username")}
                   type="text"
@@ -190,7 +191,7 @@ export default function UserForm(props: UserFormProps) {
                 <FormErrorMessage>{errors.username?.message as string}</FormErrorMessage>
               </FormField>
 
-              <FormField label="Password" icon={FiLock} isRequired>
+              <FormField label="Password" icon={FiLock} isRequired isValid={!errors.password}>
                 <InputGroup size="lg">
                   <Input
                     {...register("password")}
@@ -221,7 +222,7 @@ export default function UserForm(props: UserFormProps) {
 
           {["register"].includes(formKey) && (
             <FormSection title="Confirm Password" icon={FiCheck}>
-              <FormField label="Confirm Password" icon={FiLock} isRequired>
+              <FormField label="Confirm Password" icon={FiLock} isRequired isValid={!errors.confirmPassword}>
                 <InputGroup size="lg">
                   <Input
                     {...register("confirmPassword")}
