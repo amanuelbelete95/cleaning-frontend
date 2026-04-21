@@ -12,7 +12,7 @@ interface User {
 }
 
 export async function getMe(): Promise<User> {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
     const response = await fetch(`${BASE_URL}/api/me`, {
         method: 'GET',
         headers: {
