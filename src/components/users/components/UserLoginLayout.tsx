@@ -81,7 +81,7 @@ function UserLogInRegisterLayout() {
                     onClick={() => navigate("/login")}
                     _selected={{ bg: "white", color: "blue.600", boxShadow: "sm" }}
                   >
-                    Sign In
+                    Sign in
                   </Tab>
                   <Tab
                     borderRadius="md"

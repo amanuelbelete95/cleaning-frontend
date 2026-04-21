@@ -2,7 +2,7 @@ import { createStandaloneToast, Heading, Flex, useColorModeValue } from '@chakra
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
-import  LogInForm from './components/UserForm';
+import LogInForm from './components/UserForm';
 import { logInSchema } from './schema';
 import { EventDesignSystem } from '../events/designSystem';
 const { toast } = createStandaloneToast();
@@ -12,7 +12,7 @@ function LogInPage() {
   const { isAuthenticated, login, error } = useAuth();
   const navigate = useNavigate();
   const bgPage = useColorModeValue(EventDesignSystem.background.primary, EventDesignSystem.background.dark);
-  
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
@@ -21,7 +21,7 @@ function LogInPage() {
   }, [isAuthenticated, error]);
 
   return (
-    <Flex minH="100vh" align="center" justify="center" bg={bgPage} px={4} w="100%">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <LogInForm
         formKey='login'
         schema={logInSchema}
@@ -37,7 +37,7 @@ function LogInPage() {
 
           });
           navigate("/");
-          
+
         }}
         onError={(error) => {
           console.log(error)
@@ -50,9 +50,10 @@ function LogInPage() {
             position: "top-right"
           });
         }}
-        title='LogIn' 
-        />
-    </Flex>
+        title='Login'
+      />
+    </div>
+
   )
 }
 
