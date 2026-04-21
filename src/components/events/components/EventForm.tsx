@@ -42,6 +42,9 @@ export default function EventForm(props: EventFormProps) {
     resolver: yupResolver(schema),
   });
 
+  console.log("errors", errors)
+  console.log("isValid", isValid)
+
   useEffect(() => {
     if (initialValues) {
       reset({
@@ -184,7 +187,7 @@ export default function EventForm(props: EventFormProps) {
             boxShadow="md"
             fontSize="md"
             fontWeight="bold"
-            disabled={isSubmitting || !isValid}
+            disabled={!isValid}
             mt={2}
           >
             {title}

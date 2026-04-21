@@ -1,5 +1,4 @@
 import { LoaderFunction, useLoaderData, useNavigate } from 'react-router-dom'
-
 import { useToast } from '@chakra-ui/react'
 import { EventAPIResponse } from '../../components/events/events.type'
 import getEventById from '../../components/events/api/getEvent'

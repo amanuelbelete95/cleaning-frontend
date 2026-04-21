@@ -10,7 +10,8 @@ export const eventSchema = yup
       if (!value) return false;
       const eventDate = new Date(value);
       const now = new Date();
-      return eventDate > now;
+      // the event date must be greater than or equal to the current date (allowing for same-day events)
+      return eventDate.getTime() >= now.setHours(0, 0, 0, 0); // compare only the date part, ignoring time
     }),
     capacity: yup.number().required("Capacity is required").positive("Capacity must be a positive number").integer("Capacity must be an integer"),
     description: yup.string().optional(),
