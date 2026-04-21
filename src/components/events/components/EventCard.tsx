@@ -49,7 +49,7 @@ const EventCard = memo(({ event, onDeleteEvent, }: EventCardProps) => {
         onOpenVoidModal();
     }
 
-    const cardBg = useColorModeValue("white", "gray.800");
+    const cardBg = useColorModeValue(EventDesignSystem.background.secondary, EventDesignSystem.background.darkSecondary);
     const hoverBg = useColorModeValue("gray.50", "gray.700");
 
     const handleViewEvent = useCallback(() => navigate(`/events/${event.id}/detail`), [event.id, navigate]);

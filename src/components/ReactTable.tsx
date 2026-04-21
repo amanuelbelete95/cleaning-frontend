@@ -14,7 +14,8 @@ import {
   Text,
   Th,
   Thead,
-  Tr
+  Tr,
+  useColorModeValue
 } from '@chakra-ui/react';
 import {
   ColumnDef,
@@ -29,6 +30,7 @@ import {
 } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import Skeleton from './Skeleton';
+import { EventDesignSystem } from './events/designSystem';
 
 interface ReactTableProps<T> {
   columns: ColumnDef<T, any>[];
@@ -136,9 +138,9 @@ export function ReactTable<T extends object>({
         border="none"
         overflow="scroll"
         borderRadius={"20px"}
-        background={"#ffffff"}
+        bg={EventDesignSystem.background.secondary}
         style={{ overflow: "hidden" }}>
-        <Thead background={"#ffffff"} height={"70px"}>
+        <Thead bg={EventDesignSystem.background.secondary} height={"70px"}>
           {table.getHeaderGroups().map((headerGroup) => (
             <Tr key={headerGroup.id} px={4}>
               {headerGroup.headers.map((header) => {

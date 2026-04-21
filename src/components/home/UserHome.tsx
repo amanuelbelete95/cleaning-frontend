@@ -201,8 +201,8 @@ const FeaturedEventCard = ({
 
 const UserHome = () => {
   const { user } = useAuth();
-  const pageBg = useColorModeValue("gray.50", "gray.900");
-  const cardBg = useColorModeValue("white", "gray.800");
+  const pageBg = useColorModeValue(EventDesignSystem.background.primary, EventDesignSystem.background.dark);
+  const cardBg = useColorModeValue(EventDesignSystem.background.secondary, EventDesignSystem.background.darkSecondary);
   const borderColor = useColorModeValue("gray.200", "gray.700");
   const hoverBg = useColorModeValue("gray.50", "gray.700");
 
