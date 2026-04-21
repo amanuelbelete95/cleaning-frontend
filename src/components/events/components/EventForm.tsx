@@ -45,15 +45,17 @@ interface FormFieldProps {
   icon?: React.ElementType;
   isRequired?: boolean;
   children: React.ReactNode;
+  isValid?: boolean;
 }
 
-const FormField = ({ label, icon, isRequired, children }: FormFieldProps) => (
-  <FormControl isRequired={isRequired}>
+const FormField = ({ label, icon, isRequired, children, isValid }: FormFieldProps) => (
+  <FormControl isRequired={isRequired} isInvalid={!isValid}>
     <FormLabel
       fontWeight="medium"
       fontSize="sm"
       color="gray.600"
       mb={1}
+      
     >
       <HStack spacing={1}>
         {icon && <Icon as={icon} boxSize={3.5} />}
@@ -146,7 +148,7 @@ export default function EventForm(props: EventFormProps) {
         <VStack spacing={6} align="stretch">
           <FormSection title="Basic Information" icon={FiFileText}>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
-              <FormField label="Event Name" icon={FiFileText} isRequired>
+              <FormField label="Event Name" icon={FiFileText} isRequired isValid={!errors.name}>
                 <Input
                   {...register("name")}
                   type="text"
@@ -162,7 +164,7 @@ export default function EventForm(props: EventFormProps) {
                 <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
               </FormField>
 
-              <FormField label="Location / Venue" icon={FiMapPin} isRequired>
+              <FormField label="Location / Venue" icon={FiMapPin} isRequired isValid={!errors.location}>
                 <Input
                   {...register("location")}
                   type="text"
@@ -200,7 +202,7 @@ export default function EventForm(props: EventFormProps) {
 
           <FormSection title="Schedule & Capacity" icon={FiCalendar}>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
-              <FormField label="Event Date" icon={FiCalendar} isRequired>
+              <FormField label="Event Date" icon={FiCalendar} isRequired isValid={!errors.event_date}>
                 <Input
                   {...register("event_date")}
                   type="date"
@@ -215,7 +217,7 @@ export default function EventForm(props: EventFormProps) {
                 <FormErrorMessage>{errors.event_date?.message}</FormErrorMessage>
               </FormField>
 
-              <FormField label="Attendee Capacity" icon={FiUsers} isRequired>
+              <FormField label="Attendee Capacity" icon={FiUsers} isRequired isValid={!errors.capacity}>
                 <Input
                   {...register("capacity")}
                   type="number"
@@ -235,7 +237,7 @@ export default function EventForm(props: EventFormProps) {
           </FormSection>
 
           <FormSection title="Publishing" icon={FiFlag}>
-            <FormField label="Event Status" icon={FiFlag} isRequired>
+            <FormField label="Event Status" icon={FiFlag} isRequired isValid={!errors.event_status}>
               <Select
                 {...register("event_status")}
                 placeholder="Select status"
