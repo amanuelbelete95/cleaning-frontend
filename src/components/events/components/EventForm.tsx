@@ -182,7 +182,7 @@ export default function EventForm(props: EventFormProps) {
             </SimpleGrid>
 
             <Box mt={5}>
-              <FormField label="Event Description" icon={FiFileText}>
+              <FormField label="Event Description" icon={FiFileText} isRequired isValid={!errors.description}>
                 <Textarea
                   {...register("description")}
                   placeholder="Describe your event details, agenda, and what attendees can expect..."
@@ -196,6 +196,7 @@ export default function EventForm(props: EventFormProps) {
                   _focus={{ bg: "white", borderColor: EventDesignSystem.primaryColor }}
                   resize="vertical"
                 />
+                <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
               </FormField>
             </Box>
           </FormSection>
