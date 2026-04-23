@@ -1,7 +1,7 @@
 import { Box, useToast } from '@chakra-ui/react';
 import { registerUser } from '../../components/auth/api/registerUser';
 import CreateUserAccountForm from '../../components/users/components/UserForm';
-import { userSchema } from './schema';
+import { registerSchema } from './schema';
 
 const CreateUserAccount = () => {
     const toast = useToast();
@@ -27,13 +27,14 @@ const CreateUserAccount = () => {
     return (
         <Box>
             <CreateUserAccountForm
-                schema={userSchema}
+                schema={registerSchema}
                 onConfirm={registerUser}
                 onSuccess={handleSuccess}
                 onError={handleError}
-                formKey='create'
-                name='Create A User'
-                title='Create Account'
+                formKey='register'
+                title='Add User'
+                key={"create-user"}
+
             />
         </Box>
     );

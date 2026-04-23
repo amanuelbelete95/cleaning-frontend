@@ -24,8 +24,8 @@ function UserLogInRegisterLayout() {
 
   const activeTabIndex = location.pathname === "/login/new" ? 1 : 0;
 
-  const bgPage = useColorModeValue("gray.50", "gray.900");
-  const cardBg = useColorModeValue("white", "gray.800");
+  const bgPage = useColorModeValue(EventDesignSystem.background.primary, EventDesignSystem.background.dark);
+  const cardBg = useColorModeValue(EventDesignSystem.background.secondary, EventDesignSystem.background.darkSecondary);
 
   useEffect(() => {
     navigate(activeTabIndex === 0 ? "/login" : "/login/new", { replace: true })
@@ -81,7 +81,7 @@ function UserLogInRegisterLayout() {
                     onClick={() => navigate("/login")}
                     _selected={{ bg: "white", color: "blue.600", boxShadow: "sm" }}
                   >
-                    Sign In
+                    Sign in
                   </Tab>
                   <Tab
                     borderRadius="md"

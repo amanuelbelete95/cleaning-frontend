@@ -1,18 +1,74 @@
-import { Box, Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, VStack, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Select, VStack, HStack, Textarea, Icon, SimpleGrid, Divider, useColorModeValue, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { EventAPIResponse } from "../events.type";
-import { CreateUpdateEvent, createUpdateEventSchema } from "../schema";
-import { EventDesignSystem } from "../designSystem";
 import { useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { FiCalendar, FiMapPin, FiUsers, FiFileText, FiFlag, FiSend } from "react-icons/fi";
+import { EventDesignSystem } from "../designSystem";
+import { EventAPIResponse } from "../events.type";
+import { CreateUpdateEvent } from "../schema";
 
+interface FormSectionProps {
+  title: string;
+  icon: React.ElementType;
+  children: React.ReactNode;
+}
 
+const FormSection = ({ title, icon, children }: FormSectionProps) => (
+  <Box
+    bg={useColorModeValue("white", "gray.700")}
+    borderRadius="xl"
+    p={6}
+    boxShadow="sm"
+    borderWidth="1px"
+    borderColor={useColorModeValue("gray.100", "gray.600")}
+  >
+    <HStack mb={5} spacing={3}>
+      <Box
+        p={2}
+        borderRadius="lg"
+        bg={`${EventDesignSystem.primaryColor}15`}
+      >
+        <Icon as={icon} color={EventDesignSystem.primaryColor} boxSize={5} />
+      </Box>
+      <Text fontWeight="bold" fontSize="lg" color="gray.700">
+        {title}
+      </Text>
+    </HStack>
+    {children}
+  </Box>
+);
 
+interface FormFieldProps {
+  label: string;
+  icon?: React.ElementType;
+  isRequired?: boolean;
+  children: React.ReactNode;
+  isValid?: boolean;
+}
 
+const FormField = ({ label, icon, isRequired, children, isValid }: FormFieldProps) => (
+  <FormControl isRequired={isRequired} isInvalid={!isValid}>
+    <FormLabel
+      fontWeight="medium"
+      fontSize="sm"
+      color="gray.600"
+      mb={1}
+      
+    >
+      <HStack spacing={1}>
+        {icon && <Icon as={icon} boxSize={3.5} />}
+        <Text>{label}</Text>
+      </HStack>
+    </FormLabel>
+    {children}
+  </FormControl>
+);
 
 export interface EventFormProps {
   initialValues?: CreateUpdateEvent;
+  schema: yup.ObjectSchema<CreateUpdateEvent>;
   onConfirm?: (data: CreateUpdateEvent) => Promise<EventAPIResponse>
   onSuccess?: (data: EventAPIResponse) => void;
   onError?: (error: any) => void;
@@ -26,18 +82,22 @@ export default function EventForm(props: EventFormProps) {
     onSuccess,
     onError,
     title,
+    schema,
   } = props;
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm({
     defaultValues: initialValues,
     mode: "onTouched",
-    resolver: yupResolver(createUpdateEventSchema) as any,
+    resolver: yupResolver(schema),
   });
+
+  console.log("errors", errors)
+  console.log("isValid", isValid)
 
   useEffect(() => {
     if (initialValues) {
@@ -56,146 +116,187 @@ export default function EventForm(props: EventFormProps) {
 
   });
 
-  const onSubmit: SubmitHandler<CreateUpdateEvent> = (data) => {
+  const onSubmit: SubmitHandler<CreateUpdateEvent> = (data: CreateUpdateEvent) => {
     mutate(data);
   };
 
 
   return (
     <Box
-      maxW="600px"
+      maxW="800px"
       mx="auto"
-      p={8}
-      borderRadius={EventDesignSystem.card.borderRadius}
-      boxShadow={EventDesignSystem.card.shadow}
-      bg={useColorModeValue("white", "gray.700")}
-      borderWidth={EventDesignSystem.card.borderWidth}
-      borderColor={EventDesignSystem.card.borderColor}
+      py={8}
     >
-      <Heading
-        size="xl"
-        mb={6}
+      <Box
+        mb={8}
         textAlign="center"
-        color={EventDesignSystem.primaryColor}
-        fontWeight="bold"
       >
-        {title}
-      </Heading>
+        <Text
+          fontSize="2xl"
+          fontWeight="bold"
+          color="gray.800"
+          mb={2}
+        >
+          {title}
+        </Text>
+        <Text color="gray.500" fontSize="sm">
+          Fill in the details below to create a new event
+        </Text>
+      </Box>
+
       <form onSubmit={handleSubmit(onSubmit)}>
-        <VStack spacing={4} align="stretch">
-          <FormControl isInvalid={!!errors.name}>
-            <FormLabel
-              fontWeight="semibold"
-              fontSize="md"
-            >
-              Event Name
-            </FormLabel>
-            <Input
-              {...register("name")}
-              type="text"
-              placeholder="Enter event name"
-            />
-            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.event_date}>
-            <FormLabel
-              fontWeight="semibold"
-              color={EventDesignSystem.form.label.color}
-              fontSize="md"
-            >
-              Date
-            </FormLabel>
-            <Input
-              {...register("event_date")}
-              type="date"
+        <VStack spacing={6} align="stretch">
+          <FormSection title="Basic Information" icon={FiFileText}>
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
+              <FormField label="Event Name" icon={FiFileText} isRequired isValid={!errors.name}>
+                <Input
+                  {...register("name")}
+                  type="text"
+                  placeholder="Enter event title"
+                  size="lg"
+                  focusBorderColor={EventDesignSystem.primaryColor}
+                  bg={useColorModeValue("gray.50", "gray.600")}
+                  border="2px"
+                  borderColor="transparent"
+                  _hover={{ bg: useColorModeValue("gray.100", "gray.500") }}
+                  _focus={{ bg: "white", borderColor: EventDesignSystem.primaryColor }}
+                />
+                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+              </FormField>
 
-            />
-            <FormErrorMessage>{errors.event_date?.message}</FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.location}>
-            <FormLabel
-              fontWeight="semibold"
-              color={EventDesignSystem.form.label.color}
-              fontSize="md"
-            >
-              Location
-            </FormLabel>
-            <Input
-              {...register("location")}
-            />
-            <FormErrorMessage>{errors.location?.message}</FormErrorMessage>
-          </FormControl>
-          <FormControl>
-            <FormLabel
-              fontWeight="semibold"
-              color={EventDesignSystem.form.label.color}
-              fontSize="md"
-            >
-              Description
-            </FormLabel>
-            <Input
-              {...register("description")}
-            />
-          </FormControl>
-          <FormControl isInvalid={!!errors.capacity}>
-            <FormLabel
-              fontWeight="semibold"
-              fontSize="md"
-            >
-              Event Capacity
-            </FormLabel>
-            <Input
-              {...register("capacity")}
-              type="number"
-              placeholder="Enter Capacity"
-            />
-            {/* <FormErrorMessage>{errors.capacity?.message}</FormErrorMessage> */}
-          </FormControl>
+              <FormField label="Location / Venue" icon={FiMapPin} isRequired isValid={!errors.location}>
+                <Input
+                  {...register("location")}
+                  type="text"
+                  placeholder="Enter venue or address"
+                  size="lg"
+                  focusBorderColor={EventDesignSystem.primaryColor}
+                  bg={useColorModeValue("gray.50", "gray.600")}
+                  border="2px"
+                  borderColor="transparent"
+                  _hover={{ bg: useColorModeValue("gray.100", "gray.500") }}
+                  _focus={{ bg: "white", borderColor: EventDesignSystem.primaryColor }}
+                />
+                <FormErrorMessage>{errors.location?.message}</FormErrorMessage>
+              </FormField>
+            </SimpleGrid>
 
-          <FormControl isInvalid={!!errors.event_status}>
-            <FormLabel
-              fontWeight="semibold"
-              color={EventDesignSystem.form.label.color}
-              fontSize="md"
-            >
-              Status
-            </FormLabel>
-            <Select
-              {...register("event_status")}
-              placeholder="Select status"
-            
-              bg="white"
+            <Box mt={5}>
+              <FormField label="Event Description" icon={FiFileText} isRequired isValid={!errors.description}>
+                <Textarea
+                  {...register("description")}
+                  placeholder="Describe your event details, agenda, and what attendees can expect..."
+                  rows={4}
+                  size="lg"
+                  focusBorderColor={EventDesignSystem.primaryColor}
+                  bg={useColorModeValue("gray.50", "gray.600")}
+                  border="2px"
+                  borderColor="transparent"
+                  _hover={{ bg: useColorModeValue("gray.100", "gray.500") }}
+                  _focus={{ bg: "white", borderColor: EventDesignSystem.primaryColor }}
+                  resize="vertical"
+                />
+                <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
+              </FormField>
+            </Box>
+          </FormSection>
+
+          <FormSection title="Schedule & Capacity" icon={FiCalendar}>
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
+              <FormField label="Event Date" icon={FiCalendar} isRequired isValid={!errors.event_date}>
+                <Input
+                  {...register("event_date")}
+                  type="date"
+                  size="lg"
+                  focusBorderColor={EventDesignSystem.primaryColor}
+                  bg={useColorModeValue("gray.50", "gray.600")}
+                  border="2px"
+                  borderColor="transparent"
+                  _hover={{ bg: useColorModeValue("gray.100", "gray.500") }}
+                  _focus={{ bg: "white", borderColor: EventDesignSystem.primaryColor }}
+                />
+                <FormErrorMessage>{errors.event_date?.message}</FormErrorMessage>
+              </FormField>
+
+              <FormField label="Attendee Capacity" icon={FiUsers} isRequired isValid={!errors.capacity}>
+                <Input
+                  {...register("capacity")}
+                  type="number"
+                  placeholder="Max number of attendees"
+                  size="lg"
+                  min={1}
+                  focusBorderColor={EventDesignSystem.primaryColor}
+                  bg={useColorModeValue("gray.50", "gray.600")}
+                  border="2px"
+                  borderColor="transparent"
+                  _hover={{ bg: useColorModeValue("gray.100", "gray.500") }}
+                  _focus={{ bg: "white", borderColor: EventDesignSystem.primaryColor }}
+                />
+                <FormErrorMessage>{errors.capacity?.message}</FormErrorMessage>
+              </FormField>
+            </SimpleGrid>
+          </FormSection>
+
+          <FormSection title="Publishing" icon={FiFlag}>
+            <FormField label="Event Status" icon={FiFlag} isRequired isValid={!errors.event_status}>
+              <Select
+                {...register("event_status")}
+                placeholder="Select status"
+                size="lg"
+                focusBorderColor={EventDesignSystem.primaryColor}
+                bg={useColorModeValue("gray.50", "gray.600")}
+                border="2px"
+                borderColor="transparent"
+                _hover={{ bg: useColorModeValue("gray.100", "gray.500") }}
+                _focus={{ bg: "white", borderColor: EventDesignSystem.primaryColor }}
+                defaultValue="draft"
+              >
+                <option value="draft">Draft - Save but don't publish</option>
+                <option value="published">Published - Live and open for registration</option>
+                <option value="completed">Completed - Event has ended</option>
+                <option value="cancelled">Cancelled - Event was cancelled</option>
+              </Select>
+              <FormErrorMessage>{errors.event_status?.message}</FormErrorMessage>
+            </FormField>
+          </FormSection>
+
+          <Divider borderColor="gray.300" />
+
+          <HStack spacing={4} justify="flex-end" pt={2}>
+            <Button
+              variant="outline"
               size="lg"
-              defaultValue={"draft"}
+              onClick={() => reset()}
+              colorScheme="gray"
+              px={8}
             >
-              <option value="draft">draft</option>
-              <option value="published"> published</option>
-              <option value="completed">completed</option>
-              <option value="cancelled"> cancelled</option>
-
-            </Select>
-            <FormErrorMessage>{errors.event_status?.message}</FormErrorMessage>
-          </FormControl>
-
-          <Button
-            type="submit"
-            bg={EventDesignSystem.primaryColor}
-            color="white"
-            size="lg"
-            width="full"
-            isLoading={isSubmitting}
-            loadingText="Saving..."
-            _hover={{ bg: EventDesignSystem.primaryDark }}
-            _active={{ transform: "scale(0.98)" }}
-            boxShadow="md"
-            fontSize="md"
-            fontWeight="bold"
-            mt={2}
-          >
-            {isSubmitting ? "Saving..." : (title.includes("Edit") ? "Update Event" : "Create Event")}
-          </Button>
+              Reset Form
+            </Button>
+            <Button
+              type="submit"
+              bg={EventDesignSystem.primaryColor}
+              color="white"
+              size="lg"
+              px={10}
+              isLoading={isSubmitting}
+              loadingText="Saving..."
+              _hover={{ 
+                bg: EventDesignSystem.primaryDark,
+                transform: "translateY(-2px)",
+                boxShadow: "lg"
+              }}
+              _active={{ transform: "translateY(0)" }}
+              boxShadow="md"
+              fontWeight="bold"
+              disabled={!isValid}
+              leftIcon={<FiSend />}
+              transition="all 0.2s"
+            >
+              {title}
+            </Button>
+          </HStack>
         </VStack>
       </form>
-    </Box >
+    </Box>
   );
 }

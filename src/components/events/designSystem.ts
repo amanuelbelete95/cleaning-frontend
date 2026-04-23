@@ -7,6 +7,14 @@ export const EventDesignSystem = {
   primaryLight: "#6BC9C9",
   primaryDark: "#2D7A7A",
 
+  // Background colors
+  background: {
+    primary: "#F7FAFC",     // Gray.50 - main page background
+    secondary: "#FFFFFF",  // White - card/form backgrounds
+    dark: "#1A202C",       // Gray.900 - dark mode main background
+    darkSecondary: "#2D3748", // Gray.700 - dark mode card background
+  },
+
   // Secondary colors
   secondaryColor: "#4A5568", // Gray.700
   accentColor: "#E53E3E",    // Red.500 for important actions
@@ -30,7 +38,14 @@ export const EventDesignSystem = {
     transition: "all 0.2s",
     hover: {
       shadow: "xl",
-      transform: "translateY(-2px)"
+      transform: "translateY(-2px)",
+      borderColor: "teal.200"
+    },
+    selected: {
+      borderColor: "teal.500",
+      borderWidth: "2px",
+      shadow: "xl",
+      transform: "translateY(-4px)"
     }
   },
 

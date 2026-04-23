@@ -1,7 +1,7 @@
-import { Avatar, Badge, Box, Button, Card, CardBody, CardHeader, Divider, Flex, Grid, Heading, HStack, Icon, SimpleGrid, Text, useToast, VStack } from '@chakra-ui/react';
-import { useCallback, useEffect, useState } from 'react';
-import { FiArrowLeft, FiCalendar, FiUsers, FiEdit2, FiMail, FiShield, FiTrash2, FiUser, FiClock } from 'react-icons/fi';
-import { useLoaderData, useNavigate, useParams, LoaderFunction } from 'react-router-dom';
+import { Avatar, Badge, Box, Button, Card, CardBody, CardHeader, Flex, Grid, Heading, HStack, Icon, SimpleGrid, Text, useToast, VStack } from '@chakra-ui/react';
+import { useCallback } from 'react';
+import { FiArrowLeft, FiCalendar, FiClock, FiMail, FiShield, FiUser, FiUsers } from 'react-icons/fi';
+import { LoaderFunction, useLoaderData, useNavigate } from 'react-router-dom';
 import { EventDesignSystem } from '../../events/designSystem';
 import { getUser } from '../api/getUser';
 import { UserAPIResponse } from '../users.type';
@@ -78,22 +78,7 @@ const StatCard = ({ label, value, color }: { label: string; value: string | numb
 const UserDetail = () => {
   const user = useLoaderData() as UserAPIResponse;
   const navigate = useNavigate();
-  const toast = useToast();
   const roleColors = getRoleBadgeColor(user.role);
-
-  const handleEdit = useCallback(() => {
-    navigate(`/users/${user.id}/edit`);
-  }, [user.id, navigate]);
-
-  const handleDelete = useCallback(() => {
-    toast({
-      title: "Delete User",
-      description: `User ${user.username} would be deleted here. Connect to your delete API.`,
-      status: "info",
-      duration: 3000,
-      isClosable: true,
-    });
-  }, [user.username, toast]);
 
   const handleBack = useCallback(() => {
     navigate('/users');

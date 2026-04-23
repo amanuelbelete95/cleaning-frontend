@@ -1,10 +1,10 @@
 import { LoaderFunction, useLoaderData, useNavigate } from 'react-router-dom'
-
 import { useToast } from '@chakra-ui/react'
 import { EventAPIResponse } from '../../components/events/events.type'
 import getEventById from '../../components/events/api/getEvent'
 import EventForm from '../../components/events/components/EventForm'
 import updateEvent from '../../components/events/api/updateEvent'
+import { eventSchema } from './schema'
 
 export const loader: LoaderFunction = async ({ params }): Promise<EventAPIResponse> => {
   const { id } = params
@@ -16,6 +16,8 @@ const EventEdit = () => {
   const event = useLoaderData() as EventAPIResponse;
   const navigate = useNavigate();
   const toast = useToast();
+
+  console.log("schema", eventSchema)
 
   return (
     <div>
@@ -41,8 +43,8 @@ const EventEdit = () => {
             duration: 5000,
             isClosable: true,
           })
-          console.error(err)
         }}
+        schema={eventSchema}
         title="Edit Event" />
     </div>
   )

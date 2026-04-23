@@ -1,15 +1,18 @@
-import { createStandaloneToast, Heading } from '@chakra-ui/react';
+import { createStandaloneToast, Heading, Flex, useColorModeValue } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
-import  LogInForm from './components/UserForm';
+import LogInForm from './components/UserForm';
 import { logInSchema } from './schema';
+import { EventDesignSystem } from '../events/designSystem';
 const { toast } = createStandaloneToast();
 
 
 function LogInPage() {
   const { isAuthenticated, login, error } = useAuth();
   const navigate = useNavigate();
+  const bgPage = useColorModeValue(EventDesignSystem.background.primary, EventDesignSystem.background.dark);
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
@@ -18,7 +21,7 @@ function LogInPage() {
   }, [isAuthenticated, error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/50 px-4">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <LogInForm
         formKey='login'
         schema={logInSchema}
@@ -34,7 +37,7 @@ function LogInPage() {
 
           });
           navigate("/");
-          
+
         }}
         onError={(error) => {
           console.log(error)
@@ -47,9 +50,10 @@ function LogInPage() {
             position: "top-right"
           });
         }}
-        title='LogIn' 
-        />
+        title='Login'
+      />
     </div>
+
   )
 }
 

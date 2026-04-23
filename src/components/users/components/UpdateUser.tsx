@@ -107,7 +107,6 @@ function UpdateUserPage() {
                                 isClosable: true,
                                 position: "top-right"
                             })}
-                            name=''
                         />
                     </Box>
                 </CardBody>
